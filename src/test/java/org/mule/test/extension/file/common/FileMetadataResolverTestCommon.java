@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.file.common;
+package org.mule.test.extension.file.common;
 
 import static com.google.common.collect.ImmutableList.copyOf;
 import static org.hamcrest.MatcherAssert.assertThat;
