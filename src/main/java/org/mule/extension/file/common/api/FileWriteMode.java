@@ -9,7 +9,7 @@ package org.mule.extension.file.common.api;
 /**
  * List different strategies regarding how to write new files
  *
- * @since 4.0
+ * @since 1.0
  */
 public enum FileWriteMode {
   /**

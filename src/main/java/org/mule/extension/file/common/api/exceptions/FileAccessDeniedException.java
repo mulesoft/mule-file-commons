@@ -12,7 +12,7 @@ import org.mule.runtime.extension.api.exception.ModuleException;
  * {@link ModuleException} to be thrown in the cases in which there is not enough permissions to access a particular file or
  * directory.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class FileAccessDeniedException extends ModuleException {
 

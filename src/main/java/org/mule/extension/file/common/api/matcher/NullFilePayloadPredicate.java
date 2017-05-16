@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 /**
  * A {@link Predicate} of {@link FileAttributes} instances which accepts any value
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class NullFilePayloadPredicate<T extends FileAttributes> implements Predicate<T> {
 

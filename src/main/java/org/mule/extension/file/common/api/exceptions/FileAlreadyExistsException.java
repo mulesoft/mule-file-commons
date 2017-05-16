@@ -13,7 +13,7 @@ import org.mule.runtime.extension.api.exception.ModuleException;
  * {@link ModuleException} to be thrown in the cases in which a given file already exists. For example, when trying to create a
  * new file with a {@link FileWriteMode#CREATE_NEW} write mode and the file already existed.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class FileAlreadyExistsException extends ModuleException {
 

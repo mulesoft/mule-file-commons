@@ -26,7 +26,7 @@ import org.slf4j.Logger;
  * Base class for implementations of the Command design pattern which performs operations on a file system
  *
  * @param <F> the generic type of the {@link FileSystem} on which the operation is performed
- * @since 4.0
+ * @since 1.0
  */
 public abstract class FileCommand<F extends FileSystem> {
 

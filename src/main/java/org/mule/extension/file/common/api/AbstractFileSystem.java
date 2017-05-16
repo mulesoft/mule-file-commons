@@ -33,7 +33,7 @@ import javax.inject.Inject;
 /**
  * Base class for implementations of {@link FileSystem}
  *
- * @since 4.0
+ * @since 1.0
  */
 public abstract class AbstractFileSystem implements FileSystem {
 

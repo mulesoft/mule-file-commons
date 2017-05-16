@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
  * A Boolean {@link BiFunction} which returns {@code true} if a given {@link LocalDateTime} is posterior or equal to a reference
  * date
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class TimeSinceFunction implements BiFunction<LocalDateTime, LocalDateTime, Boolean> {
 

@@ -12,7 +12,7 @@ import org.mule.runtime.extension.api.exception.ModuleException;
 /**
  * {@link ModuleException} for the cases in which a lock cannot be acquired over a file.
  * 
- * @since 4.0
+ * @since 1.0
  */
 public final class FileLockedException extends ModuleException {
 

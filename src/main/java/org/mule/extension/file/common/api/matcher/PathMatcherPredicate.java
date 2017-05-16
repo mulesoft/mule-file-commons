@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
  * The pattern can be either a regex or glob expression. The pattern can qualify itself by using thee &quot;glob:&quot; or
  * &quot;regex:&quot; prefixes. If no prefix is supplied, glob is assumed by default.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class PathMatcherPredicate implements Predicate<String> {
 

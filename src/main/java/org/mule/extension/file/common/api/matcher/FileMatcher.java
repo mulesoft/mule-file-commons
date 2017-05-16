@@ -35,7 +35,7 @@ import java.util.function.Predicate;
  *
  * @param <T> {@code this} instance concrete type. It allows to extend this class while allowing setter chains
  * @param <A> The concrete implementation of {@link FileAttributes} that this builder uses to assert the file properties
- * @since 4.0
+ * @since 1.0
  */
 public abstract class FileMatcher<T extends FileMatcher, A extends FileAttributes> {
 

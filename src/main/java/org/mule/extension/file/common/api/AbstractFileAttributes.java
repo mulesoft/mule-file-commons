@@ -16,7 +16,7 @@ import java.time.ZoneId;
 /**
  * Base class for implementations of {@link FileAttributes}
  *
- * @since 4.0
+ * @since 1.0
  */
 public abstract class AbstractFileAttributes extends BaseAttributes implements FileAttributes {
 

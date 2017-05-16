@@ -9,7 +9,7 @@ package org.mule.extension.file.common.api.lock;
 /**
  * Implementation of the Null Object design pattern for the {@link PathLock} interface
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class NullPathLock implements PathLock {
 

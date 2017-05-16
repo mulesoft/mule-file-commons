@@ -9,7 +9,7 @@ package org.mule.extension.file.common.api;
 /**
  * Utility class to hold all the common constants between File related extensions for UI enhancement
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class FileDisplayConstants {
 

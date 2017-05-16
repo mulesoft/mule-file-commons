@@ -12,7 +12,7 @@ import org.mule.extension.file.common.api.FileSystem;
 /**
  * Command design pattern for reading files
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface RenameCommand {
 

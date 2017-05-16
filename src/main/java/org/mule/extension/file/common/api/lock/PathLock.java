@@ -16,7 +16,7 @@ package org.mule.extension.file.common.api.lock;
  * All implementations of this interface must be (naturally) thread-safe and reentrant, meaning that a lock can be re obtained on
  * {@code this} instance it's been released
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface PathLock {
 

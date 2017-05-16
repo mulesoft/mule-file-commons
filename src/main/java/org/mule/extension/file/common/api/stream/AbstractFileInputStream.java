@@ -32,7 +32,7 @@ import org.springframework.cglib.proxy.MethodInterceptor;
  * connections, prevents the connector from opening many connections at the same time, at the risk that many of them might end up
  * not being necessary at the same time.
  *
- * @since 4.0
+ * @since 1.0
  */
 public abstract class AbstractFileInputStream extends AutoCloseInputStream {
 

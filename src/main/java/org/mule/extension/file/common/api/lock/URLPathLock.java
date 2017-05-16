@@ -16,7 +16,7 @@ import java.util.concurrent.locks.Lock;
  * A {@link PathLock} which is based on {@link Lock locks} obtained through a {@link #lockFactory}. The lock's keys are generated
  * through the external form of a {@link URL}
  *
- * @since 4.0
+ * @since 1.0
  */
 public class URLPathLock implements PathLock {
 

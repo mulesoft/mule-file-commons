@@ -15,7 +15,7 @@ import java.io.InputStream;
 /**
  * Command design pattern for writing files
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface WriteCommand {
 

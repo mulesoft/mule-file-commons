@@ -16,7 +16,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Placement;
 /**
  * Generic contract for a config of a connector which operates over a {@link FileSystem}
  *
- * @since 4.0
+ * @since 1.0
  */
 public abstract class FileConnectorConfig {
 
