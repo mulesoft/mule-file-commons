@@ -12,7 +12,7 @@ import org.mule.runtime.extension.api.exception.ModuleException;
 /**
  * {@link ModuleException} to be thrown in the cases in which the received content to be written is invalid.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class IllegalContentException extends ModuleException {
 

@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 /**
  * Command design pattern for listing files
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface ListCommand {
 

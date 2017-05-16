@@ -28,7 +28,7 @@ import javax.activation.MimetypesFileTypeMap;
  * This interface acts as a facade which allows performing common files operations regardless of those files being in a local
  * disk, an FTP server, a cloud storage service, etc.
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface FileSystem {
 

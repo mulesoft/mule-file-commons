@@ -12,7 +12,7 @@ import org.mule.runtime.extension.api.exception.ModuleException;
  * {@link ModuleException} to be thrown in the cases in which a given path is invalid. For instance, if the path is {@code null}
  * or doesn't exist.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class IllegalPathException extends ModuleException {
 

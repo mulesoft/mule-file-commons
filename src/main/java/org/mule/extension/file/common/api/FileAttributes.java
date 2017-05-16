@@ -13,7 +13,7 @@ import org.mule.runtime.api.message.Attributes;
  * <p>
  * It contains information such as a file's name, size, timestamp, properties, etc.
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface FileAttributes extends Attributes {
 

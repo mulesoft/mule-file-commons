@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Errors for the file family extensions
  * 
- * @since 4.0
+ * @since 1.0
  */
 public enum FileError implements ErrorTypeDefinition<FileError> {
 

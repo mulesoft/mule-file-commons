@@ -13,7 +13,7 @@ import java.util.function.Supplier;
  * Decorate a {@link Supplier} so that the first invokation to the {@link #get()} method is actually forwarded to it, but
  * subsequent ones return the same cached value. This happens on a thread-safe (yet low contention) manner
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class LazyStreamSupplier implements Supplier<InputStream> {
 

@@ -14,7 +14,7 @@ import org.mule.runtime.extension.api.annotation.param.ConfigName;
  * {@link FileSystem}
  *
  * @param <T> The generic type of the file system implementation
- * @since 4.0
+ * @since 1.0
  */
 public abstract class FileSystemProvider<T extends FileSystem> implements ConnectionProvider<T> {
 

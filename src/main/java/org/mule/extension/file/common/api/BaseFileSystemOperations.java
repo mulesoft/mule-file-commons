@@ -32,7 +32,7 @@ import javax.activation.MimetypesFileTypeMap;
 /**
  * Basic set of operations and templates for extensions which perform operations over a generic file system
  *
- * @since 4.0
+ * @since 1.0
  */
 public abstract class BaseFileSystemOperations {
 
