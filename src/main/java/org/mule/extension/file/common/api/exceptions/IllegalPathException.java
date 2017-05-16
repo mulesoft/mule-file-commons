@@ -34,6 +34,6 @@ public final class IllegalPathException extends ModuleException {
    * @param exception cause of this exception
    */
   public IllegalPathException(String message, Exception exception) {
-    super(exception, ERROR, message);
+    super(message, ERROR, exception);
   }
 }

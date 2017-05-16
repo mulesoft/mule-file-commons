@@ -28,6 +28,6 @@ public final class FileAccessDeniedException extends ModuleException {
   }
 
   public FileAccessDeniedException(String message, Exception exception) {
-    super(exception, ERROR, message);
+    super(message, ERROR, exception);
   }
 }

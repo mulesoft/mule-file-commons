@@ -35,6 +35,6 @@ public final class FileAlreadyExistsException extends ModuleException {
    * @param exception cause of this exception
    */
   public FileAlreadyExistsException(String message, Exception exception) {
-    super(exception, ERROR, message);
+    super(message, ERROR, exception);
   }
 }
