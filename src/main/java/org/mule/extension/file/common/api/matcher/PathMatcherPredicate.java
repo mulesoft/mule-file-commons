@@ -7,14 +7,13 @@
 package org.mule.extension.file.common.api.matcher;
 
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import org.mule.runtime.core.api.util.StringUtils;
 
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * A {@link Predicate} which tests random paths in {@link String} representation to match a specific pattern.
