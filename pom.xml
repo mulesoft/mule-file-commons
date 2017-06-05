@@ -40,6 +40,11 @@
             <artifactId>commons-io</artifactId>
             <version>${commonsIoVersion}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guavaVersion}</version>
+        </dependency>
         <!--Test Dependencies-->
         <dependency>
             <groupId>org.mule.runtime</groupId>
