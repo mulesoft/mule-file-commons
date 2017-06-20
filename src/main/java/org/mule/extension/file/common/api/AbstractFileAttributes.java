@@ -30,7 +30,7 @@ public abstract class AbstractFileAttributes extends BaseAttributes implements F
    */
   protected AbstractFileAttributes(Path path) {
     this.path = path.toString();
-    this.fileName = path.getFileName().toString();
+    this.fileName = path.getFileName() != null ? path.getFileName().toString() : "";
   }
 
   /**
