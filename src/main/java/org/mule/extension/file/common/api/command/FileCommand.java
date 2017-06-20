@@ -61,7 +61,7 @@ public abstract class FileCommand<F extends FileSystem> {
       if (createParentFolder) {
         mkdirs(parentFolder);
       } else {
-        throw new IllegalPathException(format("Cannot write to file '%s' because path to it doesn't exist. Consider setting the 'createParentFolder' attribute to 'true'",
+        throw new IllegalPathException(format("Cannot write to file '%s' because path to it doesn't exist. Consider setting the 'createParentDirectories' attribute to 'true'",
                                               path));
       }
     }
