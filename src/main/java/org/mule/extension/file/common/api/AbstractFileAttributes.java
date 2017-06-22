@@ -6,7 +6,7 @@
  */
 package org.mule.extension.file.common.api;
 
-import org.mule.runtime.core.message.BaseAttributes;
+import org.mule.runtime.core.api.message.BaseAttributes;
 
 import java.nio.file.Path;
 import java.time.Instant;

@@ -10,7 +10,7 @@ import org.mule.extension.file.common.api.lock.PathLock;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
-import org.mule.runtime.core.message.OutputHandler;
+import org.mule.runtime.core.api.message.OutputHandler;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.io.InputStream;
