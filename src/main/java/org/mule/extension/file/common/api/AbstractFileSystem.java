@@ -17,8 +17,8 @@ import org.mule.extension.file.common.api.command.RenameCommand;
 import org.mule.extension.file.common.api.command.WriteCommand;
 import org.mule.extension.file.common.api.exceptions.FileLockedException;
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.runtime.api.lock.LockFactory;
 import org.mule.runtime.api.metadata.MediaType;
-import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.io.InputStream;
@@ -40,7 +40,7 @@ public abstract class AbstractFileSystem implements FileSystem {
   private final MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
 
   @Inject
-  private MuleContext muleContext;
+  private LockFactory lockFactory;
 
   private final String basePath;
 
@@ -213,7 +213,7 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public Lock createMuleLock(String lockId) {
-    return muleContext.getLockFactory().createLock(lockId);
+    return lockFactory.createLock(lockId);
   }
 
   /**
