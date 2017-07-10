@@ -7,6 +7,7 @@
 package org.mule.extension.file.common.api;
 
 import static java.lang.String.format;
+
 import org.mule.extension.file.common.api.command.CopyCommand;
 import org.mule.extension.file.common.api.command.CreateDirectoryCommand;
 import org.mule.extension.file.common.api.command.DeleteCommand;
@@ -20,15 +21,13 @@ import org.mule.extension.file.common.api.lock.PathLock;
 import org.mule.runtime.api.lock.LockFactory;
 import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-
+import javax.activation.MimetypesFileTypeMap;
+import javax.inject.Inject;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.function.Predicate;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.inject.Inject;
 
 /**
  * Base class for implementations of {@link FileSystem}
@@ -95,18 +94,17 @@ public abstract class AbstractFileSystem implements FileSystem {
   public List<Result<InputStream, FileAttributes>> list(FileConnectorConfig config,
                                                         String directoryPath,
                                                         boolean recursive,
-                                                        MediaType mediaType,
                                                         Predicate<FileAttributes> matcher) {
-    return getListCommand().list(config, directoryPath, recursive, mediaType, matcher);
+    return getListCommand().list(config, directoryPath, recursive, matcher);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Result<InputStream, FileAttributes> read(FileConnectorConfig config, String filePath, MediaType mediaType,
+  public Result<InputStream, FileAttributes> read(FileConnectorConfig config, String filePath,
                                                   boolean lock) {
-    return getReadCommand().read(config, filePath, mediaType, lock);
+    return getReadCommand().read(config, filePath, lock);
   }
 
   /**
@@ -177,10 +175,8 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public MediaType getFileMessageMediaType(MediaType originalMediaType, FileAttributes attributes) {
-    MediaType presumedMimeType = MediaType.parse(mimetypesFileTypeMap.getContentType(attributes.getPath()));
-    MediaType mediaType = presumedMimeType != null ? presumedMimeType : originalMediaType;
-    return originalMediaType.getCharset().map(charset -> mediaType.withCharset(charset)).orElse(mediaType);
+  public MediaType getFileMessageMediaType(FileAttributes attributes) {
+    return MediaType.parse(mimetypesFileTypeMap.getContentType(attributes.getPath()));
   }
 
   /**
