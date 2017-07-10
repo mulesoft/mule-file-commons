@@ -10,24 +10,22 @@ import static java.lang.String.format;
 import static java.nio.file.Paths.get;
 import static org.mule.runtime.core.api.util.StringUtils.isBlank;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
+
 import org.mule.extension.file.common.api.exceptions.IllegalContentException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.mule.extension.file.common.api.matcher.FileMatcher;
 import org.mule.extension.file.common.api.matcher.NullFilePayloadPredicate;
 import org.mule.runtime.api.message.Message;
-import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Optional;
-import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-
+import javax.activation.MimetypesFileTypeMap;
 import java.io.InputStream;
 import java.util.List;
 import java.util.function.Predicate;
-
-import javax.activation.MimetypesFileTypeMap;
 
 /**
  * Basic set of operations and templates for extensions which perform operations over a generic file system
@@ -49,7 +47,6 @@ public abstract class BaseFileSystemOperations {
    * @param config        the config that is parameterizing this operation
    * @param directoryPath the path to the directory to be listed
    * @param recursive     whether to include the contents of sub-directories. Defaults to false.
-   * @param mediaType     The {@link MediaType} of the message that on which this operations is being executed
    * @param matchWith     a matcher used to filter the output list
    * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exists or is not a directory
@@ -58,10 +55,9 @@ public abstract class BaseFileSystemOperations {
                                                              FileSystem fileSystem,
                                                              String directoryPath,
                                                              boolean recursive,
-                                                             MediaType mediaType,
                                                              FileMatcher matchWith) {
     fileSystem.changeToBaseDir();
-    return fileSystem.list(config, directoryPath, recursive, mediaType, getPredicate(matchWith));
+    return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith));
   }
 
   /**
@@ -81,7 +77,6 @@ public abstract class BaseFileSystemOperations {
    * @param config     the config that is parameterizing this operation
    * @param fileSystem a reference to the host {@link FileSystem}
    * @param path       the path to the file to be read
-   * @param mediaType  The {@link MediaType} of the message that on which this operations is being executed
    * @param lock       whether or not to lock the file. Defaults to false.
    * @return the file's content and metadata on a {@link FileAttributes} instance
    * @throws IllegalArgumentException if the file at the given path doesn't exists
@@ -89,11 +84,10 @@ public abstract class BaseFileSystemOperations {
   protected Result<InputStream, FileAttributes> doRead(@Config FileConnectorConfig config,
                                                        @Connection FileSystem fileSystem,
                                                        @DisplayName("File Path") String path,
-                                                       MediaType mediaType,
                                                        @Optional(defaultValue = "false") @Placement(
                                                            tab = ADVANCED_TAB) boolean lock) {
     fileSystem.changeToBaseDir();
-    return fileSystem.read(config, path, mediaType, lock);
+    return fileSystem.read(config, path, lock);
   }
 
   /**
