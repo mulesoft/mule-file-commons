@@ -6,7 +6,7 @@
  */
 package org.mule.extension.file.common.api;
 
-import org.mule.runtime.api.message.Attributes;
+import java.io.Serializable;
 
 /**
  * Canonical representation of a file's metadata attributes.
@@ -15,7 +15,7 @@ import org.mule.runtime.api.message.Attributes;
  *
  * @since 1.0
  */
-public interface FileAttributes extends Attributes {
+public interface FileAttributes extends Serializable {
 
   /**
    * @return The file size in bytes
