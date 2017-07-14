@@ -6,19 +6,22 @@
  */
 package org.mule.extension.file.common.api;
 
-import org.mule.runtime.core.api.message.BaseAttributes;
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * Base class for implementations of {@link FileAttributes}
  *
  * @since 1.0
  */
-public abstract class AbstractFileAttributes extends BaseAttributes implements FileAttributes {
+public abstract class AbstractFileAttributes implements FileAttributes, Serializable {
 
   protected final String path;
   private String fileName;
@@ -51,5 +54,10 @@ public abstract class AbstractFileAttributes extends BaseAttributes implements F
 
   protected LocalDateTime asDateTime(Instant instant) {
     return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+  }
+
+  @Override
+  public String toString() {
+    return ReflectionToStringBuilder.toString(this, SHORT_PREFIX_STYLE);
   }
 }
