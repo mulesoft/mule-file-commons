@@ -38,12 +38,14 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>${commonsIoVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>${guavaVersion}</version>
         </dependency>
         <!--Test Dependencies-->
         <dependency>
@@ -67,7 +69,6 @@
                 <groupId>org.mule.runtime.plugins</groupId>
                 <artifactId>mule-app-plugins-maven-plugin</artifactId>
                 <extensions>true</extensions>
-                <version>${mule.app.plugins.maven.plugin.version}</version>
             </plugin>
         </plugins>
     </build>
