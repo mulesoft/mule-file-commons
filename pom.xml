@@ -19,6 +19,9 @@
 
     <properties>
         <mule.version>4.0.0-SNAPSHOT</mule.version>
+        
+        <cglib.version>3.2.2</cglib.version>
+        
         <formatterConfigPath>formatter.xml</formatterConfigPath>
     </properties>
 
@@ -31,9 +34,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <scope>provided</scope>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

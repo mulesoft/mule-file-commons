@@ -17,8 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import org.apache.commons.io.input.AutoCloseInputStream;
-import org.springframework.cglib.proxy.Enhancer;
-import org.springframework.cglib.proxy.MethodInterceptor;
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -28,9 +29,9 @@ import org.springframework.cglib.proxy.MethodInterceptor;
  * <p>
  * Because in most implementations the actual reading of the stream requires initialising/maintaining a connection, instances are
  * created through a {@link LazyStreamSupplier}. This allows such connection/resource to be provisioned lazily. This is very
- * useful in cases such as {@link FileSystem#list(FileConnectorConfig, String, boolean, MediaType, Predicate)}. Being able to only lazily establish the
- * connections, prevents the connector from opening many connections at the same time, at the risk that many of them might end up
- * not being necessary at the same time.
+ * useful in cases such as {@link FileSystem#list(FileConnectorConfig, String, boolean, MediaType, Predicate)}. Being able to only
+ * lazily establish the connections, prevents the connector from opening many connections at the same time, at the risk that many
+ * of them might end up not being necessary at the same time.
  *
  * @since 1.0
  */
