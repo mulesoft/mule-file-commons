@@ -7,9 +7,8 @@
 package org.mule.extension.file.common.api;
 
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
-import org.mule.runtime.extension.api.annotation.param.ConfigName;
+import org.mule.runtime.extension.api.annotation.param.RefName;
 import org.mule.runtime.extension.api.annotation.param.DefaultEncoding;
-import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 
@@ -20,7 +19,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Placement;
  */
 public abstract class FileConnectorConfig {
 
-  @ConfigName
+  @RefName
   private String configName;
 
   /**

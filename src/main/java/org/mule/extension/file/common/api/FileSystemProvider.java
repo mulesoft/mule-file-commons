@@ -7,7 +7,7 @@
 package org.mule.extension.file.common.api;
 
 import org.mule.runtime.api.connection.ConnectionProvider;
-import org.mule.runtime.extension.api.annotation.param.ConfigName;
+import org.mule.runtime.extension.api.annotation.param.RefName;
 
 /**
  * Base class for a {@link ConnectionProvider} which provides instances of
@@ -18,7 +18,7 @@ import org.mule.runtime.extension.api.annotation.param.ConfigName;
  */
 public abstract class FileSystemProvider<T extends FileSystem> implements ConnectionProvider<T> {
 
-  @ConfigName
+  @RefName
   private String configName;
 
   /**
