@@ -10,7 +10,6 @@ import static java.lang.String.format;
 import static java.nio.file.Paths.get;
 import static org.mule.runtime.core.api.util.StringUtils.isBlank;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
-
 import org.mule.extension.file.common.api.exceptions.IllegalContentException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.mule.extension.file.common.api.matcher.FileMatcher;
@@ -22,10 +21,12 @@ import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-import javax.activation.MimetypesFileTypeMap;
+
 import java.io.InputStream;
 import java.util.List;
 import java.util.function.Predicate;
+
+import javax.activation.MimetypesFileTypeMap;
 
 /**
  * Basic set of operations and templates for extensions which perform operations over a generic file system
@@ -49,7 +50,7 @@ public abstract class BaseFileSystemOperations {
    * @param recursive     whether to include the contents of sub-directories. Defaults to false.
    * @param matchWith     a matcher used to filter the output list
    * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the attributes
-   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exists or is not a directory
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
   protected List<Result<InputStream, FileAttributes>> doList(FileConnectorConfig config,
                                                              FileSystem fileSystem,
@@ -79,7 +80,7 @@ public abstract class BaseFileSystemOperations {
    * @param path       the path to the file to be read
    * @param lock       whether or not to lock the file. Defaults to false.
    * @return the file's content and metadata on a {@link FileAttributes} instance
-   * @throws IllegalArgumentException if the file at the given path doesn't exists
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
   protected Result<InputStream, FileAttributes> doRead(@Config FileConnectorConfig config,
                                                        @Connection FileSystem fileSystem,
@@ -131,7 +132,7 @@ public abstract class BaseFileSystemOperations {
   /**
    * Copies the file at the {@code sourcePath} into the {@code targetPath}.
    * <p>
-   * If {@code targetPath} doesn't exists, and neither does its parent, then an attempt will be made to create depending on the
+   * If {@code targetPath} doesn't exist, and neither does its parent, then an attempt will be made to create depending on the
    * value of the {@code createParentFolder} argument. If such argument is {@false}, then an {@link IllegalArgumentException} will
    * be thrown.
    * <p>
@@ -161,7 +162,7 @@ public abstract class BaseFileSystemOperations {
   /**
    * Moves the file at the {@code sourcePath} into the {@code targetPath}.
    * <p>
-   * If {@code targetPath} doesn't exists, and neither does its parent, then an attempt will be made to create depending on the
+   * If {@code targetPath} doesn't exist, and neither does its parent, then an attempt will be made to create depending on the
    * value of the {@code createParentFolder} argument. If such argument is {@code false}, then an {@link IllegalArgumentException}
    * will be thrown.
    * <p>
@@ -193,7 +194,7 @@ public abstract class BaseFileSystemOperations {
    *
    * @param fileSystem a reference to the host {@link FileSystem}
    * @param path       the path to the file to be deleted
-   * @throws IllegalArgumentException if {@code filePath} doesn't exists or is locked
+   * @throws IllegalArgumentException if {@code filePath} doesn't exist or is locked
    */
   protected void doDelete(FileSystem fileSystem, @Optional String path) {
     fileSystem.changeToBaseDir();

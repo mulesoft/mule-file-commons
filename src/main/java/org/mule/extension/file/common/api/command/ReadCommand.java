@@ -28,7 +28,7 @@ public interface ReadCommand {
    * @param lock whether or not to lock the file
    * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a
    *         {@link FileAttributes} object as {@link Message#getAttributes()}
-   * @throws IllegalArgumentException if the file at the given path doesn't exists
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
   Result<InputStream, FileAttributes> read(FileConnectorConfig config, String filePath, boolean lock);
 }

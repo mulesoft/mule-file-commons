@@ -115,7 +115,7 @@ public abstract class FileCommand<F extends FileSystem> {
 
   /**
    * Similar to {@link #resolvePath(String)} only that it throws a {@link IllegalArgumentException} if the
-   * given path doesn't exists.
+   * given path doesn't exist.
    * <p>
    * The existence of the obtained path is verified by delegating into {@link #exists(Path)}
    *
@@ -194,7 +194,7 @@ public abstract class FileCommand<F extends FileSystem> {
    * @return {@link RuntimeException}
    */
   protected IllegalPathException pathNotFoundException(Path path) {
-    return new IllegalPathException(format("Path '%s' doesn't exists", path));
+    return new IllegalPathException(format("Path '%s' doesn't exist", path));
   }
 
   /**

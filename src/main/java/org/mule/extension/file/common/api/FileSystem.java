@@ -12,13 +12,15 @@ import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.core.api.message.OutputHandler;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-import javax.activation.MimetypesFileTypeMap;
+
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.function.Predicate;
+
+import javax.activation.MimetypesFileTypeMap;
 
 /**
  * Represents an abstract file system and the operations which can be performed on it.
@@ -45,7 +47,7 @@ public interface FileSystem {
    * @param recursive     whether to include the contents of sub-directories
    * @param matcher       a {@link Predicate} of {@link FileAttributes} used to filter the output list
    * @return a {@link List} of {@link Result} objects, each one containing each file's content in the payload and metadata in the attributes
-   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exists or is not a directory
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
   List<Result<InputStream, FileAttributes>> list(FileConnectorConfig config,
                                                  String directoryPath,
@@ -70,7 +72,7 @@ public interface FileSystem {
    * @param lock      whether or not to lock the file
    * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a
    * {@link FileAttributes} object as {@link Message#getAttributes()}
-   * @throws IllegalArgumentException if the file at the given path doesn't exists
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
   Result<InputStream, FileAttributes> read(FileConnectorConfig config, String filePath, boolean lock);
 
@@ -113,7 +115,7 @@ public interface FileSystem {
   /**
    * Copies the file at the {@code sourcePath} into the {@code targetPath}.
    * <p>
-   * If {@code targetPath} doesn't exists, and neither does its parent, then an attempt will be made to create depending on the
+   * If {@code targetPath} doesn't exist, and neither does its parent, then an attempt will be made to create depending on the
    * value of the {@code createParentDirectory} argument. If such argument is {@false}, then an {@link IllegalArgumentException}
    * will be thrown.
    * <p>
@@ -131,7 +133,7 @@ public interface FileSystem {
    * @param sourcePath              the path to the file to be copied
    * @param targetPath              the target directory
    * @param overwrite               whether or not overwrite the file if the target destination already exists.
-   * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
+   * @param createParentDirectories whether or not to attempt creating any parent directories which doesn't exist.
    * @param renameTo                the new file name, {@code null} if the file doesn't need to be renamed
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
@@ -141,7 +143,7 @@ public interface FileSystem {
   /**
    * Moves the file at the {@code sourcePath} into the {@code targetPath}.
    * <p>
-   * If {@code targetPath} doesn't exists, and neither does its parent, then an attempt will be made to create depending on the
+   * If {@code targetPath} doesn't exist, and neither does its parent, then an attempt will be made to create depending on the
    * value of the {@code createParentDirectory} argument. If such argument is {@false}, then an {@link IllegalArgumentException}
    * will be thrown.
    * <p>
@@ -170,7 +172,7 @@ public interface FileSystem {
    * Deletes the file pointed by {@code filePath}, provided that it's not locked
    *
    * @param filePath the path to the file to be deleted
-   * @throws IllegalArgumentException if {@code filePath} doesn't exists or is locked
+   * @throws IllegalArgumentException if {@code filePath} doesn't exist or is locked
    */
   void delete(String filePath);
 
