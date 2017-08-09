@@ -11,7 +11,7 @@ import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PA
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
-import org.mule.runtime.core.api.Event;
+import org.mule.runtime.core.api.InternalEvent;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
@@ -21,8 +21,8 @@ import java.util.Set;
 
 /**
  * Errors that can be thrown both in
- * {@link BaseFileSystemOperations#copy(FileConnectorConfig, FileSystem, String, String, boolean, boolean, Event)} or
- * {@link BaseFileSystemOperations#move(FileConnectorConfig, FileSystem, String, String, boolean, boolean, Event)} operation.
+ * {@link BaseFileSystemOperations#copy(FileConnectorConfig, FileSystem, String, String, boolean, boolean, InternalEvent)} or
+ * {@link BaseFileSystemOperations#move(FileConnectorConfig, FileSystem, String, String, boolean, boolean, InternalEvent)} operation.
  *
  * @since 1.0
  */

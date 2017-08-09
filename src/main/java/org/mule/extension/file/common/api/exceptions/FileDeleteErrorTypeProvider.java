@@ -10,7 +10,7 @@ import static org.mule.extension.file.common.api.exceptions.FileError.ACCESS_DEN
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
-import org.mule.runtime.core.api.Event;
+import org.mule.runtime.core.api.InternalEvent;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
@@ -19,7 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 
 /**
- * Errors that can be thrown in the {@link BaseFileSystemOperations#delete(FileSystem, String, Event)} operation.
+ * Errors that can be thrown in the {@link BaseFileSystemOperations#delete(FileSystem, String, InternalEvent)} operation.
  * 
  * @since 1.0
  */
