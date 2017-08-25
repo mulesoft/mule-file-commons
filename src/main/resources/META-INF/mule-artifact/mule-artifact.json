@@ -2,7 +2,7 @@
   "name": "File Common Plugin",
   "minMuleVersion": "4.0.0",
   "classLoaderModelLoaderDescriptor": {
-    "id": "maven",
+    "id": "mule",
     "attributes": {
       "exportedPackages": [
         "org.mule.extension.file.common",
@@ -21,7 +21,7 @@
     }
   },
   "bundleDescriptorLoader": {
-    "id": "maven",
+    "id": "mule",
     "attributes": {}
   }
 }
