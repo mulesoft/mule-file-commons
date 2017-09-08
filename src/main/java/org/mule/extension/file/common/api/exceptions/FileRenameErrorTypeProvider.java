@@ -11,7 +11,7 @@ import static org.mule.extension.file.common.api.exceptions.FileError.FILE_ALREA
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
-import org.mule.runtime.core.api.InternalEvent;
+import org.mule.runtime.core.api.event.BaseEvent;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 
 /**
- * Errors that can be thrown both in the {@link BaseFileSystemOperations#rename(FileSystem, String, String, boolean, InternalEvent)}
+ * Errors that can be thrown both in the {@link BaseFileSystemOperations#rename(FileSystem, String, String, boolean, BaseEvent)}
  * or the {@link BaseFileSystemOperations#createDirectory(FileSystem, String)} operation.
  *
  * @since 1.0

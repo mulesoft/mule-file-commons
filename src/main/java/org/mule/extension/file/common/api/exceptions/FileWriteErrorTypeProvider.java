@@ -14,7 +14,7 @@ import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.FileWriteMode;
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
-import org.mule.runtime.core.api.InternalEvent;
+import org.mule.runtime.core.api.event.BaseEvent;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
@@ -24,7 +24,7 @@ import java.util.Set;
 
 /**
  * Errors that can be thrown in the
- * {@link BaseFileSystemOperations#write(FileConnectorConfig, FileSystem, String, Object, String, boolean, boolean, FileWriteMode, InternalEvent)}
+ * {@link BaseFileSystemOperations#write(FileConnectorConfig, FileSystem, String, Object, String, boolean, boolean, FileWriteMode, BaseEvent)}
  * operation.
  *
  * @since 1.0
