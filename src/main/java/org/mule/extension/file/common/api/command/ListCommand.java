@@ -29,7 +29,7 @@ public interface ListCommand {
    * @param recursive     whether to include the contents of sub-directories
    * @param matcher       a {@link Predicate} of {@link FileAttributes} used to filter the output list
    * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the attributes
-   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exists or is not a directory
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
   List<Result<InputStream, FileAttributes>> list(FileConnectorConfig config,
                                                  String directoryPath,
