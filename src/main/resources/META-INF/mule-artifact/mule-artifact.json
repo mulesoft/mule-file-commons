@@ -1,6 +1,7 @@
 {
   "name": "File Common Plugin",
   "minMuleVersion": "4.0.0",
+  "requiredProduct": "MULE",
   "classLoaderModelLoaderDescriptor": {
     "id": "mule",
     "attributes": {
