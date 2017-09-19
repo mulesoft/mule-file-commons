@@ -11,7 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.mule.runtime.core.api.util.concurrent.Latch;
+import org.mule.runtime.api.util.concurrent.Latch;
 import org.mule.extension.file.common.api.AbstractFileSystem;
 import org.mule.extension.file.common.api.FileAttributes;
 import org.mule.extension.file.common.api.command.CopyCommand;
