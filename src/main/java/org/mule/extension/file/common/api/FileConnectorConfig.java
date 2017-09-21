@@ -7,9 +7,10 @@
 package org.mule.extension.file.common.api;
 
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
-import org.mule.runtime.extension.api.annotation.param.RefName;
 import org.mule.runtime.extension.api.annotation.param.DefaultEncoding;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.runtime.extension.api.annotation.param.RefName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 
 /**
@@ -22,12 +23,15 @@ public abstract class FileConnectorConfig {
   @RefName
   private String configName;
 
+  @DefaultEncoding
+  private String muleEncoding;
+
   /**
    * The encoding to use by default when writing contents of type {@link String}. If not specified, it defaults to the default
    * encoding in the mule configuration
    */
   @Parameter
-  @DefaultEncoding
+  @Optional
   @Placement(tab = ADVANCED_TAB)
   private String defaultWriteEncoding;
 
@@ -39,6 +43,6 @@ public abstract class FileConnectorConfig {
   }
 
   public String getDefaultWriteEncoding() {
-    return defaultWriteEncoding;
+    return defaultWriteEncoding == null ? muleEncoding : defaultWriteEncoding;
   }
 }
