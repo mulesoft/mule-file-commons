@@ -8,10 +8,10 @@ package org.mule.extension.file.common.api.exceptions;
 
 import static org.mule.extension.file.common.api.exceptions.FileError.FILE_ALREADY_EXISTS;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
+
+import org.mule.extension.file.common.api.BaseFileSystemOperations;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
-import org.mule.extension.file.common.api.BaseFileSystemOperations;
-import org.mule.runtime.core.api.event.BaseEvent;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
@@ -21,8 +21,8 @@ import java.util.Set;
 
 /**
  * Errors that can be thrown both in
- * {@link BaseFileSystemOperations#copy(FileConnectorConfig, FileSystem, String, String, boolean, boolean, BaseEvent)} or
- * {@link BaseFileSystemOperations#move(FileConnectorConfig, FileSystem, String, String, boolean, boolean, BaseEvent)} operation.
+ * {@link BaseFileSystemOperations#copy(FileConnectorConfig, FileSystem, String, String, boolean, boolean, CoreEvent)} or
+ * {@link BaseFileSystemOperations#move(FileConnectorConfig, FileSystem, String, String, boolean, boolean, CoreEvent)} operation.
  *
  * @since 1.0
  */

@@ -10,11 +10,11 @@ import static org.mule.extension.file.common.api.exceptions.FileError.ACCESS_DEN
 import static org.mule.extension.file.common.api.exceptions.FileError.FILE_ALREADY_EXISTS;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_CONTENT;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
+
+import org.mule.extension.file.common.api.BaseFileSystemOperations;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.FileWriteMode;
-import org.mule.extension.file.common.api.BaseFileSystemOperations;
-import org.mule.runtime.core.api.event.BaseEvent;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
@@ -24,7 +24,7 @@ import java.util.Set;
 
 /**
  * Errors that can be thrown in the
- * {@link BaseFileSystemOperations#write(FileConnectorConfig, FileSystem, String, Object, String, boolean, boolean, FileWriteMode, BaseEvent)}
+ * {@link BaseFileSystemOperations#write(FileConnectorConfig, FileSystem, String, Object, String, boolean, boolean, FileWriteMode, CoreEvent)}
  * operation.
  *
  * @since 1.0
