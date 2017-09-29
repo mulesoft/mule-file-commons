@@ -11,6 +11,7 @@ import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
+import org.mule.extension.file.common.api.exceptions.FileAccessDeniedException;
 import org.mule.extension.file.common.api.exceptions.FileAlreadyExistsException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.mule.runtime.api.message.Message;
@@ -207,5 +208,17 @@ public abstract class FileCommand<F extends FileSystem> {
   public FileAlreadyExistsException alreadyExistsException(Path path) {
     return new FileAlreadyExistsException(format("'%s' already exists. Set the 'overwrite' parameter to 'true' to perform the operation anyway",
                                                  path));
+  }
+
+  /**
+   * Returns a {@link FileAccessDeniedException} explaining that the read operation can not be completed due
+   * to lack of permissions.
+   *
+   * @param path the {@link Path} that the operation tried to read
+   * @return {@link FileAccessDeniedException}
+   */
+  public FileAccessDeniedException accessDeniedException(Path path) {
+    return new FileAccessDeniedException(format("Could not read the file '%s' because access was denied by the operating system",
+                                                path));
   }
 }

@@ -19,6 +19,8 @@ import java.io.InputStream;
  */
 public interface WriteCommand {
 
+  String IS_A_DIRECTORY_MESSAGE = "Is a directory";
+
   /**
    * Writes a file under the considerations of
    * {@link FileSystem#write(String, InputStream, FileWriteMode, boolean, boolean, String)}
