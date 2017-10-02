@@ -32,6 +32,7 @@ public interface FileTestHarness extends TestRule {
 
   /**
    * Creates a test hello world file
+   * 
    * @throws Exception if the method fails
    */
   void createHelloWorldFile() throws Exception;
@@ -67,7 +68,7 @@ public interface FileTestHarness extends TestRule {
    * @param folder the path to the target folder
    * @param fileName the name of the target file
    * @param content the content to be written
-   *                @throws Exception if the method fails
+   * @throws Exception if the method fails
    */
   void write(String folder, String fileName, String content) throws Exception;
 
@@ -96,6 +97,7 @@ public interface FileTestHarness extends TestRule {
 
   /**
    * Moves the current working directory to the one signaled by {@code path}
+   * 
    * @param path the path to the new working directory
    * @return whether the working directory changed or not
    * @throws Exception if the method fails
