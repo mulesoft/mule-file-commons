@@ -6,12 +6,12 @@
  */
 package org.mule.test.extension.file.common.api;
 
-import org.mule.functional.junit4.rules.ExpectedError;
-
-import java.nio.file.Paths;
+import org.mule.functional.api.exception.ExpectedError;
 
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
+
+import java.nio.file.Paths;
 
 /**
  * A {@link TestRule} which provides tools and environment for reusing the same test regardless of the remote server type (FTP,
@@ -32,7 +32,7 @@ public interface FileTestHarness extends TestRule {
 
   /**
    * Creates a test hello world file
-   * 
+   *
    * @throws Exception if the method fails
    */
   void createHelloWorldFile() throws Exception;
@@ -97,7 +97,7 @@ public interface FileTestHarness extends TestRule {
 
   /**
    * Moves the current working directory to the one signaled by {@code path}
-   * 
+   *
    * @param path the path to the new working directory
    * @return whether the working directory changed or not
    * @throws Exception if the method fails
