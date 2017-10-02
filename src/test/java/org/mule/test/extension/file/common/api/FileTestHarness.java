@@ -6,7 +6,7 @@
  */
 package org.mule.test.extension.file.common.api;
 
-import org.mule.functional.junit4.rules.ExpectedError;
+import org.mule.functional.api.exception.ExpectedError;
 
 import java.nio.file.Paths;
 
