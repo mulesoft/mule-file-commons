@@ -19,9 +19,7 @@
 
     <properties>
         <mule.version>4.0.0-SNAPSHOT</mule.version>
-        
         <cglib.version>3.2.2</cglib.version>
-        
         <formatterConfigPath>formatter.xml</formatterConfigPath>
     </properties>
 
@@ -76,13 +74,23 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.mule.runtime.plugins</groupId>
                 <artifactId>mule-plugin-maven-plugin</artifactId>
                 <extensions>true</extensions>
             </plugin>
         </plugins>
     </build>
-
 
     <distributionManagement>
         <downloadUrl>http://www.mulesoft.org/display/MULE/Download</downloadUrl>
