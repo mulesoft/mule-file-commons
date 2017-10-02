@@ -24,19 +24,21 @@ public interface FileTestHarness extends TestRule {
   String HELLO_WORLD = "Hello World!";
   String HELLO_FILE_NAME = "hello.json";
   String BINARY_FILE_NAME = "binary.bin";
-  String HELLO_PATH = Paths.get("files/" + HELLO_FILE_NAME).toString();
+  String HELLO_PATH = Paths.get("files", HELLO_FILE_NAME).toString();
   String DEFAULT_FTP_HOST = "localhost";
-  String FTP_SERVER_BASE_DIR = Paths.get("target/ftpserver").toString();
+  String FTP_SERVER_BASE_DIR = Paths.get("target", "ftpserver").toString();
   String WORKING_DIR_SYSTEM_PROPERTY = "workingDir";
   String WORKING_DIR = "base";
 
   /**
    * Creates a test hello world file
+   * @throws Exception if the method fails
    */
   void createHelloWorldFile() throws Exception;
 
   /**
    * Creates a test binary file
+   * @throws Exception if the method fails
    */
   void createBinaryFile() throws Exception;
 
@@ -49,11 +51,13 @@ public interface FileTestHarness extends TestRule {
    * Creates a directory
    *
    * @param directoryPath the path to the directory to be created
+   *                      @throws Exception if the method fails
    */
   void makeDir(String directoryPath) throws Exception;
 
   /**
    * @return the current working directory
+   * @throws Exception if the method fails
    */
   String getWorkingDirectory() throws Exception;
 
@@ -63,6 +67,7 @@ public interface FileTestHarness extends TestRule {
    * @param folder the path to the target folder
    * @param fileName the name of the target file
    * @param content the content to be written
+   *                @throws Exception if the method fails
    */
   void write(String folder, String fileName, String content) throws Exception;
 
@@ -71,21 +76,30 @@ public interface FileTestHarness extends TestRule {
    *
    * @param path the path to write into
    * @param content the content to be written
+   *                @throws Exception if the method fails
    */
   void write(String path, String content) throws Exception;
 
   /**
    * @param path the path to test
    * @return whether the given {@code path} exists and it's a directory
+   * @throws Exception if the method fails
    */
   boolean dirExists(String path) throws Exception;
 
   /**
    * @param path the path to test
    * @return whether the given {@code path} exists and it's a file
+   * @throws Exception if the method fails
    */
   boolean fileExists(String path) throws Exception;
 
+  /**
+   * Moves the current working directory to the one signaled by {@code path}
+   * @param path the path to the new working directory
+   * @return whether the working directory changed or not
+   * @throws Exception if the method fails
+   */
   boolean changeWorkingDirectory(String path) throws Exception;
 
   /**
@@ -93,11 +107,13 @@ public interface FileTestHarness extends TestRule {
    *
    * @param path the path of the directory to test
    * @return the paths of the files contained in the given {@code path}
+   * @throws Exception if the method fails
    */
   String[] getFileList(String path) throws Exception;
 
   /**
    * @return Returns Server Port
+   * @throws Exception if the method fails
    */
   int getServerPort() throws Exception;
 
@@ -106,6 +122,7 @@ public interface FileTestHarness extends TestRule {
    *
    * @param path the path to test
    * @param attributes the expected attributes
+   *                   @throws Exception if the method fails
    */
   void assertAttributes(String path, Object attributes) throws Exception;
 
@@ -113,6 +130,7 @@ public interface FileTestHarness extends TestRule {
    * Validates that the given {@code path} has been deleted
    *
    * @param path the path to test
+   *             @throws Exception if the method fails
    */
   void assertDeleted(String path) throws Exception;
 }
