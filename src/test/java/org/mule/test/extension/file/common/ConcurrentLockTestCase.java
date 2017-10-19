@@ -11,9 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.mule.runtime.api.util.concurrent.Latch;
 import org.mule.extension.file.common.api.AbstractFileSystem;
-import org.mule.extension.file.common.api.FileAttributes;
 import org.mule.extension.file.common.api.command.CopyCommand;
 import org.mule.extension.file.common.api.command.CreateDirectoryCommand;
 import org.mule.extension.file.common.api.command.DeleteCommand;
@@ -24,6 +22,7 @@ import org.mule.extension.file.common.api.command.RenameCommand;
 import org.mule.extension.file.common.api.command.WriteCommand;
 import org.mule.extension.file.common.api.lock.NullPathLock;
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.runtime.api.util.concurrent.Latch;
 import org.mule.tck.size.SmallTest;
 
 import java.nio.file.Path;
@@ -135,23 +134,18 @@ public class ConcurrentLockTestCase {
     }
 
     @Override
-    protected PathLock createLock(Path path, Object... params) {
+    protected PathLock createLock(Path path) {
       if (locked) {
         PathLock lock = mock(PathLock.class);
         when(lock.tryLock()).thenReturn(false);
         return lock;
       } else {
         locked = true;
-        return new NullPathLock();
+        return new NullPathLock(path);
       }
     }
 
     @Override
     public void changeToBaseDir() {}
-
-    @Override
-    public Class<? extends FileAttributes> getAttributesType() {
-      return FileAttributes.class;
-    }
   }
 }
