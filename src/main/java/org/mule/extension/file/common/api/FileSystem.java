@@ -201,11 +201,10 @@ public interface FileSystem {
    * Whoever request the lock <b>MUST</b> release it as soon as possible.
    *
    * @param path   the path to the file you want to lock
-   * @param params vararg of generic arguments depending on the underlying implementation
    * @return an acquired {@link PathLock}
    * @throws IllegalArgumentException if a lock could not be acquired
    */
-  PathLock lock(Path path, Object... params);
+  PathLock lock(Path path);
 
   Lock createMuleLock(String id);
 
@@ -236,13 +235,5 @@ public interface FileSystem {
    */
   void changeToBaseDir();
 
-  /**
-   * The concrete class that represents the attributes related to the {@link FileSystem} implementation.
-   * <p>
-   * This method is called when handling the dynamic resolution for the output attributes metadata of an operation.
-   */
-  Class<? extends FileAttributes> getAttributesType();
-
   String getBasePath();
-
 }

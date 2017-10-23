@@ -6,12 +6,20 @@
  */
 package org.mule.extension.file.common.api.lock;
 
+import java.nio.file.Path;
+
 /**
  * Implementation of the Null Object design pattern for the {@link PathLock} interface
  *
  * @since 1.0
  */
 public final class NullPathLock implements PathLock {
+
+  private final Path path;
+
+  public NullPathLock(Path path) {
+    this.path = path;
+  }
 
   /**
    * Does nothing and always returns {@code true}
@@ -37,5 +45,13 @@ public final class NullPathLock implements PathLock {
   @Override
   public void release() {
     // no-op
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Path getPath() {
+    return path;
   }
 }

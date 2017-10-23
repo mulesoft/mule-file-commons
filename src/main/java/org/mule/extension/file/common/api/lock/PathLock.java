@@ -6,6 +6,8 @@
  */
 package org.mule.extension.file.common.api.lock;
 
+import java.nio.file.Path;
+
 /**
  * Use to generate a lock on a file reference by a path.
  * <p>
@@ -43,4 +45,8 @@ public interface PathLock {
    */
   void release();
 
+  /**
+   * @return The path to the locked file
+   */
+  Path getPath();
 }

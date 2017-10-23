@@ -7,7 +7,6 @@
 package org.mule.extension.file.common.api;
 
 import static java.lang.String.format;
-
 import org.mule.extension.file.common.api.command.CopyCommand;
 import org.mule.extension.file.common.api.command.CreateDirectoryCommand;
 import org.mule.extension.file.common.api.command.DeleteCommand;
@@ -21,13 +20,15 @@ import org.mule.extension.file.common.api.lock.PathLock;
 import org.mule.runtime.api.lock.LockFactory;
 import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-import javax.activation.MimetypesFileTypeMap;
-import javax.inject.Inject;
+
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.function.Predicate;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.inject.Inject;
 
 /**
  * Base class for implementations of {@link FileSystem}
@@ -162,13 +163,25 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public final synchronized PathLock lock(Path path, Object... params) {
-    PathLock lock = createLock(path, params);
-    if (!lock.tryLock()) {
-      throw new FileLockedException(format("Could not lock file '%s' because it's already owned by another process", path));
-    }
+  public final synchronized PathLock lock(Path path) {
+    PathLock lock = createLock(path);
+    acquireLock(lock);
 
     return lock;
+  }
+
+  /**
+   * Attempts to lock the given {@code lock} and throws {@link FileLockedException} if already locked
+   *
+   * @param lock the {@link PathLock} to be acquired
+   * @throws FileLockedException if the {@code lock} is already acquired
+   */
+  protected void acquireLock(PathLock lock) {
+    if (!lock.tryLock()) {
+      throw new FileLockedException(
+                                    format("Could not lock file '%s' because it's already owned by another process",
+                                           lock.getPath()));
+    }
   }
 
   /**
@@ -202,7 +215,7 @@ public abstract class AbstractFileSystem implements FileSystem {
     }
   }
 
-  protected abstract PathLock createLock(Path path, Object... params);
+  protected abstract PathLock createLock(Path path);
 
   /**
    * {@inheritDoc}
