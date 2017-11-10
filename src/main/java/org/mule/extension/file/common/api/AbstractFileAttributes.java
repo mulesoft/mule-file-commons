@@ -23,6 +23,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  */
 public abstract class AbstractFileAttributes implements FileAttributes, Serializable {
 
+  private static final long serialVersionUID = 3249780732227598L;
+
   protected final String path;
   private String fileName;
 
