@@ -20,11 +20,12 @@ import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
 import com.google.common.collect.ImmutableSet;
 
+import java.io.InputStream;
 import java.util.Set;
 
 /**
  * Errors that can be thrown in the
- * {@link BaseFileSystemOperations#write(FileConnectorConfig, FileSystem, String, Object, String, boolean, boolean, FileWriteMode, CoreEvent)}
+ * {@link BaseFileSystemOperations#doWrite(FileConnectorConfig, FileSystem, String, InputStream, String, boolean, boolean, FileWriteMode)}
  * operation.
  *
  * @since 1.0
