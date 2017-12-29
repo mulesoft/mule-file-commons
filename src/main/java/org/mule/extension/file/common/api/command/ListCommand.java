@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  *
  * @since 1.0
  */
-public interface ListCommand {
+public interface ListCommand<A extends FileAttributes> {
 
   /**
    * Lists files under the considerations of {@link FileSystem#list(FileConnectorConfig, String, boolean, Predicate)}
@@ -31,8 +31,8 @@ public interface ListCommand {
    * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
-  List<Result<InputStream, FileAttributes>> list(FileConnectorConfig config,
-                                                 String directoryPath,
-                                                 boolean recursive,
-                                                 Predicate<FileAttributes> matcher);
+  List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                    String directoryPath,
+                                    boolean recursive,
+                                    Predicate<A> matcher);
 }

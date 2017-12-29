@@ -18,7 +18,7 @@ import java.io.InputStream;
  *
  * @since 1.0
  */
-public interface ReadCommand {
+public interface ReadCommand<A extends FileAttributes> {
 
   /**
    * Reads files under the considerations of {@link FileSystem#read(FileConnectorConfig, String, boolean)}
@@ -30,5 +30,5 @@ public interface ReadCommand {
    *         {@link FileAttributes} object as {@link Message#getAttributes()}
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
-  Result<InputStream, FileAttributes> read(FileConnectorConfig config, String filePath, boolean lock);
+  Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock);
 }
