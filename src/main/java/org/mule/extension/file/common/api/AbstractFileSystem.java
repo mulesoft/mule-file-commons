@@ -35,7 +35,7 @@ import javax.inject.Inject;
  *
  * @since 1.0
  */
-public abstract class AbstractFileSystem implements FileSystem {
+public abstract class AbstractFileSystem<A extends FileAttributes> implements FileSystem<A> {
 
   private final MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
 
@@ -92,10 +92,10 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public List<Result<InputStream, FileAttributes>> list(FileConnectorConfig config,
-                                                        String directoryPath,
-                                                        boolean recursive,
-                                                        Predicate<FileAttributes> matcher) {
+  public List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                           String directoryPath,
+                                           boolean recursive,
+                                           Predicate<A> matcher) {
     return getListCommand().list(config, directoryPath, recursive, matcher);
   }
 
@@ -103,8 +103,8 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public Result<InputStream, FileAttributes> read(FileConnectorConfig config, String filePath,
-                                                  boolean lock) {
+  public Result<InputStream, A> read(FileConnectorConfig config, String filePath,
+                                     boolean lock) {
     return getReadCommand().read(config, filePath, lock);
   }
 

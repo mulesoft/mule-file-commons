@@ -30,7 +30,7 @@ public class URLPathLock implements PathLock {
   /**
    * Creates a new instance
    *
-   * @param url the URL from which the lock's key is to be extracted
+   * @param url         the URL from which the lock's key is to be extracted
    * @param lockFactory a {@link LockFactory}
    */
   public URLPathLock(URL url, LockFactory lockFactory) {
@@ -76,7 +76,11 @@ public class URLPathLock implements PathLock {
   public void release() {
     Lock lock = ownedLock.getAndSet(null);
     if (lock != null) {
-      lock.unlock();
+      try {
+        lock.unlock();
+      } catch (IllegalMonitorStateException e) {
+        // ignore
+      }
     }
   }
 

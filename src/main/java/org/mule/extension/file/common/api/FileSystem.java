@@ -30,7 +30,7 @@ import javax.activation.MimetypesFileTypeMap;
  *
  * @since 1.0
  */
-public interface FileSystem {
+public interface FileSystem<A extends FileAttributes> {
 
   /**
    * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
@@ -49,10 +49,10 @@ public interface FileSystem {
    * @return a {@link List} of {@link Result} objects, each one containing each file's content in the payload and metadata in the attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
-  List<Result<InputStream, FileAttributes>> list(FileConnectorConfig config,
-                                                 String directoryPath,
-                                                 boolean recursive,
-                                                 Predicate<FileAttributes> matcher);
+  List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                    String directoryPath,
+                                    boolean recursive,
+                                    Predicate<A> matcher);
 
   /**
    * Obtains the content and metadata of a file at a given path.
@@ -74,7 +74,7 @@ public interface FileSystem {
    * {@link FileAttributes} object as {@link Message#getAttributes()}
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
-  Result<InputStream, FileAttributes> read(FileConnectorConfig config, String filePath, boolean lock);
+  Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock);
 
   /**
    * Writes the {@code content} into the file pointed by {@code filePath}.
