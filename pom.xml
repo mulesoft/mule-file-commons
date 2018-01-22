@@ -18,7 +18,7 @@
     </description>
 
     <properties>
-        <mule.version>4.1.0-SNAPSHOT</mule.version>
+        <mule.version>4.1.0</mule.version>
         <cglib.version>3.2.2</cglib.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
     </properties>
