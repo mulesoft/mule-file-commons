@@ -8,6 +8,8 @@ package org.mule.extension.file.common.api;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
+import org.mule.runtime.extension.api.annotation.param.Parameter;
+
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.time.Instant;
@@ -25,7 +27,10 @@ public abstract class AbstractFileAttributes implements FileAttributes, Serializ
 
   private static final long serialVersionUID = 3249780732227598L;
 
+  @Parameter
   protected final String path;
+
+  @Parameter
   private String fileName;
 
   /**
