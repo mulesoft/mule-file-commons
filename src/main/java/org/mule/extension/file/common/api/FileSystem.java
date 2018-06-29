@@ -49,10 +49,38 @@ public interface FileSystem<A extends FileAttributes> {
    * @return a {@link List} of {@link Result} objects, each one containing each file's content in the payload and metadata in the attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
+  @Deprecated
   List<Result<InputStream, A>> list(FileConnectorConfig config,
                                     String directoryPath,
                                     boolean recursive,
                                     Predicate<A> matcher);
+
+  /**
+   * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
+   * <p>
+   * If the listing encounters a directory, the output list will include its contents depending on the value of the
+   * {@code recursive} argument. If {@code recursive} is enabled, then all the files in that directory will be listed immediately
+   * after their parent directory.
+   * <p>
+   * If {@code recursive} is set to {@code true} but a found directory is rejected by the {@code matcher}, then there won't be any
+   * recursion into such directory.
+   *
+   * @param config                the config that is parameterizing this operation
+   * @param directoryPath         the path to the directory to be listed
+   * @param recursive             whether to include the contents of sub-directories
+   * @param matcher               a {@link Predicate} of {@link FileAttributes} used to filter the output list
+   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return a {@link List} of {@link Result} objects, each one containing each file's content in the payload and metadata in the
+   *         attributes
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
+   */
+  default List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                            String directoryPath,
+                                            boolean recursive,
+                                            Predicate<A> matcher,
+                                            Long timeBetweenSizeCheck) {
+    return list(config, directoryPath, recursive, matcher);
+  }
 
   /**
    * Obtains the content and metadata of a file at a given path.
@@ -74,7 +102,33 @@ public interface FileSystem<A extends FileAttributes> {
    * {@link FileAttributes} object as {@link Message#getAttributes()}
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
+  @Deprecated
   Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock);
+
+  /**
+   * Obtains the content and metadata of a file at a given path.
+   * <p>
+   * Locking can be actually enabled through the {@code lock} argument, however, the extent of such lock will depend on the
+   * implementation. What is guaranteed by passing {@code true} on the {@code lock} argument is that {@code this} instance will
+   * not attempt to modify this file until the {@link InputStream} returned by {@link Result#getOutput()} this method returns is
+   * closed or fully consumed. Some implementation might actually perform a file system level locking which goes beyond the extend
+   * of {@code this} instance or even mule. For some other file systems that might be simply not possible and no extra assumptions
+   * are to be taken.
+   * <p>
+   * This method also makes a best effort to determine the mime type of the file being read. a {@link MimetypesFileTypeMap} will
+   * be used to make an educated guess on the file's mime type
+   *
+   * @param config                the config that is parameterizing this operation
+   * @param filePath              the path of the file you want to read
+   * @param lock                  whether or not to lock the file
+   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a {@link FileAttributes} object
+   *         as {@link Message#getAttributes()}
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
+   */
+  default Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock, Long timeBetweenSizeCheck) {
+    return read(config, filePath, lock, timeBetweenSizeCheck);
+  }
 
   /**
    * Writes the {@code content} into the file pointed by {@code filePath}.

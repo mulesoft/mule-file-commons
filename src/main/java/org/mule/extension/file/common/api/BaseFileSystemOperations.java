@@ -10,20 +10,29 @@ import static java.lang.String.format;
 import static java.nio.file.Paths.get;
 import static org.mule.runtime.core.api.util.StringUtils.isBlank;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
+
+import org.mule.extension.file.common.api.connection.Disconnectable;
 import org.mule.extension.file.common.api.exceptions.IllegalContentException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.mule.extension.file.common.api.matcher.FileMatcher;
 import org.mule.extension.file.common.api.matcher.NullFilePayloadPredicate;
+import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.streaming.CursorProvider;
 import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.runtime.extension.api.runtime.streaming.PagingProvider;
+import org.mule.runtime.extension.api.runtime.streaming.StreamingHelper;
 
 import java.io.InputStream;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -34,6 +43,8 @@ import javax.activation.MimetypesFileTypeMap;
  * @since 1.0
  */
 public abstract class BaseFileSystemOperations {
+
+  private static final Integer LIST_PAGE_SIZE = 10;
 
   /**
    * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
@@ -52,6 +63,7 @@ public abstract class BaseFileSystemOperations {
    * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
+  @Deprecated
   protected List<Result<InputStream, FileAttributes>> doList(FileConnectorConfig config,
                                                              FileSystem fileSystem,
                                                              String directoryPath,
@@ -59,6 +71,105 @@ public abstract class BaseFileSystemOperations {
                                                              FileMatcher matchWith) {
     fileSystem.changeToBaseDir();
     return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith));
+  }
+
+  /**
+   * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
+   * <p>
+   * If the listing encounters a directory, the output list will include its contents depending on the value of the
+   * {@code recursive} parameter. If {@code recursive} is enabled, then all the files in that directory will be listed immediately
+   * after their parent directory.
+   * <p>
+   * If {@code recursive} is set to {@code true} but a found directory is rejected by the {@code matcher}, then there won't be any
+   * recursion into such directory.
+   *
+   * @param config                the config that is parameterizing this operation
+   * @param directoryPath         the path to the directory to be listed
+   * @param recursive             whether to include the contents of sub-directories. Defaults to false.
+   * @param matchWith             a matcher used to filter the output list
+   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the
+   *         attributes
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
+   */
+  protected List<Result<InputStream, FileAttributes>> doList(FileConnectorConfig config,
+                                                             FileSystem fileSystem,
+                                                             String directoryPath,
+                                                             boolean recursive,
+                                                             FileMatcher matchWith,
+                                                             Long timeBetweenSizeCheck) {
+    fileSystem.changeToBaseDir();
+    return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck);
+  }
+
+
+  /**
+   * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
+   * <p>
+   * If the listing encounters a directory, the output list will include its contents depending on the value of the
+   * {@code recursive} parameter. If {@code recursive} is enabled, then all the files in that directory will be listed immediately
+   * after their parent directory.
+   * <p>
+   * If {@code recursive} is set to {@code true} but a found directory is rejected by the {@code matcher}, then there won't be any
+   * recursion into such directory.
+   *
+   * @param config                the config that is parameterizing this operation
+   * @param directoryPath         the path to the directory to be listed
+   * @param recursive             whether to include the contents of sub-directories. Defaults to false.
+   * @param matchWith             a matcher used to filter the output list
+   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return a {@link PagingProvider} of {@link Result} objects each one containing each file's content in the payload and metadata in the
+   *         attributes
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
+   */
+  protected PagingProvider<FileSystem, Result<CursorProvider, FileAttributes>> doPagedList(FileConnectorConfig config,
+                                                                                           String directoryPath,
+                                                                                           boolean recursive,
+                                                                                           FileMatcher matchWith,
+                                                                                           Long timeBetweenSizeCheck,
+                                                                                           StreamingHelper streamingHelper) {
+    return new PagingProvider<FileSystem, Result<CursorProvider, FileAttributes>>() {
+
+      private List<Result<InputStream, FileAttributes>> files;
+      private Iterator<Result<InputStream, FileAttributes>> filesIterator;
+      private final AtomicBoolean initialised = new AtomicBoolean(false);
+
+      @Override
+      public List<Result<CursorProvider, FileAttributes>> getPage(FileSystem connection) {
+        if (initialised.compareAndSet(false, true)) {
+          initializePagingProvider(connection);
+        }
+        List<Result<CursorProvider, FileAttributes>> page = new LinkedList<>();
+        for (int i = 0; i < LIST_PAGE_SIZE && filesIterator.hasNext(); i++) {
+          Result<InputStream, FileAttributes> result = filesIterator.next();
+          page.add((Result.<CursorProvider, FileAttributes>builder().attributes(result.getAttributes().get())
+              .output((CursorProvider) streamingHelper.resolveCursorProvider(result.getOutput()))
+              .mediaType(result.getMediaType().orElse(null))
+              .attributesMediaType(result.getAttributesMediaType().orElse(null))
+              .build()));
+        }
+        return page;
+      }
+
+      private void initializePagingProvider(FileSystem connection) {
+        connection.changeToBaseDir();
+        files = connection.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck);
+        filesIterator = files.iterator();
+      }
+
+      @Override
+      public java.util.Optional<Integer> getTotalResults(FileSystem connection) {
+        return java.util.Optional.of(files.size());
+      }
+
+      @Override
+      public void close(FileSystem connection) throws MuleException {
+        if (connection instanceof Disconnectable) {
+          ((Disconnectable) connection).disconnect();
+        }
+      }
+
+    };
   }
 
   /**
@@ -82,6 +193,7 @@ public abstract class BaseFileSystemOperations {
    * @return the file's content and metadata on a {@link FileAttributes} instance
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
+  @Deprecated
   protected Result<InputStream, FileAttributes> doRead(@Config FileConnectorConfig config,
                                                        @Connection FileSystem fileSystem,
                                                        @DisplayName("File Path") String path,
@@ -89,6 +201,38 @@ public abstract class BaseFileSystemOperations {
                                                            tab = ADVANCED_TAB) boolean lock) {
     fileSystem.changeToBaseDir();
     return fileSystem.read(config, path, lock);
+  }
+
+  /**
+   * Obtains the content and metadata of a file at a given path. The operation itself returns a {@link Message} which payload is a
+   * {@link InputStream} with the file's content, and the metadata is represent as a {@link FileAttributes} object that's placed
+   * as the message {@link Message#getAttributes() attributes}.
+   * <p>
+   * If the {@code lock} parameter is set to {@code true}, then a file system level lock will be placed on the file until the
+   * input stream this operation returns is closed or fully consumed. Because the lock is actually provided by the host file
+   * system, its behavior might change depending on the mounted drive and the operation system on which mule is running. Take that
+   * into consideration before blindly relying on this lock.
+   * <p>
+   * This method also makes a best effort to determine the mime type of the file being read. A {@link MimetypesFileTypeMap} will
+   * be used to make an educated guess on the file's mime type. The user also has the chance to force the output encoding and
+   * mimeType through the {@code outputEncoding} and {@code outputMimeType} optional parameters.
+   *
+   * @param config                the config that is parameterizing this operation
+   * @param fileSystem            a reference to the host {@link FileSystem}
+   * @param path                  the path to the file to be read
+   * @param lock                  whether or not to lock the file. Defaults to false.
+   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return the file's content and metadata on a {@link FileAttributes} instance
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
+   */
+  protected Result<InputStream, FileAttributes> doRead(@Config FileConnectorConfig config,
+                                                       @Connection FileSystem fileSystem,
+                                                       @DisplayName("File Path") String path,
+                                                       @Optional(defaultValue = "false") @Placement(
+                                                           tab = ADVANCED_TAB) boolean lock,
+                                                       Long timeBetweenSizeCheck) {
+    fileSystem.changeToBaseDir();
+    return fileSystem.read(config, path, lock, timeBetweenSizeCheck);
   }
 
   /**

@@ -92,6 +92,7 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    * {@inheritDoc}
    */
   @Override
+  @Deprecated
   public List<Result<InputStream, A>> list(FileConnectorConfig config,
                                            String directoryPath,
                                            boolean recursive,
@@ -103,9 +104,31 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    * {@inheritDoc}
    */
   @Override
+  public List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                           String directoryPath,
+                                           boolean recursive,
+                                           Predicate<A> matcher,
+                                           Long timeBetweenSizeCheck) {
+    return getListCommand().list(config, directoryPath, recursive, matcher, timeBetweenSizeCheck);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Deprecated
+  @Override
   public Result<InputStream, A> read(FileConnectorConfig config, String filePath,
                                      boolean lock) {
     return getReadCommand().read(config, filePath, lock);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Result<InputStream, A> read(FileConnectorConfig config, String filePath,
+                                     boolean lock, Long timeBetweenSizeCheck) {
+    return getReadCommand().read(config, filePath, lock, timeBetweenSizeCheck);
   }
 
   /**

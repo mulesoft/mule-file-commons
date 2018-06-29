@@ -30,5 +30,21 @@ public interface ReadCommand<A extends FileAttributes> {
    *         {@link FileAttributes} object as {@link Message#getAttributes()}
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
+  @Deprecated
   Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock);
+
+  /**
+   * Reads files under the considerations of {@link FileSystem#read(FileConnectorConfig, String, boolean)}
+   *
+   * @param config the config that is parameterizing this operation
+   * @param filePath the path of the file you want to read
+   * @param lock whether or not to lock the file
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a {@link FileAttributes} object
+   *         as {@link Message#getAttributes()}
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
+   */
+  default Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock, Long timeBetweenSizeCheck) {
+    return read(config, filePath, lock);
+  }
 }
