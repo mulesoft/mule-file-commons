@@ -48,7 +48,6 @@ public abstract class FileConnectorConfig {
     return defaultWriteEncoding == null ? muleEncoding : defaultWriteEncoding;
   }
 
-
   /**
    * @param timeBetweenSizeCheck      amount of time units.
    * @param timeBetweenSizeCheckUnit  {@link TimeUnit} that will be converted to milliseconds.

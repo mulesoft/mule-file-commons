@@ -39,8 +39,6 @@ public interface FileSystem<A extends FileAttributes> {
    * {@code recursive} argument. If {@code recursive} is enabled, then all the files in that directory will be
    * listed immediately after their parent directory.
    * <p>
-   * If {@code recursive} is set to {@code true} but a found directory is rejected by the {@code matcher}, then there won't be any
-   * recursion into such directory.
    *
    * @param config        the config that is parameterizing this operation
    * @param directoryPath the path to the directory to be listed
@@ -62,8 +60,6 @@ public interface FileSystem<A extends FileAttributes> {
    * {@code recursive} argument. If {@code recursive} is enabled, then all the files in that directory will be listed immediately
    * after their parent directory.
    * <p>
-   * If {@code recursive} is set to {@code true} but a found directory is rejected by the {@code matcher}, then there won't be any
-   * recursion into such directory.
    *
    * @param config                the config that is parameterizing this operation
    * @param directoryPath         the path to the directory to be listed
