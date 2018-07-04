@@ -11,6 +11,9 @@ package org.mule.extension.file.common.api.connection;
  */
 public interface Disconnectable {
 
+  /**
+   * Frees all the allocated resources of the {@link Disconnectable}, succesive calls to this method must not fail.
+   */
   void disconnect();
 
 }
