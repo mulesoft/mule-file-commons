@@ -10,17 +10,12 @@ import org.mule.extension.file.common.api.AbstractFileSystem;
 import org.mule.extension.file.common.api.FileAttributes;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.exceptions.FileAlreadyExistsException;
-import org.mule.runtime.extension.api.annotation.param.Optional;
-import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.display.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Paths;
 
 import static java.lang.String.format;
-import static org.mule.runtime.api.meta.model.display.PathModel.Location.EXTERNAL;
-import static org.mule.runtime.api.meta.model.display.PathModel.Type.DIRECTORY;
 
 /**
  * Groups post processing action parameters
