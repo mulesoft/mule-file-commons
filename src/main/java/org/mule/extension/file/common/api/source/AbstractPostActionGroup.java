@@ -27,80 +27,31 @@ import static org.mule.runtime.api.meta.model.display.PathModel.Type.DIRECTORY;
  *
  * @since 1.1.2, 1.2.0
  */
-public class PostActionGroup {
+public abstract class AbstractPostActionGroup {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PostActionGroup.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPostActionGroup.class);
 
-  /**
-   * Whether each file should be deleted after processing or not
-   */
-  @Parameter
-  @Optional(defaultValue = "false")
-  private boolean autoDelete = false;
+  public abstract boolean isAutoDelete();
 
-  /**
-   * If provided, each processed file will be moved to a directory pointed by this path.
-   */
-  @Parameter
-  @Optional
-  @Path(type = DIRECTORY, location = EXTERNAL)
-  private String moveToDirectory;
+  public abstract String getMoveToDirectory();
 
-  /**
-   * This parameter works in tandem with {@code moveToDirectory}. Use this parameter to enter the name under which the file should
-   * be moved. Do not set this parameter if {@code moveToDirectory} hasn't been set as well.
-   */
-  @Parameter
-  @Optional
-  private String renameTo;
+  public abstract String getRenameTo();
 
-  /**
-   * Whether any of the post actions ({@code autoDelete} and {@code moveToDirectory}) should also be applied in case the file
-   * failed to be processed. If set to {@code false}, no failed files will be moved nor deleted.
-   */
-  @Parameter
-  @Optional(defaultValue = "true")
-  private boolean applyPostActionWhenFailed = true;
-
-
-  public PostActionGroup() {}
-
-  public PostActionGroup(boolean autoDelete, String moveToDirectory, String renameTo, boolean applyPostActionWhenFailed) {
-    this.autoDelete = autoDelete;
-    this.moveToDirectory = moveToDirectory;
-    this.renameTo = renameTo;
-    this.applyPostActionWhenFailed = applyPostActionWhenFailed;
-  }
-
-  public boolean isAutoDelete() {
-    return autoDelete;
-  }
-
-  public String getMoveToDirectory() {
-    return moveToDirectory;
-  }
-
-  public String getRenameTo() {
-    return renameTo;
-  }
-
-  public boolean isApplyPostActionWhenFailed() {
-    return applyPostActionWhenFailed;
-  }
+  public abstract boolean isApplyPostActionWhenFailed();
 
   public void validateSelf() throws IllegalArgumentException {
-    if (autoDelete) {
-      if (moveToDirectory != null) {
+    if (isAutoDelete()) {
+      if (getMoveToDirectory() != null) {
         throw new IllegalArgumentException(format("The autoDelete parameter was set to true, but the value '%s' was given to the "
-            + "moveToDirectory parameter. These two are contradictory.", moveToDirectory));
-      } else if (renameTo != null)
+            + "moveToDirectory parameter. These two are contradictory.", getMoveToDirectory()));
+      } else if (getRenameTo() != null)
         throw new IllegalArgumentException(format("The autoDelete parameter was set to true, but the value '%s' was given to the "
-            + "renameTo parameter. These two are contradictory.", renameTo));
+            + "renameTo parameter. These two are contradictory.", getRenameTo()));
     }
-    if (moveToDirectory == null && renameTo != null) {
+    if (getMoveToDirectory() == null && getRenameTo() != null) {
       throw new IllegalArgumentException(format("The value '%s' was given to the renameTo parameter, but the moveToDirectory parameter"
           + " was not set. renameTo is only used to change the name to the file when it is moved to " +
-          "the moveToDirectory.", renameTo));
+          "the moveToDirectory.", getRenameTo()));
     }
   }
 
