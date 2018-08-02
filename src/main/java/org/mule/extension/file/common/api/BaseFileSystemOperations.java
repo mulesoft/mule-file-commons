@@ -246,6 +246,7 @@ public abstract class BaseFileSystemOperations {
    * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
+  @Deprecated
   protected void doWrite(FileConnectorConfig config, FileSystem fileSystem, String path, InputStream content, String encoding,
                          boolean createParentDirectories, boolean lock, FileWriteMode mode) {
     if (content == null) {
@@ -260,6 +261,38 @@ public abstract class BaseFileSystemOperations {
     }
 
     fileSystem.write(path, content, mode, lock, createParentDirectories, encoding);
+  }
+
+  /**
+   * Writes the {@code content} into the file pointed by {@code path}.
+   * <p>
+   * If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw
+   * {@link IllegalArgumentException} or create such folder depending on the value of the {@code createParentDirectory}.
+   * <p>
+   * If the file itself already exists, then the behavior depends on the supplied {@code mode}.
+   * <p>
+   * This operation also supports locking support depending on the value of the {@code lock} argument, but following the same
+   * rules and considerations as described in the read operation.
+   *
+   * @param config                  the {@link FileConnectorConfig} on which the operation is being executed
+   * @param fileSystem              a reference to the host {@link FileSystem}
+   * @param path                    the path of the file to be written
+   * @param content                 the content to be written into the file. Defaults to the current {@link Message} payload
+   * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
+   * @param lock                    whether or not to lock the file. Defaults to false
+   * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
+   * @throws IllegalArgumentException if an illegal combination of arguments is supplied
+   */
+  protected void doWrite(FileConnectorConfig config, FileSystem fileSystem, String path, InputStream content,
+                         boolean createParentDirectories, boolean lock, FileWriteMode mode) {
+    if (content == null) {
+      throw new IllegalContentException("Cannot write a null content");
+    }
+
+    validatePath(path, "path");
+    fileSystem.changeToBaseDir();
+
+    fileSystem.write(path, content, mode, lock, createParentDirectories);
   }
 
   /**

@@ -134,10 +134,20 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
   /**
    * {@inheritDoc}
    */
+  @Deprecated
   @Override
   public void write(String filePath, InputStream content, FileWriteMode mode,
                     boolean lock, boolean createParentDirectories, String encoding) {
     getWriteCommand().write(filePath, content, mode, lock, createParentDirectories, encoding);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void write(String filePath, InputStream content, FileWriteMode mode,
+                    boolean lock, boolean createParentDirectories) {
+    getWriteCommand().write(filePath, content, mode, lock, createParentDirectories);
   }
 
   /**

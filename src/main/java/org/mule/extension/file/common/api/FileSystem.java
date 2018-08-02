@@ -159,34 +159,73 @@ public interface FileSystem<A extends FileAttributes> {
    *        not set, then it defaults to {@link FileConnectorConfig#getDefaultWriteEncoding()}
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
+  @Deprecated
   void write(String filePath, InputStream content, FileWriteMode mode, boolean lock, boolean createParentDirectories,
              String encoding);
 
   /**
-   * Copies the file at the {@code sourcePath} into the {@code targetPath}.
+   * Writes the {@code content} into the file pointed by {@code filePath}.
    * <p>
-   * If {@code targetPath} doesn't exist, and neither does its parent, then an attempt will be made to create depending on the
-   * value of the {@code createParentDirectory} argument. If such argument is {@false}, then an {@link IllegalArgumentException}
-   * will be thrown.
+   * The {@code content} can be of any of the given types:
+   * <ul>
+   * <li>{@link String}</li>
+   * <li>{@code String[]}</li>
+   * <li>{@code byte}</li>
+   * <li>{@code byte[]}</li>
+   * <li>{@link OutputHandler}</li>
+   * <li>{@link Iterable}</li>
+   * <li>{@link Iterator}</li>
+   * </ul>
    * <p>
-   * It is also possible to use the {@code targetPath} to specify that the copied file should also be renamed. For example, if
-   * {@code sourcePath} has the value <i>a/b/test.txt</i> and {@code targetPath} is assigned to <i>a/c/test.json</i>, then the
-   * file will indeed be copied to the <i>a/c/</i> directory but renamed as <i>test.json</i>
+   * {@code null} contents are not allowed and will result in an {@link IllegalArgumentException}.
    * <p>
-   * If the target file already exists, then it will be overwritten if the {@code overwrite} argument is {@code true}. Otherwise,
-   * {@link IllegalArgumentException} will be thrown
+   * If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw
+   * {@link IllegalArgumentException} or create such folder depending on the value of the {@code createParentDirectory}.
    * <p>
-   * As for the {@code sourcePath}, it can either be a file or a directory. If it points to a directory, then it will be copied
-   * recursively
+   * If the file itself already exists, then the behavior depends on the supplied {@code mode}.
+   * <p>
+   * This method also supports locking support depending on the value of the {@code lock} argument, but following the same rules
+   * and considerations as described in the {@link #read(FileConnectorConfig, String, boolean)} method
    *
-   * @param config                  the config that is parameterizing this operation
-   * @param sourcePath              the path to the file to be copied
-   * @param targetPath              the target directory
-   * @param overwrite               whether or not overwrite the file if the target destination already exists.
-   * @param createParentDirectories whether or not to attempt creating any parent directories which doesn't exist.
-   * @param renameTo                the new file name, {@code null} if the file doesn't need to be renamed
+   * @param filePath the path of the file to be written
+   * @param content the content to be written into the file
+   * @param mode a {@link FileWriteMode}
+   * @param lock whether or not to lock the file
+   * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
+   * 
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
+  default void write(String filePath, InputStream content, FileWriteMode mode, boolean lock, boolean createParentDirectories) {
+    write(filePath, content, mode, lock, createParentDirectories, null);
+  }
+
+
+
+  /**
+  * Copies the file at the {@code sourcePath} into the {@code targetPath}.
+  * <p>
+  * If {@code targetPath} doesn't exist, and neither does its parent, then an attempt will be made to create depending on the
+  * value of the {@code createParentDirectory} argument. If such argument is {@false}, then an {@link IllegalArgumentException}
+  * will be thrown.
+  * <p>
+  * It is also possible to use the {@code targetPath} to specify that the copied file should also be renamed. For example, if
+  * {@code sourcePath} has the value <i>a/b/test.txt</i> and {@code targetPath} is assigned to <i>a/c/test.json</i>, then the
+  * file will indeed be copied to the <i>a/c/</i> directory but renamed as <i>test.json</i>
+  * <p>
+  * If the target file already exists, then it will be overwritten if the {@code overwrite} argument is {@code true}. Otherwise,
+  * {@link IllegalArgumentException} will be thrown
+  * <p>
+  * As for the {@code sourcePath}, it can either be a file or a directory. If it points to a directory, then it will be copied
+  * recursively
+  *
+  * @param config                  the config that is parameterizing this operation
+  * @param sourcePath              the path to the file to be copied
+  * @param targetPath              the target directory
+  * @param overwrite               whether or not overwrite the file if the target destination already exists.
+  * @param createParentDirectories whether or not to attempt creating any parent directories which doesn't exist.
+  * @param renameTo                the new file name, {@code null} if the file doesn't need to be renamed
+  * @throws IllegalArgumentException if an illegal combination of arguments is supplied
+  */
   void copy(FileConnectorConfig config, String sourcePath, String targetPath, boolean overwrite, boolean createParentDirectories,
             String renameTo);
 
