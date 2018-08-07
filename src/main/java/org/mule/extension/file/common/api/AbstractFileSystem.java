@@ -132,6 +132,7 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
   }
 
   /**
+   * @deprecated  {@link #write(String, InputStream, FileWriteMode, boolean, boolean)} must be used instead.
    * {@inheritDoc}
    */
   @Deprecated

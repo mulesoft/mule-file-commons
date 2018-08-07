@@ -127,6 +127,8 @@ public interface FileSystem<A extends FileAttributes> {
   }
 
   /**
+   * @deprecated {@link #write(String, InputStream, FileWriteMode, boolean, boolean)} must be used instead.
+   *
    * Writes the {@code content} into the file pointed by {@code filePath}.
    * <p>
    * The {@code content} can be of any of the given types:

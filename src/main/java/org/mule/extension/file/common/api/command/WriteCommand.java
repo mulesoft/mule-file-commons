@@ -22,6 +22,8 @@ public interface WriteCommand {
   String IS_A_DIRECTORY_MESSAGE = "Is a directory";
 
   /**
+   * @deprecated @{@link #write(String, InputStream, FileWriteMode, boolean, boolean)} must be used instead.
+   *
    * Writes a file under the considerations of
    * {@link FileSystem#write(String, InputStream, FileWriteMode, boolean, boolean, String)}
    *

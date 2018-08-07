@@ -225,6 +225,9 @@ public abstract class BaseFileSystemOperations {
   }
 
   /**
+   * @deprecated {@link #doWrite(FileConnectorConfig, FileSystem, String, InputStream, boolean, boolean, FileWriteMode)}
+   * must be used instead.
+   *
    * Writes the {@code content} into the file pointed by {@code path}.
    * <p>
    * If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw
