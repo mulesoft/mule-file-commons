@@ -12,8 +12,10 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.slf4j.Logger;
 
 import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
+import static java.lang.String.format;
 import static java.lang.Thread.sleep;
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -27,6 +29,12 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @since 1.2
  */
 public abstract class AbstractFileInputStreamSupplier implements Supplier<InputStream> {
+
+  private static final AtomicBoolean alreadyLoggedWarning = new AtomicBoolean();
+  private static final String WAIT_WARNING_MESSAGE =
+      "With the purpouse of performing a size check on the file %s, this thread will sleep. The connector has no control of" +
+          " which type of thread the sleep will take place on, this can lead to running out of thread if the time for " +
+          "'timeBetweenSizeCheck' is big or a lot of files are being read concurrently. This warning will only be shown once.";
 
   private static final Logger LOGGER = getLogger(AbstractFileInputStreamSupplier.class);
   private static final String STARTING_WAIT_MESSAGE = "Starting wait to check if the file size of the file %s is stable.";
@@ -63,7 +71,10 @@ public abstract class AbstractFileInputStreamSupplier implements Supplier<InputS
       oldAttributes = updatedAttributes;
       try {
         if (LOGGER.isDebugEnabled()) {
-          LOGGER.debug(String.format(STARTING_WAIT_MESSAGE, attributes.getPath()));
+          LOGGER.debug(format(STARTING_WAIT_MESSAGE, attributes.getPath()));
+        }
+        if (alreadyLoggedWarning.compareAndSet(false, true)) {
+          LOGGER.warn(format(WAIT_WARNING_MESSAGE, attributes.getPath()));
         }
         sleep(timeBetweenSizeCheck);
       } catch (InterruptedException e) {
