@@ -13,7 +13,9 @@ import org.mule.runtime.extension.api.annotation.param.DefaultEncoding;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.RefName;
+import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,10 +33,11 @@ public abstract class FileConnectorConfig {
   private String muleEncoding;
 
   /**
-   * The encoding to use by default when writing contents of type {@link String}. If not specified, it defaults to the default
-   * encoding in the mule configuration
+   * Deprecated parameter
    */
   @Parameter
+  @Summary("This parameter is deprecated and will not be taken into account")
+  @DisplayName("Default write encoding(DEPRECATED)")
   @Optional
   @Placement(tab = ADVANCED_TAB)
   private String defaultWriteEncoding;
