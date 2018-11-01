@@ -8,8 +8,6 @@ package org.mule.test.extension.file.common.api;
 
 import org.mule.functional.api.exception.ExpectedError;
 
-import java.nio.file.Paths;
-
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
 
@@ -24,9 +22,9 @@ public interface FileTestHarness extends TestRule {
   String HELLO_WORLD = "Hello World!";
   String HELLO_FILE_NAME = "hello.json";
   String BINARY_FILE_NAME = "binary.bin";
-  String HELLO_PATH = Paths.get("files", HELLO_FILE_NAME).toString();
+  String HELLO_PATH = "files/" + HELLO_FILE_NAME;
   String DEFAULT_FTP_HOST = "localhost";
-  String FTP_SERVER_BASE_DIR = Paths.get("target", "ftpserver").toString();
+  String FTP_SERVER_BASE_DIR = "target/ftpserver";
   String WORKING_DIR_SYSTEM_PROPERTY = "workingDir";
   String WORKING_DIR = "base";
 
