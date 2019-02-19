@@ -10,6 +10,7 @@ import static org.mule.extension.file.common.api.exceptions.FileError.ACCESS_DEN
 import static org.mule.extension.file.common.api.exceptions.FileError.FILE_ALREADY_EXISTS;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_CONTENT;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
+import static org.mule.extension.file.common.api.exceptions.FileError.FILE_LOCK;
 
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
 import org.mule.extension.file.common.api.FileConnectorConfig;
@@ -39,6 +40,7 @@ public class FileWriteErrorTypeProvider implements ErrorTypeProvider {
         .add(ILLEGAL_CONTENT)
         .add(FILE_ALREADY_EXISTS)
         .add(ACCESS_DENIED)
+        .add(FILE_LOCK)
         .build();
   }
 }
