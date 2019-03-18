@@ -78,13 +78,13 @@ public abstract class BaseFileSystemOperations {
    * after their parent directory.
    * <p>
    *
-   * @param config                the config that is parameterizing this operation
-   * @param directoryPath         the path to the directory to be listed
-   * @param recursive             whether to include the contents of sub-directories. Defaults to false.
-   * @param matchWith             a matcher used to filter the output list
-   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param config               the config that is parameterizing this operation
+   * @param directoryPath        the path to the directory to be listed
+   * @param recursive            whether to include the contents of sub-directories. Defaults to false.
+   * @param matchWith            a matcher used to filter the output list
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the
-   *         attributes
+   * attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
   protected List<Result<InputStream, FileAttributes>> doList(FileConnectorConfig config,
@@ -92,7 +92,7 @@ public abstract class BaseFileSystemOperations {
                                                              String directoryPath,
                                                              boolean recursive,
                                                              FileMatcher matchWith,
-                                                             Long timeBetweenSizeCheck) {
+                                                             long timeBetweenSizeCheck) {
     fileSystem.changeToBaseDir();
     return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck);
   }
@@ -106,13 +106,13 @@ public abstract class BaseFileSystemOperations {
    * after their parent directory.
    * <p>
    *
-   * @param config                the config that is parameterizing this operation
-   * @param directoryPath         the path to the directory to be listed
-   * @param recursive             whether to include the contents of sub-directories. Defaults to false.
-   * @param matchWith             a matcher used to filter the output list
-   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param config               the config that is parameterizing this operation
+   * @param directoryPath        the path to the directory to be listed
+   * @param recursive            whether to include the contents of sub-directories. Defaults to false.
+   * @param matchWith            a matcher used to filter the output list
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @return a {@link PagingProvider} of {@link Result} objects each one containing each file's content in the payload and metadata in the
-   *         attributes
+   * attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
   protected PagingProvider<FileSystem, Result<CursorProvider, FileAttributes>> doPagedList(FileConnectorConfig config,
@@ -206,11 +206,11 @@ public abstract class BaseFileSystemOperations {
    * be used to make an educated guess on the file's mime type. The user also has the chance to force the output encoding and
    * mimeType through the {@code outputEncoding} and {@code outputMimeType} optional parameters.
    *
-   * @param config                the config that is parameterizing this operation
-   * @param fileSystem            a reference to the host {@link FileSystem}
-   * @param path                  the path to the file to be read
-   * @param lock                  whether or not to lock the file. Defaults to false.
-   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param config               the config that is parameterizing this operation
+   * @param fileSystem           a reference to the host {@link FileSystem}
+   * @param path                 the path to the file to be read
+   * @param lock                 whether or not to lock the file. Defaults to false.
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @return the file's content and metadata on a {@link FileAttributes} instance
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
@@ -225,9 +225,53 @@ public abstract class BaseFileSystemOperations {
   }
 
   /**
+   * Obtains the content and metadata of a file at a given path. The operation itself returns a {@link Message} which payload is a
+   * {@link InputStream} with the file's content, and the metadata is represent as a {@link FileAttributes} object that's placed
+   * as the message {@link Message#getAttributes() attributes}.
+   * <p>
+   * If the {@code lock} parameter is set to {@code true}, then a file system level lock will be placed on the file until the
+   * input stream this operation returns is closed or fully consumed. Because the lock is actually provided by the host file
+   * system, its behavior might change depending on the mounted drive and the operation system on which mule is running. Take that
+   * into consideration before blindly relying on this lock.
+   * <p>
+   * This method also makes a best effort to determine the mime type of the file being read. A {@link MimetypesFileTypeMap} will
+   * be used to make an educated guess on the file's mime type. The user also has the chance to force the output encoding and
+   * mimeType through the {@code outputEncoding} and {@code outputMimeType} optional parameters.
+   *
+   * @param config               the config that is parameterizing this operation
+   * @param fileSystem           a reference to the host {@link FileSystem}
+   * @param path                 the path to the file to be read
+   * @param lock                 whether or not to lock the file. Defaults to false.
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param lockTimeout          time in nanoseconds that the read operation will try to lock the file before failing.
+   * @return the file's content and metadata on a {@link FileAttributes} instance
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
+   */
+  protected Result<InputStream, FileAttributes> doRead(@Config FileConnectorConfig config,
+                                                       @Connection FileSystem fileSystem,
+                                                       @DisplayName("File Path") String path,
+                                                       @Optional(defaultValue = "false") @Placement(
+                                                           tab = ADVANCED_TAB) boolean lock,
+                                                       Long timeBetweenSizeCheck,
+                                                       long lockTimeout) {
+    fileSystem.changeToBaseDir();
+    return fileSystem.read(config, path, lock, timeBetweenSizeCheck, lockTimeout);
+  }
+
+  /**
+   * @param config                  the {@link FileConnectorConfig} on which the operation is being executed
+   * @param fileSystem              a reference to the host {@link FileSystem}
+   * @param path                    the path of the file to be written
+   * @param content                 the content to be written into the file. Defaults to the current {@link Message} payload
+   * @param encoding                when {@code content} is a {@link String}, this attribute specifies the encoding to be used when writing. If
+   *                                not set, then it defaults to {@link FileConnectorConfig#getDefaultWriteEncoding()}
+   * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
+   * @param lock                    whether or not to lock the file. Defaults to false.
+   * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
+   * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    * @deprecated {@link #doWrite(FileConnectorConfig, FileSystem, String, InputStream, boolean, boolean, FileWriteMode)}
    * must be used instead.
-   *
+   * <p>
    * Writes the {@code content} into the file pointed by {@code path}.
    * <p>
    * If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw
@@ -237,17 +281,6 @@ public abstract class BaseFileSystemOperations {
    * <p>
    * This operation also supports locking support depending on the value of the {@code lock} argument, but following the same
    * rules and considerations as described in the read operation.
-   *
-   * @param config                  the {@link FileConnectorConfig} on which the operation is being executed
-   * @param fileSystem              a reference to the host {@link FileSystem}
-   * @param path                    the path of the file to be written
-   * @param content                 the content to be written into the file. Defaults to the current {@link Message} payload
-   * @param encoding                when {@code content} is a {@link String}, this attribute specifies the encoding to be used when writing. If
-   *                                not set, then it defaults to {@link FileConnectorConfig#getDefaultWriteEncoding()}
-   * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
-   * @param lock                    whether or not to lock the file. Defaults to false
-   * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
-   * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
   @Deprecated
   protected void doWrite(FileConnectorConfig config, FileSystem fileSystem, String path, InputStream content, String encoding,
@@ -296,6 +329,39 @@ public abstract class BaseFileSystemOperations {
     fileSystem.changeToBaseDir();
 
     fileSystem.write(path, content, mode, lock, createParentDirectories);
+  }
+
+  /**
+   * Writes the {@code content} into the file pointed by {@code path}.
+   * <p>
+   * If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw
+   * {@link IllegalArgumentException} or create such folder depending on the value of the {@code createParentDirectory}.
+   * <p>
+   * If the file itself already exists, then the behavior depends on the supplied {@code mode}.
+   * <p>
+   * This operation also supports locking support depending on the value of the {@code lock} argument, but following the same
+   * rules and considerations as described in the read operation.
+   *
+   * @param config                  the {@link FileConnectorConfig} on which the operation is being executed
+   * @param fileSystem              a reference to the host {@link FileSystem}
+   * @param path                    the path of the file to be written
+   * @param content                 the content to be written into the file. Defaults to the current {@link Message} payload
+   * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
+   * @param lock                    whether or not to lock the file. Defaults to false
+   * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
+   * @param lockTimeout             time in nanoseconds that the read operation will try to lock the file before failing.
+   * @throws IllegalArgumentException if an illegal combination of arguments is supplied
+   */
+  protected void doWrite(FileConnectorConfig config, FileSystem fileSystem, String path, InputStream content,
+                         boolean createParentDirectories, boolean lock, FileWriteMode mode, Long lockTimeout) {
+    if (content == null) {
+      throw new IllegalContentException("Cannot write a null content");
+    }
+
+    validatePath(path, "path");
+    fileSystem.changeToBaseDir();
+
+    fileSystem.write(path, content, mode, lock, createParentDirectories, lockTimeout);
   }
 
   /**
@@ -375,7 +441,8 @@ public abstract class BaseFileSystemOperations {
    * <p>
    * {@code to} argument should not contain any path separator. {@link IllegalArgumentException} will be thrown if this
    * precondition is not honored.
-   *  @param fileSystem a reference to the host {@link FileSystem}
+   *
+   * @param fileSystem a reference to the host {@link FileSystem}
    * @param path       the path to the file to be renamed
    * @param to         the file's new name
    * @param overwrite  whether or not overwrite the file if the target destination already exists.

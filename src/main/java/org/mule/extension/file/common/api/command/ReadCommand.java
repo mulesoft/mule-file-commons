@@ -49,6 +49,22 @@ public interface ReadCommand<A extends FileAttributes> {
   }
 
   /**
+   * Reads files under the considerations of {@link FileSystem#read(FileConnectorConfig, String, boolean)}
+   *
+   * @param config the config that is parameterizing this operation
+   * @param filePath the path of the file you want to read
+   * @param lockTimeout time in nanoseconds that the read operation will try to lock the file before failing.
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a {@link FileAttributes} object
+   *         as {@link Message#getAttributes()}
+   * @throws IllegalArgumentException if the file at the given path doesn't exist
+   */
+  default Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock, Long timeBetweenSizeCheck,
+                                      long lockTimeout) {
+    return read(config, filePath, lock);
+  }
+
+  /**
    * Reads files under the considerations of {@link FileSystem#read(FileConnectorConfig, String, boolean)} This method can be used
    * instead of {@link ReadCommand#read(FileConnectorConfig, String, boolean, Long)} to avoid extra processing to get the file
    * attributes again if that information is already collected (this is important if the attributes are gathered from a remote

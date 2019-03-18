@@ -132,6 +132,15 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Result<InputStream, A> read(FileConnectorConfig config, String filePath,
+                                     boolean lock, Long timeBetweenSizeCheck, long lockTimeout) {
+    return getReadCommand().read(config, filePath, lock, timeBetweenSizeCheck, lockTimeout);
+  }
+
+  /**
    * @deprecated  {@link #write(String, InputStream, FileWriteMode, boolean, boolean)} must be used instead.
    * {@inheritDoc}
    */
@@ -149,6 +158,15 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
   public void write(String filePath, InputStream content, FileWriteMode mode,
                     boolean lock, boolean createParentDirectories) {
     getWriteCommand().write(filePath, content, mode, lock, createParentDirectories);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void write(String filePath, InputStream content, FileWriteMode mode,
+                    boolean lock, boolean createParentDirectories, long lockTimeout) {
+    getWriteCommand().write(filePath, content, mode, lock, createParentDirectories, lockTimeout);
   }
 
   /**
