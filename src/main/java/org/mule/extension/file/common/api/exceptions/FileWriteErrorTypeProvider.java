@@ -11,6 +11,7 @@ import static org.mule.extension.file.common.api.exceptions.FileError.FILE_ALREA
 import static org.mule.extension.file.common.api.exceptions.FileError.FILE_LOCK;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_CONTENT;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
+import static org.mule.extension.file.common.api.exceptions.FileError.FILE_LOCK;
 
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
 import org.mule.extension.file.common.api.FileConnectorConfig;
