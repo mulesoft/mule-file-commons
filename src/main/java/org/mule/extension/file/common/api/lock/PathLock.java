@@ -33,6 +33,19 @@ public interface PathLock {
   boolean tryLock();
 
   /**
+   * Attempts to obtain a lock on the referenced path for the duration of the timeout.
+   * <p>
+   * Just like with any locking API, any component invoking this method on {@code this} and obtaining {@code true} as a return
+   * value <b>MUST</b> make sure that the {@link #release()} method is eventually invoked on {@code this} same instance.
+   *
+   * @param timeout time in nanoseconds that the operation will spend trying to lock the file.
+   * @return {@code true} if the lock could be obtained within the timeout. {@code false} otherwise.
+   */
+  default boolean tryLock(long timeout) {
+    return tryLock();
+  }
+
+  /**
    * @return whether the lock is currently owned by {@code this} instance
    */
   boolean isLocked();

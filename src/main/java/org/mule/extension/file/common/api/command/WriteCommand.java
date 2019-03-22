@@ -62,6 +62,7 @@ public interface WriteCommand {
    * @param mode a {@link FileWriteMode}
    * @param lock whether or not to lock the file
    * @param createParentDirectory whether or not to attempt creating the parent directory if it doesn't exist.
+   * @param lockTimeout time in nanoseconds that the operation will spend trying to lock the file.
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
   default void write(String filePath, InputStream content, FileWriteMode mode, boolean lock, boolean createParentDirectory,
