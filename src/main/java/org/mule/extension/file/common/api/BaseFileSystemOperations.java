@@ -92,7 +92,7 @@ public abstract class BaseFileSystemOperations {
                                                              String directoryPath,
                                                              boolean recursive,
                                                              FileMatcher matchWith,
-                                                             long timeBetweenSizeCheck) {
+                                                             Long timeBetweenSizeCheck) {
     fileSystem.changeToBaseDir();
     return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck);
   }
