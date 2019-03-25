@@ -123,7 +123,7 @@ public interface FileSystem<A extends FileAttributes> {
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
   default Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock, Long timeBetweenSizeCheck) {
-    return read(config, filePath, lock, timeBetweenSizeCheck);
+    return read(config, filePath, lock);
   }
 
   /**
@@ -150,7 +150,7 @@ public interface FileSystem<A extends FileAttributes> {
    */
   default Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock, Long timeBetweenSizeCheck,
                                       long lockTimeout) {
-    return read(config, filePath, lock, timeBetweenSizeCheck, lockTimeout);
+    return read(config, filePath, lock, timeBetweenSizeCheck);
   }
 
   /**
