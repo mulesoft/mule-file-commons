@@ -243,7 +243,7 @@ public abstract class BaseFileSystemOperations {
    * @param path                 the path to the file to be read
    * @param lock                 whether or not to lock the file. Defaults to false.
    * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
-   * @param lockTimeout          time in nanoseconds that the operation will spend trying to lock the file.
+   * @param lockTimeout          time in milliseconds that the operation will spend trying to lock the file.
    * @return the file's content and metadata on a {@link FileAttributes} instance
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
@@ -349,7 +349,7 @@ public abstract class BaseFileSystemOperations {
    * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
    * @param lock                    whether or not to lock the file. Defaults to false
    * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
-   * @param lockTimeout             time in nanoseconds that the operation will spend trying to lock the file.
+   * @param lockTimeout             time in milliseconds that the operation will spend trying to lock the file.
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
   protected void doWrite(FileConnectorConfig config, FileSystem fileSystem, String path, InputStream content,

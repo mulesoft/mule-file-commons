@@ -240,13 +240,13 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    * the duration of the lockTimeout.
    *
    * @param lock the {@link PathLock} to be acquired.
-   * @param lockTimeout time in nanoseconds that the operation will spend trying to obtain the lock.
+   * @param lockTimeout time in milliseconds that the operation will spend trying to obtain the lock.
    * @throws FileLockedException if the {@code lock} remained acquired for the timeout.
    */
   protected void acquireLock(PathLock lock, long lockTimeout) {
     if (!lock.tryLock(lockTimeout)) {
       throw new FileLockedException(String.format("Could not lock file ''%s'' for the operation because it remained locked" +
-          " by another process for the whole timeout.", lock.getPath()));
+          " by another process", lock.getPath()));
     }
   }
 
