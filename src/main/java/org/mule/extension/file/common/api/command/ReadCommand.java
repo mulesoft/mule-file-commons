@@ -53,16 +53,14 @@ public interface ReadCommand<A extends FileAttributes> {
    *
    * @param config the config that is parameterizing this operation
    * @param filePath the path of the file you want to read
-   * @param lock whether or not to lock the file.
    * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @param lockTimeout time in milliseconds that the operation will spend trying to lock the file.
    * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a {@link FileAttributes} object
    *         as {@link Message#getAttributes()}
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
-  default Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock, Long timeBetweenSizeCheck,
-                                      long lockTimeout) {
-    return read(config, filePath, lock, timeBetweenSizeCheck);
+  default Result<InputStream, A> read(FileConnectorConfig config, String filePath, Long timeBetweenSizeCheck, Long lockTimeout) {
+    return read(config, filePath, true, timeBetweenSizeCheck);
   }
 
   /**
@@ -91,16 +89,14 @@ public interface ReadCommand<A extends FileAttributes> {
    *
    * @param config the config that is parameterizing this operation
    * @param attributes the attributes of the file you want to read
-   * @param lock whether or not to lock the file
    * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @param lockTimeout time in milliseconds that the operation will spend trying to lock the file.
    * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a {@link FileAttributes} object
    *         as {@link Message#getAttributes()}
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
-  default Result<InputStream, A> read(FileConnectorConfig config, A attributes, boolean lock, Long timeBetweenSizeCheck,
-                                      long lockTimeout) {
-    return read(config, attributes, lock, timeBetweenSizeCheck);
+  default Result<InputStream, A> read(FileConnectorConfig config, A attributes, Long timeBetweenSizeCheck, Long lockTimeout) {
+    return read(config, attributes.getPath(), true, timeBetweenSizeCheck);
   }
 
 }

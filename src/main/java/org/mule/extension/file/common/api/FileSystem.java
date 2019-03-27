@@ -141,16 +141,14 @@ public interface FileSystem<A extends FileAttributes> {
    *
    * @param config               the config that is parameterizing this operation
    * @param filePath             the path of the file you want to read
-   * @param lock                 whether or not to lock the file.
    * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @param lockTimeout          time in milliseconds that the operation will spend trying to lock the file.
    * @return An {@link Result} with an {@link InputStream} with the file's content as payload and a {@link FileAttributes} object
    * as {@link Message#getAttributes()}
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
-  default Result<InputStream, A> read(FileConnectorConfig config, String filePath, boolean lock, Long timeBetweenSizeCheck,
-                                      long lockTimeout) {
-    return read(config, filePath, lock, timeBetweenSizeCheck);
+  default Result<InputStream, A> read(FileConnectorConfig config, String filePath, Long timeBetweenSizeCheck, Long lockTimeout) {
+    return read(config, filePath, true, timeBetweenSizeCheck);
   }
 
   /**
@@ -253,14 +251,13 @@ public interface FileSystem<A extends FileAttributes> {
    * @param filePath                the path of the file to be written
    * @param content                 the content to be written into the file
    * @param mode                    a {@link FileWriteMode}
-   * @param lock                    whether or not to lock the file
    * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
    * @param lockTimeout             time in milliseconds that the operation will spend trying to lock the file.
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
-  default void write(String filePath, InputStream content, FileWriteMode mode, boolean lock, boolean createParentDirectories,
-                     long lockTimeout) {
-    write(filePath, content, mode, lock, createParentDirectories);
+  default void write(String filePath, InputStream content, FileWriteMode mode, boolean createParentDirectories,
+                     Long lockTimeout) {
+    write(filePath, content, mode, true, createParentDirectories);
   }
 
   /**

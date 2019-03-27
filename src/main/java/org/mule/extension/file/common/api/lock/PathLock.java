@@ -41,7 +41,7 @@ public interface PathLock {
    * @param timeout time in milliseconds that the operation will spend trying to lock the file.
    * @return {@code true} if the lock could be obtained within the timeout. {@code false} otherwise.
    */
-  default boolean tryLock(long timeout) {
+  default boolean tryLock(Long timeout) {
     return tryLock();
   }
 

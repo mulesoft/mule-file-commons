@@ -241,7 +241,6 @@ public abstract class BaseFileSystemOperations {
    * @param config               the config that is parameterizing this operation
    * @param fileSystem           a reference to the host {@link FileSystem}
    * @param path                 the path to the file to be read
-   * @param lock                 whether or not to lock the file. Defaults to false.
    * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @param lockTimeout          time in milliseconds that the operation will spend trying to lock the file.
    * @return the file's content and metadata on a {@link FileAttributes} instance
@@ -250,12 +249,10 @@ public abstract class BaseFileSystemOperations {
   protected Result<InputStream, FileAttributes> doRead(@Config FileConnectorConfig config,
                                                        @Connection FileSystem fileSystem,
                                                        @DisplayName("File Path") String path,
-                                                       @Optional(defaultValue = "false") @Placement(
-                                                           tab = ADVANCED_TAB) boolean lock,
                                                        Long timeBetweenSizeCheck,
-                                                       long lockTimeout) {
+                                                       Long lockTimeout) {
     fileSystem.changeToBaseDir();
-    return fileSystem.read(config, path, lock, timeBetweenSizeCheck, lockTimeout);
+    return fileSystem.read(config, path, timeBetweenSizeCheck, lockTimeout);
   }
 
   /**
@@ -347,13 +344,12 @@ public abstract class BaseFileSystemOperations {
    * @param path                    the path of the file to be written
    * @param content                 the content to be written into the file. Defaults to the current {@link Message} payload
    * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
-   * @param lock                    whether or not to lock the file. Defaults to false
    * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
    * @param lockTimeout             time in milliseconds that the operation will spend trying to lock the file.
    * @throws IllegalArgumentException if an illegal combination of arguments is supplied
    */
   protected void doWrite(FileConnectorConfig config, FileSystem fileSystem, String path, InputStream content,
-                         boolean createParentDirectories, boolean lock, FileWriteMode mode, long lockTimeout) {
+                         boolean createParentDirectories, FileWriteMode mode, Long lockTimeout) {
     if (content == null) {
       throw new IllegalContentException("Cannot write a null content");
     }
@@ -361,7 +357,7 @@ public abstract class BaseFileSystemOperations {
     validatePath(path, "path");
     fileSystem.changeToBaseDir();
 
-    fileSystem.write(path, content, mode, lock, createParentDirectories, lockTimeout);
+    fileSystem.write(path, content, mode, createParentDirectories, lockTimeout);
   }
 
   /**

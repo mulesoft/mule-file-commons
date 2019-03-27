@@ -135,9 +135,8 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    * {@inheritDoc}
    */
   @Override
-  public Result<InputStream, A> read(FileConnectorConfig config, String filePath,
-                                     boolean lock, Long timeBetweenSizeCheck, long lockTimeout) {
-    return getReadCommand().read(config, filePath, lock, timeBetweenSizeCheck, lockTimeout);
+  public Result<InputStream, A> read(FileConnectorConfig config, String filePath, Long timeBetweenSizeCheck, Long lockTimeout) {
+    return getReadCommand().read(config, filePath, timeBetweenSizeCheck, lockTimeout);
   }
 
   /**
@@ -164,9 +163,8 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    * {@inheritDoc}
    */
   @Override
-  public void write(String filePath, InputStream content, FileWriteMode mode,
-                    boolean lock, boolean createParentDirectories, long lockTimeout) {
-    getWriteCommand().write(filePath, content, mode, lock, createParentDirectories, lockTimeout);
+  public void write(String filePath, InputStream content, FileWriteMode mode, boolean createParentDirectories, Long lockTimeout) {
+    getWriteCommand().write(filePath, content, mode, createParentDirectories, lockTimeout);
   }
 
   /**
@@ -243,7 +241,7 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    * @param lockTimeout time in milliseconds that the operation will spend trying to obtain the lock.
    * @throws FileLockedException if the {@code lock} remained acquired for the timeout.
    */
-  protected void acquireLock(PathLock lock, long lockTimeout) {
+  protected void acquireLock(PathLock lock, Long lockTimeout) {
     if (!lock.tryLock(lockTimeout)) {
       throw new FileLockedException(String.format("Could not lock file ''%s'' for the operation because it remained locked" +
           " by another process", lock.getPath()));
