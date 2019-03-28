@@ -19,9 +19,10 @@ import org.mule.extension.file.common.api.FileWriteMode;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -35,13 +36,8 @@ public class FileWriteErrorTypeProvider implements ErrorTypeProvider {
 
   @Override
   public Set<ErrorTypeDefinition> getErrorTypes() {
-    return ImmutableSet.<ErrorTypeDefinition>builder()
-        .add(ILLEGAL_PATH)
-        .add(ILLEGAL_CONTENT)
-        .add(FILE_ALREADY_EXISTS)
-        .add(ACCESS_DENIED)
-        .add(FILE_LOCK)
-        .build();
+    return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ILLEGAL_PATH, ILLEGAL_CONTENT, FILE_ALREADY_EXISTS,
+                                                                   ACCESS_DENIED, FILE_LOCK)));
   }
 }
 

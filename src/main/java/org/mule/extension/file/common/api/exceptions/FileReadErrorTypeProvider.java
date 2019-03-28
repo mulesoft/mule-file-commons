@@ -16,8 +16,9 @@ import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
-import com.google.common.collect.ImmutableSet;
-
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,11 +31,7 @@ public class FileReadErrorTypeProvider implements ErrorTypeProvider {
 
   @Override
   public Set<ErrorTypeDefinition> getErrorTypes() {
-    return ImmutableSet.<ErrorTypeDefinition>builder()
-        .add(ILLEGAL_PATH)
-        .add(ACCESS_DENIED)
-        .add(FILE_LOCK)
-        .build();
+    return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ILLEGAL_PATH, ACCESS_DENIED, FILE_LOCK)));
   }
 }
 
