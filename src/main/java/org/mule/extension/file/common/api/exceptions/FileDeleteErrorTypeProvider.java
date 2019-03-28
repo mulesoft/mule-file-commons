@@ -8,14 +8,15 @@ package org.mule.extension.file.common.api.exceptions;
 
 import static org.mule.extension.file.common.api.exceptions.FileError.ACCESS_DENIED;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
 
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
-import com.google.common.collect.ImmutableSet;
-
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -27,10 +28,7 @@ public class FileDeleteErrorTypeProvider implements ErrorTypeProvider {
 
   @Override
   public Set<ErrorTypeDefinition> getErrorTypes() {
-    return ImmutableSet.<ErrorTypeDefinition>builder()
-        .add(ILLEGAL_PATH)
-        .add(ACCESS_DENIED)
-        .build();
+    return unmodifiableSet(new HashSet<>(asList(ILLEGAL_PATH, ACCESS_DENIED)));
   }
 }
 
