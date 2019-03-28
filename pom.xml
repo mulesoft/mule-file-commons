@@ -20,6 +20,8 @@
     <properties>
         <mule.version>4.1.0</mule.version>
         <cglib.version>3.2.10</cglib.version>
+        <commons.io.version>2.6</commons.io.version>
+        <commons.lang3.version>3.8.1</commons.lang3.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
     </properties>
 
@@ -39,10 +41,12 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
