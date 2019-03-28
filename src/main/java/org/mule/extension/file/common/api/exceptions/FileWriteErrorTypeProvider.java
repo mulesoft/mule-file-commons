@@ -11,6 +11,8 @@ import static org.mule.extension.file.common.api.exceptions.FileError.FILE_ALREA
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_CONTENT;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
 import static org.mule.extension.file.common.api.exceptions.FileError.FILE_LOCK;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
 
 import org.mule.extension.file.common.api.BaseFileSystemOperations;
 import org.mule.extension.file.common.api.FileConnectorConfig;
@@ -20,8 +22,6 @@ import org.mule.runtime.extension.api.annotation.error.ErrorTypeProvider;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,8 +36,8 @@ public class FileWriteErrorTypeProvider implements ErrorTypeProvider {
 
   @Override
   public Set<ErrorTypeDefinition> getErrorTypes() {
-    return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ILLEGAL_PATH, ILLEGAL_CONTENT, FILE_ALREADY_EXISTS,
-                                                                   ACCESS_DENIED, FILE_LOCK)));
+    return unmodifiableSet(new HashSet<>(asList(ILLEGAL_PATH, ILLEGAL_CONTENT, FILE_ALREADY_EXISTS,
+                                                ACCESS_DENIED, FILE_LOCK)));
   }
 }
 
