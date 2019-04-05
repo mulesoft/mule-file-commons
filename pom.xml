@@ -19,6 +19,7 @@
 
     <properties>
         <mule.version>4.1.0</mule.version>
+        <ant.version>1.10.5</ant.version>
         <cglib.version>3.2.10</cglib.version>
         <commons.io.version>2.6</commons.io.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
@@ -37,6 +38,17 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>${cglib.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>${ant.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
