@@ -8,6 +8,7 @@ package org.mule.extension.file.common.api.exceptions;
 
 import static org.mule.extension.file.common.api.exceptions.FileError.ACCESS_DENIED;
 import static org.mule.extension.file.common.api.exceptions.FileError.FILE_ALREADY_EXISTS;
+import static org.mule.extension.file.common.api.exceptions.FileError.FILE_LOCK;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_CONTENT;
 import static org.mule.extension.file.common.api.exceptions.FileError.ILLEGAL_PATH;
 import static org.mule.extension.file.common.api.exceptions.FileError.FILE_LOCK;

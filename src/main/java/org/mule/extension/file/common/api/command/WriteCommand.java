@@ -53,4 +53,18 @@ public interface WriteCommand {
   default void write(String filePath, InputStream content, FileWriteMode mode, boolean lock, boolean createParentDirectory) {
     write(filePath, content, mode, lock, createParentDirectory, null);
   }
+
+  /**
+   * Writes a file under the considerations of {@link FileSystem#write(String, InputStream, FileWriteMode, boolean, boolean)}
+   *
+   * @param filePath the path of the file to be written
+   * @param content the content to be written into the file
+   * @param mode a {@link FileWriteMode}
+   * @param createParentDirectory whether or not to attempt creating the parent directory if it doesn't exist.
+   * @param lockTimeout time in milliseconds that the operation will spend trying to lock the file.
+   * @throws IllegalArgumentException if an illegal combination of arguments is supplied
+   */
+  default void write(String filePath, InputStream content, FileWriteMode mode, boolean createParentDirectory, Long lockTimeout) {
+    write(filePath, content, mode, true, createParentDirectory);
+  }
 }

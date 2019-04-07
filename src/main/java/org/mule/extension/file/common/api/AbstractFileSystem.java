@@ -132,6 +132,14 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Result<InputStream, A> read(FileConnectorConfig config, String filePath, Long timeBetweenSizeCheck, Long lockTimeout) {
+    return getReadCommand().read(config, filePath, timeBetweenSizeCheck, lockTimeout);
+  }
+
+  /**
    * @deprecated  {@link #write(String, InputStream, FileWriteMode, boolean, boolean)} must be used instead.
    * {@inheritDoc}
    */
@@ -149,6 +157,14 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
   public void write(String filePath, InputStream content, FileWriteMode mode,
                     boolean lock, boolean createParentDirectories) {
     getWriteCommand().write(filePath, content, mode, lock, createParentDirectories);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void write(String filePath, InputStream content, FileWriteMode mode, boolean createParentDirectories, Long lockTimeout) {
+    getWriteCommand().write(filePath, content, mode, createParentDirectories, lockTimeout);
   }
 
   /**
@@ -212,9 +228,23 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    */
   protected void acquireLock(PathLock lock) {
     if (!lock.tryLock()) {
-      throw new FileLockedException(
-                                    format("Could not lock file '%s' because it's already owned by another process",
+      throw new FileLockedException(format("Could not lock file '%s' because it's already owned by another process",
                                            lock.getPath()));
+    }
+  }
+
+  /**
+   * Attempts to lock the given {@code lock} and throws {@link FileLockedException} if it could not obtain the lock in
+   * the duration of the lockTimeout.
+   *
+   * @param lock the {@link PathLock} to be acquired.
+   * @param lockTimeout time in milliseconds that the operation will spend trying to obtain the lock.
+   * @throws FileLockedException if the {@code lock} remained acquired for the timeout.
+   */
+  protected void acquireLock(PathLock lock, Long lockTimeout) {
+    if (!lock.tryLock(lockTimeout)) {
+      throw new FileLockedException(String.format("Could not lock file ''%s'' for the operation because it remained locked" +
+          " by another process", lock.getPath()));
     }
   }
 
