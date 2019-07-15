@@ -11,11 +11,13 @@ import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
@@ -41,6 +43,11 @@ public abstract class AbstractFileAttributes implements FileAttributes, Serializ
   protected AbstractFileAttributes(Path path) {
     this.path = path.toString();
     this.fileName = path.getFileName() != null ? path.getFileName().toString() : "";
+  }
+
+  protected AbstractFileAttributes(URI uri) {
+    this.path = uri.getPath();
+    this.fileName = FilenameUtils.getName(uri.getPath()) != null ? FilenameUtils.getName(uri.getPath()) : "";
   }
 
   /**

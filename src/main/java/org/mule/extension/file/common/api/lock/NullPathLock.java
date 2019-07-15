@@ -6,7 +6,9 @@
  */
 package org.mule.extension.file.common.api.lock;
 
+import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Implementation of the Null Object design pattern for the {@link PathLock} interface
@@ -16,9 +18,16 @@ import java.nio.file.Path;
 public final class NullPathLock implements PathLock {
 
   private final Path path;
+  private final URI uri;
 
   public NullPathLock(Path path) {
     this.path = path;
+    this.uri = path.toUri();
+  }
+
+  public NullPathLock(URI uri) {
+    this.uri = uri;
+    this.path = Paths.get(uri.getPath());
   }
 
   /**
