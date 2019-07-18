@@ -42,10 +42,10 @@ public abstract class UriBasedFileCommand<T extends ExternalFileSystem> extends 
   /**
    * Returns true if the given {@code path} exists
    *
-   * @param path the {@link URI} to test
+   * @param uri the {@link URI} to test
    * @return whether the {@code path} exists
    */
-  protected abstract boolean exists(URI path);
+  protected abstract boolean exists(URI uri);
 
   protected void assureParentFolderExists(URI uri, boolean createParentFolder) {
     if (exists(uri)) {
