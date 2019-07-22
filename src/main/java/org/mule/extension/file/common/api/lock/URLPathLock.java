@@ -8,6 +8,7 @@ package org.mule.extension.file.common.api.lock;
 
 import org.mule.runtime.api.lock.LockFactory;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -95,6 +96,18 @@ public class URLPathLock implements PathLock {
   public Path getPath() {
     try {
       return Paths.get(url.toURI());
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public URI getUri() {
+    try {
+      return url.toURI();
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     }

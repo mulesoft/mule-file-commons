@@ -10,6 +10,7 @@ import static java.lang.String.format;
 
 import org.mule.extension.file.common.api.exceptions.FileLockedException;
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.extension.file.common.api.lock.URLPathLock;
 
 import java.net.URI;
 
@@ -68,6 +69,11 @@ public abstract class ExternalFileSystem extends AbstractFileSystem {
     }
   }
 
+  /**
+   * @param uri of the file to lock.
+   *
+   * @return a {@link URLPathLock} on the given uri.
+   */
   protected abstract PathLock createLock(URI uri);
 
 }

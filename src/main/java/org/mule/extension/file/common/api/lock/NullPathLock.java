@@ -63,4 +63,12 @@ public final class NullPathLock implements PathLock {
   public Path getPath() {
     return path;
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public URI getUri() {
+    return uri;
+  }
 }

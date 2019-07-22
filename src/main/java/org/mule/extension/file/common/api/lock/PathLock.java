@@ -6,6 +6,7 @@
  */
 package org.mule.extension.file.common.api.lock;
 
+import java.net.URI;
 import java.nio.file.Path;
 
 /**
@@ -46,7 +47,12 @@ public interface PathLock {
   void release();
 
   /**
-   * @return The path to the locked file
+   * @return The uri to the locked file
    */
   Path getPath();
+
+  /**
+   * @return The uri to the locked file
+   */
+  URI getUri();
 }

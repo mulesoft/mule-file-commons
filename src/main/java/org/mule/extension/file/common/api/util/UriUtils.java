@@ -33,10 +33,6 @@ public final class UriUtils {
     }
   }
 
-  public static Boolean isAbsolute(URI uri) {
-    return isAbsolute(uri.getPath());
-  }
-
   private static Boolean isAbsolute(String path) {
     return (path.length() > 0 && path.startsWith("/"));
   }
