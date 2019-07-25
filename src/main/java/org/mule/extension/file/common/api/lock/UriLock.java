@@ -6,13 +6,13 @@
  */
 package org.mule.extension.file.common.api.lock;
 
-import java.nio.file.Path;
+import java.net.URI;
 
-public interface PathLock extends Lock {
+public interface UriLock extends Lock {
 
   /**
-   * @return The path to the locked file
+   * @return The uri to the locked file
    */
-  Path getPath();
+  URI getUri();
 
 }

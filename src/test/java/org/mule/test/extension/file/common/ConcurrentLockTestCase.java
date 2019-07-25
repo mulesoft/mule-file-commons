@@ -6,6 +6,7 @@
  */
 package org.mule.test.extension.file.common;
 
+import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 
+import org.mule.extension.file.common.api.AbstractExternalFileSystem;
 import org.mule.extension.file.common.api.AbstractFileSystem;
 import org.mule.extension.file.common.api.ExternalFileSystem;
 import org.mule.extension.file.common.api.command.CopyCommand;
@@ -23,8 +25,11 @@ import org.mule.extension.file.common.api.command.MoveCommand;
 import org.mule.extension.file.common.api.command.ReadCommand;
 import org.mule.extension.file.common.api.command.RenameCommand;
 import org.mule.extension.file.common.api.command.WriteCommand;
+import org.mule.extension.file.common.api.exceptions.FileLockedException;
 import org.mule.extension.file.common.api.lock.NullPathLock;
+import org.mule.extension.file.common.api.lock.NullUriLock;
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.extension.file.common.api.lock.UriLock;
 import org.mule.runtime.api.util.concurrent.Latch;
 import org.mule.tck.size.SmallTest;
 
@@ -49,8 +54,7 @@ public class ConcurrentLockTestCase {
   private static final int TIMEOUT = 5;
   private static final TimeUnit TIMEOUT_UNIT = SECONDS;
 
-  private AbstractFileSystem fileSystem = new TestFileSystem("");
-  private ExternalFileSystem externalFileSystem = new TestExternalFileSystem("");
+  private TestFileSystem fileSystem = new TestFileSystem("");
   private Latch mainThreadLatch;
   private Latch secondaryThreadLatch;
   private CountDownLatch assertionLatch;
@@ -64,15 +68,25 @@ public class ConcurrentLockTestCase {
     assertionLatch = new CountDownLatch(2);
     failed = new AtomicInteger(0);
     successful = new AtomicInteger(0);
+    fileSystem.setLock(false);
   }
 
   @Test
-  public void concurrentLock() throws Exception {
+  public void concurrentPathLock() throws Exception {
+    concurrentLock(() -> tryPathLock());
+  }
+
+  @Test
+  public void concurrentUriLock() throws Exception {
+    concurrentLock(() -> tryUriLock());
+  }
+
+  private void concurrentLock(Runnable tryLock) throws Exception {
     new Thread(() -> {
       try {
         mainThreadLatch.release();
         secondaryThreadLatch.await(TIMEOUT, TIMEOUT_UNIT);
-        tryLock();
+        tryLock.run();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -80,14 +94,14 @@ public class ConcurrentLockTestCase {
 
     mainThreadLatch.await(TIMEOUT, TIMEOUT_UNIT);
     secondaryThreadLatch.release();
-    tryLock();
+    tryLock.run();
 
     assertionLatch.await(TIMEOUT, TIMEOUT_UNIT);
     assertThat(successful.get(), is(1));
     assertThat(failed.get(), is(1));
   }
 
-  private void tryLock() {
+  private void tryPathLock() {
     try {
       if (fileSystem.lock(PATH).tryLock()) {
         successful.incrementAndGet();
@@ -100,9 +114,26 @@ public class ConcurrentLockTestCase {
     assertionLatch.countDown();
   }
 
-  private class TestFileSystem extends AbstractFileSystem {
+  private void tryUriLock() {
+    try {
+      if (fileSystem.lock(URI).tryLock()) {
+        successful.incrementAndGet();
+      } else {
+        failed.incrementAndGet();
+      }
+    } catch (Exception e) {
+      failed.incrementAndGet();
+    }
+    assertionLatch.countDown();
+  }
+
+  private class TestFileSystem extends AbstractFileSystem implements ExternalFileSystem {
 
     private boolean locked = false;
+
+    public void setLock(Boolean lock) {
+      locked = lock;
+    }
 
     public TestFileSystem(String basePath) {
       super(basePath);
@@ -160,110 +191,49 @@ public class ConcurrentLockTestCase {
       }
     }
 
-    @Override
-    public void changeToBaseDir() {}
-  }
-
-  @Test
-  public void concurrentUriLock() throws Exception {
-    new Thread(() -> {
-      try {
-        mainThreadLatch.release();
-        secondaryThreadLatch.await(TIMEOUT, TIMEOUT_UNIT);
-        tryUriLock();
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }).start();
-
-    mainThreadLatch.await(TIMEOUT, TIMEOUT_UNIT);
-    secondaryThreadLatch.release();
-    tryUriLock();
-
-    assertionLatch.await(TIMEOUT, TIMEOUT_UNIT);
-    assertThat(successful.get(), is(1));
-    assertThat(failed.get(), is(1));
-  }
-
-  private void tryUriLock() {
-    try {
-      if (externalFileSystem.lock(URI).tryLock()) {
-        successful.incrementAndGet();
-      } else {
-        failed.incrementAndGet();
-      }
-    } catch (Exception e) {
-      failed.incrementAndGet();
-    }
-    assertionLatch.countDown();
-  }
-
-  private class TestExternalFileSystem extends ExternalFileSystem {
-
-    private boolean locked = false;
-
-    public TestExternalFileSystem(String basePath) {
-      super(basePath);
-    }
-
-    @Override
-    protected ListCommand getListCommand() {
-      return null;
-    }
-
-    @Override
-    protected ReadCommand getReadCommand() {
-      return null;
-    }
-
-    @Override
-    protected WriteCommand getWriteCommand() {
-      return null;
-    }
-
-    @Override
-    protected CopyCommand getCopyCommand() {
-      return null;
-    }
-
-    @Override
-    protected MoveCommand getMoveCommand() {
-      return null;
-    }
-
-    @Override
-    protected DeleteCommand getDeleteCommand() {
-      return null;
-    }
-
-    @Override
-    protected RenameCommand getRenameCommand() {
-      return null;
-    }
-
-    @Override
-    protected CreateDirectoryCommand getCreateDirectoryCommand() {
-      return null;
-    }
-
-    @Override
-    protected PathLock createLock(URI path) {
+    protected UriLock createLock(URI uri) {
       if (locked) {
-        PathLock lock = mock(PathLock.class);
+        UriLock lock = mock(UriLock.class);
         when(lock.tryLock()).thenReturn(false);
         return lock;
       } else {
         locked = true;
-        return new NullPathLock(path);
+        return new NullUriLock(uri);
       }
     }
 
-    @Override
-    protected PathLock createLock(Path path) {
-      throw new IllegalStateException("For external file systems, use createLock(URI uri) instead.");
+    public final synchronized UriLock lock(URI uri) {
+      UriLock lock = createLock(uri);
+      acquireLock(lock);
+
+      return lock;
+    }
+
+    protected void acquireLock(UriLock lock) {
+      if (!lock.tryLock()) {
+        throw new FileLockedException(
+                                      format("Could not lock file '%s' because it's already owned by another process",
+                                             lock.getUri().getPath()));
+      }
+    }
+
+    public void verifyNotLocked(URI uri) {
+      if (isLocked(uri)) {
+        throw new FileLockedException(format("File '%s' is locked by another process", uri));
+      }
+    }
+
+    protected boolean isLocked(URI uri) {
+      UriLock lock = createLock(uri);
+      try {
+        return !lock.tryLock();
+      } finally {
+        lock.release();
+      }
     }
 
     @Override
     public void changeToBaseDir() {}
   }
+
 }

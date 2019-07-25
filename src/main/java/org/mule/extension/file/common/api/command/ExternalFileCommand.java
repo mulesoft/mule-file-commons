@@ -11,7 +11,7 @@ import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 import static org.mule.extension.file.common.api.util.UriUtils.trimLastFragment;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import org.mule.extension.file.common.api.ExternalFileSystem;
+import org.mule.extension.file.common.api.AbstractExternalFileSystem;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.exceptions.FileAlreadyExistsException;
@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 
-public abstract class UriBasedFileCommand<T extends ExternalFileSystem> extends FileCommand<T> {
+public abstract class ExternalFileCommand<T extends AbstractExternalFileSystem> extends FileCommand<T> {
 
   private static final Logger LOGGER = getLogger(FileCommand.class);
 
@@ -34,7 +34,7 @@ public abstract class UriBasedFileCommand<T extends ExternalFileSystem> extends 
    *
    * @param externalFileSystem the {@link FileSystem} on which the operation is performed
    */
-  protected UriBasedFileCommand(T externalFileSystem) {
+  protected ExternalFileCommand(T externalFileSystem) {
     super(externalFileSystem);
     this.externalFileSystem = externalFileSystem;
   }

@@ -22,7 +22,7 @@ import java.util.concurrent.locks.Lock;
  *
  * @since 1.0
  */
-public class URLPathLock implements PathLock {
+public class URLPathLock implements PathLock, UriLock {
 
   private final URL url;
   private final LockFactory lockFactory;
@@ -112,4 +112,5 @@ public class URLPathLock implements PathLock {
       throw new RuntimeException(e);
     }
   }
+
 }

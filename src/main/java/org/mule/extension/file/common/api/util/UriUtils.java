@@ -14,20 +14,23 @@ import java.net.URISyntaxException;
 
 public final class UriUtils {
 
+  private UriUtils() {}
+
+  private static String SEPARATOR = "/";
+
   public static URI createUri(String path) {
     return createUri(path, "");
   }
 
-  public static URI createUri(String path, String filePath) {
+  public static URI createUri(String basePath, String filePath) {
     try {
       if (isAbsolute(filePath)) {
         return new URI(null, null, filePath, null);
       }
-      String separator = "/";
-      if (!path.endsWith(separator) && filePath.length() > 0) {
-        path = path + separator;
+      if (!basePath.endsWith(SEPARATOR) && filePath.length() > 0) {
+        basePath = basePath + SEPARATOR;
       }
-      return new URI(null, null, path + filePath, null);
+      return new URI(null, null, basePath + filePath, null);
     } catch (URISyntaxException e) {
       throw new IllegalPathException("Cannot convert given path into a valid Uri", e);
     }
@@ -51,6 +54,6 @@ public final class UriUtils {
 
   public static URI trimLastFragment(URI uri) {
     Integer index = uri.getPath().lastIndexOf("/");
-    return createUri(uri.getPath().substring(0, index), "");
+    return createUri(uri.getPath().substring(0, index));
   }
 }
