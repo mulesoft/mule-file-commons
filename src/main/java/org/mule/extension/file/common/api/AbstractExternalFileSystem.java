@@ -95,19 +95,25 @@ public abstract class AbstractExternalFileSystem extends AbstractFileSystem impl
   @Override
   @Deprecated
   public void verifyNotLocked(Path path) {
-    throw new UnsupportedOperationException("This method is not supported for External File Systems. Use verifyNotLocked(URI uri) instead.");
+    throw new UnsupportedOperationException("This method is not supported for an External File System. Use verifyNotLocked(URI uri) instead.");
   }
 
   @Override
   @Deprecated
   protected boolean isLocked(Path path) {
-    throw new UnsupportedOperationException("This method is not supported for External File Systems. Use isLocked(URI uri) instead.");
+    throw new UnsupportedOperationException("This method is not supported for an External File System. Use isLocked(URI uri) instead.");
   }
 
   @Override
   @Deprecated
   protected void acquireLock(PathLock path) {
-    throw new UnsupportedOperationException("This method is not supported for External File Systems. Use acquireLock(URI uri) instead.");
+    throw new UnsupportedOperationException("This method is not supported for an External File System. Use acquireLock(URI uri) instead.");
+  }
+
+  @Override
+  @Deprecated
+  protected PathLock createLock(Path path) {
+    throw new UnsupportedOperationException("This method is not supported for an External File System. Use createLock(URI uri) instead.");
   }
 
 }

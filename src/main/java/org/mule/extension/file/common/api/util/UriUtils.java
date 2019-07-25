@@ -42,7 +42,7 @@ public final class UriUtils {
 
   public static URI normalizeUri(URI uri) {
     String path = uri.normalize().getPath();
-    if (path.endsWith("/")) {
+    if (path.endsWith(SEPARATOR)) {
       try {
         uri = new URI(null, null, path.substring(0, path.length() - 1), null);
       } catch (URISyntaxException e) {

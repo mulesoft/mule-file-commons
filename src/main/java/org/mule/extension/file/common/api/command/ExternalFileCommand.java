@@ -9,13 +9,15 @@ package org.mule.extension.file.common.api.command;
 import static java.lang.String.format;
 import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 import static org.mule.extension.file.common.api.util.UriUtils.trimLastFragment;
+import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import org.mule.extension.file.common.api.AbstractExternalFileSystem;
+import org.mule.extension.file.common.api.ExternalFileSystem;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.exceptions.FileAlreadyExistsException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
+import org.mule.runtime.api.exception.MuleRuntimeException;
 
 import java.net.URI;
 import java.util.concurrent.locks.Lock;
@@ -23,20 +25,54 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 
-public abstract class ExternalFileCommand<T extends AbstractExternalFileSystem> extends FileCommand<T> {
+/**
+ * Base class for implementations of the Command design pattern which performs operations on a external file system.
+ *
+ * @param <F> the generic type of the {@link ExternalFileSystem} on which the operation is performed
+ * @since 1.0
+ */
+public abstract class ExternalFileCommand<F extends ExternalFileSystem> {
 
   private static final Logger LOGGER = getLogger(FileCommand.class);
 
-  protected final T externalFileSystem;
+  protected final F fileSystem;
 
   /**
    * Creates a new instance
    *
-   * @param externalFileSystem the {@link FileSystem} on which the operation is performed
+   * @param externalFileSystem the {@link ExternalFileSystem} on which the operation is performed
    */
-  protected ExternalFileCommand(T externalFileSystem) {
-    super(externalFileSystem);
-    this.externalFileSystem = externalFileSystem;
+  protected ExternalFileCommand(F externalFileSystem) {
+    this.fileSystem = externalFileSystem;
+  }
+
+  /**
+   * @param fileName the name of a file
+   * @return {@code true} if {@code fileName} equals to &quot;.&quot; or &quot;..&quot;
+   */
+  protected boolean isVirtualDirectory(String fileName) {
+    return ".".equals(fileName) || "..".equals(fileName);
+  }
+
+  /**
+   * Returns a properly formatted {@link MuleRuntimeException} for the given {@code message} and {@code cause}
+   *
+   * @param message the exception's message
+   * @return a {@link RuntimeException}
+   */
+  public RuntimeException exception(String message) {
+    return new MuleRuntimeException(createStaticMessage(message));
+  }
+
+  /**
+   * Returns a properly formatted {@link MuleRuntimeException} for the given {@code message} and {@code cause}
+   *
+   * @param message the exception's message
+   * @param cause the exception's cause
+   * @return {@link RuntimeException}
+   */
+  public RuntimeException exception(String message, Exception cause) {
+    return new MuleRuntimeException(createStaticMessage(message), cause);
   }
 
   /**
@@ -102,10 +138,10 @@ public abstract class ExternalFileCommand<T extends AbstractExternalFileSystem> 
   /**
    * Returns a {@link URI} to which all non absolute paths are relative to
    *
-   * @param fileSystem the file system that we're connecting to
+   * @param externalFileSystem the file system that we're connecting to
    * @return a not {@code null} {@link URI}
    */
-  protected abstract URI getBaseUri(FileSystem fileSystem);
+  protected abstract URI getBaseUri(FileSystem externalFileSystem);
 
   /**
    * Similar to {@link #resolvePathIntoUri(String)} only that it throws a {@link IllegalArgumentException} if the
