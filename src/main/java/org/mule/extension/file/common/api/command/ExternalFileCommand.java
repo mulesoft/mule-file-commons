@@ -6,17 +6,13 @@
  */
 package org.mule.extension.file.common.api.command;
 
-import static java.lang.String.format;
 import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 import static org.mule.extension.file.common.api.util.UriUtils.trimLastFragment;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.extension.file.common.api.ExternalFileSystem;
-import org.mule.extension.file.common.api.FileSystem;
-import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 
 import java.net.URI;
-import java.util.concurrent.locks.Lock;
 
 import org.slf4j.Logger;
 
@@ -28,7 +24,7 @@ import org.slf4j.Logger;
  */
 public abstract class ExternalFileCommand<F extends ExternalFileSystem> extends AbstractFileCommand<F, URI> {
 
-  private static final Logger LOGGER = getLogger(FileCommand.class);
+  private static final Logger LOGGER = getLogger(ExternalFileCommand.class);
 
   /**
    * Creates a new instance
@@ -39,85 +35,35 @@ public abstract class ExternalFileCommand<F extends ExternalFileSystem> extends 
     super(externalFileSystem);
   }
 
-  protected void assureParentFolderExists(URI uri, boolean createParentFolder) {
-    if (exists(uri)) {
-      return;
-    }
-    URI parentUri = trimLastFragment(uri);
-    if (!exists(parentUri)) {
-      if (createParentFolder) {
-        mkdirs(parentUri);
-      } else {
-        throw new IllegalPathException(format("Cannot write to file '%s' because path to it doesn't exist. Consider setting the 'createParentDirectories' attribute to 'true'",
-                                              uri));
-      }
-    }
+  protected String pathToString(URI uri) {
+    return uri.getPath();
   }
 
   /**
-   * Creates the directory pointed by {@code directoryUri} also creating any missing parent directories
+   * {@inheritDoc}
    *
-   * @param directoryUri the {@link URI} to the directory you want to create
-   */
-  protected final void mkdirs(URI directoryUri) {
-    Lock lock = fileSystem.createMuleLock(format("%s-mkdirs-%s", getClass().getName(), directoryUri));
-    lock.lock();
-    try {
-      // verify no other thread beat us to it
-      if (exists(directoryUri)) {
-        return;
-      }
-      doMkDirs(directoryUri);
-    } finally {
-      lock.unlock();
-    }
-
-    LOGGER.debug("Directory '{}' created", directoryUri);
-  }
-
-  protected abstract void doMkDirs(URI directoryUri);
-
-  /**
-   * Returns an absolute {@link URI} to the given {@code filePath}
-   *
-   * @param filePath the path to a file or directory
    * @return an absolute {@link URI}
    */
-  protected URI resolvePathIntoUri(String filePath) {
-    URI baseUri = getBaseUri(fileSystem);
-    if (filePath != null) {
-      baseUri = createUri(baseUri.getPath(), filePath);
-    }
-    return baseUri;
-  }
-
-  /**
-   * Returns a {@link URI} to which all non absolute paths are relative to
-   *
-   * @param externalFileSystem the file system that we're connecting to
-   * @return a not {@code null} {@link URI}
-   */
-  protected abstract URI getBaseUri(FileSystem externalFileSystem);
-
-  /**
-   * Similar to {@link #resolvePathIntoUri(String)} only that it throws a {@link IllegalArgumentException} if the
-   * given path doesn't exist.
-   * <p>
-   * The existence of the obtained path is verified by delegating into {@link #exists(Object)}
-   *
-   * @param filePath the uri to a file or directory
-   * @return an absolute {@link URI}
-   */
-  protected URI resolveExistingPathIntoUri(String filePath) {
-    URI uri = resolvePathIntoUri(filePath);
-    if (!exists(uri)) {
-      throw pathNotFoundException(uri);
-    }
+  protected URI getAbsolutePath(URI uri) {
     return uri;
   }
 
-  protected String pathToString(URI uri) {
-    return uri.getPath();
+  /**
+   * {@inheritDoc}
+   *
+   * @return the parent {@link URI}
+   */
+  protected URI getParent(URI uri) {
+    return trimLastFragment(uri);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return the resolved {@link URI}
+   */
+  protected URI resolvePath(URI baseUri, String filePath) {
+    return createUri(baseUri.getPath(), filePath);
   }
 
 }

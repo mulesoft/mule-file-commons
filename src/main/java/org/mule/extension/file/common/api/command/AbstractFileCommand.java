@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 
 public abstract class AbstractFileCommand<F extends FileSystem, I> {
 
-  private static final Logger LOGGER = getLogger(FileCommand.class);
+  private static final Logger LOGGER = getLogger(AbstractFileCommand.class);
 
   protected final F fileSystem;
 
@@ -44,6 +44,17 @@ public abstract class AbstractFileCommand<F extends FileSystem, I> {
    */
   protected abstract boolean exists(I path);
 
+  /**
+   * Method that, given a path, checks if its parent folder exists. If it exists, this method returns {@code void}.
+   * Otherwise, this method allows to create such parent by setting the the createParentFolder parameter to true. If it
+   * is set to false and the parent folder does not exist, this method throws {@link IllegalPathException}.
+   *
+   * @param path the path to test
+   * @param createParentFolder indicates whether to create the parent folder or not.
+   *
+   * @return {@code void} if the method completed correctly.
+   * @throws {@link IllegalPathException} if the parent path does not exists and createParentFolder is set to false.
+   */
   protected void assureParentFolderExists(I path, boolean createParentFolder) {
     if (exists(path)) {
       return;
@@ -55,12 +66,10 @@ public abstract class AbstractFileCommand<F extends FileSystem, I> {
         mkdirs(parentFolder);
       } else {
         throw new IllegalPathException(format("Cannot write to file '%s' because path to it doesn't exist. Consider setting the 'createParentDirectories' attribute to 'true'",
-                                              path));
+                                              pathToString(path)));
       }
     }
   }
-
-  protected abstract I getParent(I path);
 
   /**
    * Creates the directory pointed by {@code directoryPath} also creating any missing parent directories
@@ -83,8 +92,6 @@ public abstract class AbstractFileCommand<F extends FileSystem, I> {
     LOGGER.debug("Directory '{}' created", directoryPath);
   }
 
-  protected abstract void doMkDirs(I directoryPath);
-
   /**
    * Returns an absolute path for the given {@code filePath}
    *
@@ -100,47 +107,12 @@ public abstract class AbstractFileCommand<F extends FileSystem, I> {
   }
 
   /**
-   * Returns a path to which all non absolute paths are relative to
-   *
-   * @param fileSystem the file system that we're connecting to
-   * @return a not {@code null} path
+   * @param fileName the name of a file
+   * @return {@code true} if {@code fileName} equals to &quot;.&quot; or &quot;..&quot;
    */
-  protected abstract I getBasePath(FileSystem fileSystem);
-
-  /**
-   * Resolve the given basePath against the filePath.
-   *
-   * <p> If the {@code filePath} parameter is an absolute
-   * path then this method trivially returns {@code filePath}. If {@code filePath}
-   * is an <i>empty path</i> then this method trivially returns basePath.
-   * Otherwise this method considers the basePath to be a directory and resolves
-   * the given filePath against the basePath. In the simplest case, the given filePath
-   * does not have a root component, in which case this method
-   * <em>joins</em> both paths and returns a resulting path
-   * that ends with the given filePath. Where the given filePath has
-   * a root component then resolution is highly implementation dependent and
-   * therefore unspecified.
-   *
-   * @param basePath the base path considered as a directory
-   * @param filePath the path to resolve against the basePath
-   *
-   * @return  the resulting path
-   *
-   */
-  protected abstract I resolvePath(I basePath, String filePath);
-
-  /**
-   * Returns an object representing the absolute path for the given path.
-   *
-   * <p> If the given path is already absolute then this method simply returns
-   * it. Otherwise, this method resolves the path in an implementation dependent
-   * manner, typically by resolving the path against a file system default directory.
-   * Depending on the implementation, this method may throw an I/O error if the file
-   * system is not accessible.
-   *
-   * @return the absolute path
-   */
-  protected abstract I getAbsolutePath(I path);
+  protected boolean isVirtualDirectory(String fileName) {
+    return ".".equals(fileName) || "..".equals(fileName);
+  }
 
   /**
    * Similar to {@link #resolvePath(String)} only that it throws a {@link IllegalArgumentException} if the
@@ -209,8 +181,6 @@ public abstract class AbstractFileCommand<F extends FileSystem, I> {
                                                  pathToString(path)));
   }
 
-  protected abstract String pathToString(I path);
-
   /**
    * Returns a properly formatted {@link MuleRuntimeException} for the given {@code message} and {@code cause}
    *
@@ -233,11 +203,67 @@ public abstract class AbstractFileCommand<F extends FileSystem, I> {
   }
 
   /**
-   * @param fileName the name of a file
-   * @return {@code true} if {@code fileName} equals to &quot;.&quot; or &quot;..&quot;
+   * Returns the <em>parent path</em>, or {@code null} if this path does not
+   * have a parent.
+   *
+   * <p> The parent of this path object consists of this path's root
+   * component, if any, and each element in the path except for the
+   * <em>farthest</em> from the root in the directory hierarchy. This method
+   * does not access the file system; the path or its parent may not exist.
+   * Furthermore, this method does not eliminate special names such as "."
+   * and ".." that may be used in some implementations. On UNIX for example,
+   * the parent of "{@code /a/b/c}" is "{@code /a/b}", and the parent of
+   * {@code "x/y/.}" is "{@code x/y}".
+   *
+   * @return a path representing the path's parent
    */
-  protected boolean isVirtualDirectory(String fileName) {
-    return ".".equals(fileName) || "..".equals(fileName);
-  }
+  protected abstract I getParent(I path);
+
+  /**
+   * Returns a path to which all non absolute paths are relative to
+   *
+   * @param fileSystem the file system that we're connecting to
+   * @return a not {@code null} base path for the filesystem
+   */
+  protected abstract I getBasePath(FileSystem fileSystem);
+
+  /**
+   * Resolve the given basePath against the filePath.
+   *
+   * <p> If the {@code filePath} parameter is an absolute
+   * path then this method trivially returns {@code filePath}. If {@code filePath}
+   * is an <i>empty path</i> then this method trivially returns basePath.
+   * Otherwise this method considers the basePath to be a directory and resolves
+   * the given filePath against the basePath. In the simplest case, the given filePath
+   * does not have a root component, in which case this method
+   * <em>joins</em> both paths and returns a resulting path
+   * that ends with the given filePath. Where the given filePath has
+   * a root component then resolution is highly implementation dependent and
+   * therefore unspecified.
+   *
+   * @param basePath the base path considered as a directory
+   * @param filePath the path to resolve against the basePath
+   *
+   * @return the resulting path
+   *
+   */
+  protected abstract I resolvePath(I basePath, String filePath);
+
+  /**
+   * Returns an object representing the absolute path for the given path.
+   *
+   * <p> If the given path is already absolute then this method simply returns
+   * it. Otherwise, this method resolves the path in an implementation dependent
+   * manner, typically by resolving the path against a file system default directory.
+   * Depending on the implementation, this method may throw an I/O error if the file
+   * system is not accessible.
+   *
+   * @return the absolute path
+   */
+  protected abstract I getAbsolutePath(I path);
+
+  protected abstract String pathToString(I path);
+
+  protected abstract void doMkDirs(I directoryPath);
 
 }

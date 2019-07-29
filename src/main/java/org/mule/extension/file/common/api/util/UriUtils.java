@@ -89,6 +89,6 @@ public final class UriUtils {
    */
   public static URI trimLastFragment(URI uri) {
     Integer index = uri.getPath().lastIndexOf(SEPARATOR);
-    return createUri(uri.getPath().substring(0, index));
+    return index != -1 ? createUri(uri.getPath().substring(0, index)) : null;
   }
 }
