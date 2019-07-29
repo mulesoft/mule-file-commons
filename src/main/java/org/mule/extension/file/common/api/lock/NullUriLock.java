@@ -13,7 +13,7 @@ import java.net.URI;
  *
  * @since 1.3.0
  */
-public final class NullUriLock extends NullLock implements UriLock {
+public final class NullUriLock extends AbstractNullLock implements UriLock {
 
   private final URI uri;
 

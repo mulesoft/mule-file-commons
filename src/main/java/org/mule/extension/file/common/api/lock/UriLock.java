@@ -8,6 +8,11 @@ package org.mule.extension.file.common.api.lock;
 
 import java.net.URI;
 
+/**
+ * Use to generate a lock on a file referenced by an uri.
+ *
+ * @since 1.3.0
+ */
 public interface UriLock extends Lock {
 
   /**

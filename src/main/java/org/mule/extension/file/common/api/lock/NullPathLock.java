@@ -13,7 +13,7 @@ import java.nio.file.Path;
  *
  * @since 1.0
  */
-public final class NullPathLock extends NullLock implements PathLock {
+public final class NullPathLock extends AbstractNullLock implements PathLock {
 
   private final Path path;
 

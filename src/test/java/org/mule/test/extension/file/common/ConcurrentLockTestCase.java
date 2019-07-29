@@ -26,6 +26,7 @@ import org.mule.extension.file.common.api.command.ReadCommand;
 import org.mule.extension.file.common.api.command.RenameCommand;
 import org.mule.extension.file.common.api.command.WriteCommand;
 import org.mule.extension.file.common.api.exceptions.FileLockedException;
+import org.mule.extension.file.common.api.lock.Lock;
 import org.mule.extension.file.common.api.lock.NullPathLock;
 import org.mule.extension.file.common.api.lock.NullUriLock;
 import org.mule.extension.file.common.api.lock.PathLock;
@@ -39,6 +40,7 @@ import java.nio.file.Paths;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -73,20 +75,20 @@ public class ConcurrentLockTestCase {
 
   @Test
   public void concurrentPathLock() throws Exception {
-    concurrentLock(() -> tryPathLock());
+    concurrentLock(() -> fileSystem.lock(PATH));
   }
 
   @Test
   public void concurrentUriLock() throws Exception {
-    concurrentLock(() -> tryUriLock());
+    concurrentLock(() -> fileSystem.lock(URI));
   }
 
-  private void concurrentLock(Runnable tryLock) throws Exception {
+  private void concurrentLock(Supplier<Lock> lockSupplier) throws Exception {
     new Thread(() -> {
       try {
         mainThreadLatch.release();
         secondaryThreadLatch.await(TIMEOUT, TIMEOUT_UNIT);
-        tryLock.run();
+        tryLock(lockSupplier);
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -94,29 +96,16 @@ public class ConcurrentLockTestCase {
 
     mainThreadLatch.await(TIMEOUT, TIMEOUT_UNIT);
     secondaryThreadLatch.release();
-    tryLock.run();
+    tryLock(lockSupplier);
 
     assertionLatch.await(TIMEOUT, TIMEOUT_UNIT);
     assertThat(successful.get(), is(1));
     assertThat(failed.get(), is(1));
   }
 
-  private void tryPathLock() {
+  private void tryLock(Supplier<Lock> lockSupplier) {
     try {
-      if (fileSystem.lock(PATH).tryLock()) {
-        successful.incrementAndGet();
-      } else {
-        failed.incrementAndGet();
-      }
-    } catch (Exception e) {
-      failed.incrementAndGet();
-    }
-    assertionLatch.countDown();
-  }
-
-  private void tryUriLock() {
-    try {
-      if (fileSystem.lock(URI).tryLock()) {
+      if (lockSupplier.get().tryLock()) {
         successful.incrementAndGet();
       } else {
         failed.incrementAndGet();

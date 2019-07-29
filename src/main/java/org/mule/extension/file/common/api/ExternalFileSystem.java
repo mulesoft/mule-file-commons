@@ -20,8 +20,26 @@ import java.net.URI;
  */
 public interface ExternalFileSystem extends FileSystem {
 
+  /**
+   * Acquires and returns lock over the given {@code uri}.
+   * <p>
+   * Depending on the underlying filesystem, the extent of the lock will depend on the implementation. If a lock can not be
+   * acquired, then an {@link IllegalStateException} is thrown.
+   * <p>
+   * Whoever request the lock <b>MUST</b> release it as soon as possible.
+   *
+   * @param uri   the uri to the file you want to lock
+   * @return an acquired {@link UriLock}
+   * @throws IllegalArgumentException if a lock could not be acquired
+   */
   UriLock lock(URI uri);
 
+  /**
+   * Verify that the given {@code uri} is not locked
+   *
+   * @param uri the uri to test
+   * @throws IllegalStateException if the {@code uri} is indeed locked
+   */
   void verifyNotLocked(URI uri);
 
 }

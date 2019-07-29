@@ -7,11 +7,11 @@
 package org.mule.extension.file.common.api.lock;
 
 /**
- * Implementation of the Null Object design pattern for the {@link PathLock} interface
+ * Implementation of the Null Object design pattern for the {@link NullLock} interface
  *
  * @since 1.3.0
  */
-public abstract class NullLock implements Lock {
+public abstract class AbstractNullLock implements Lock {
 
   /**
    * Does nothing and always returns {@code true}

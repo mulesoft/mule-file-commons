@@ -28,11 +28,9 @@ import org.slf4j.Logger;
  * @param <F> the generic type of the {@link FileSystem} on which the operation is performed
  * @since 1.0
  */
-public abstract class FileCommand<F extends FileSystem> {
+public abstract class FileCommand<F extends FileSystem> extends AbstractFileCommand<F, Path> {
 
   private static final Logger LOGGER = getLogger(FileCommand.class);
-
-  protected final F fileSystem;
 
   /**
    * Creates a new instance
@@ -40,7 +38,7 @@ public abstract class FileCommand<F extends FileSystem> {
    * @param fileSystem the {@link FileSystem} on which the operation is performed
    */
   protected FileCommand(F fileSystem) {
-    this.fileSystem = fileSystem;
+    super(fileSystem);
   }
 
   /**

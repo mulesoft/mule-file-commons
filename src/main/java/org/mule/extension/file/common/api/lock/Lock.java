@@ -7,7 +7,7 @@
 package org.mule.extension.file.common.api.lock;
 
 /**
- * Use to generate a lock on a file reference by a path.
+ * Use to generate a lock on a file referenced with an identifier.
  * <p>
  * The extent of such lock depends on the actual implementation. For some implementations it will be possible to create a lock at
  * a file system level. For other implementations this might not be possible (mainly depending on the targeted file system) and
@@ -21,7 +21,7 @@ package org.mule.extension.file.common.api.lock;
 public interface Lock {
 
   /**
-   * Attempts to obtain a lock on the referenced path.
+   * Attempts to obtain a lock on the referenced identifier.
    * <p>
    * Just like with any locking API, any component invoking this method on {@code this} and obtaining {@code true} as a return
    * value <b>MUST</b> make sure that the {@link #release()} method is eventually invoked on {@code this} same instance.

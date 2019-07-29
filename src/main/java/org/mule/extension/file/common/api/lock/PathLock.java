@@ -8,6 +8,11 @@ package org.mule.extension.file.common.api.lock;
 
 import java.nio.file.Path;
 
+/**
+ * Use to generate a lock on a file referenced by a path.
+ *
+ * @since 1.0
+ */
 public interface PathLock extends Lock {
 
   /**
