@@ -93,6 +93,11 @@ public abstract class AbstractExternalFileSystem extends AbstractFileSystem impl
   protected abstract UriLock createLock(URI uri);
 
   @Override
+  public synchronized PathLock lock(Path path) {
+    throw new UnsupportedOperationException("This method is not supported for an External File System. Use lock(URI uri) instead.");
+  }
+
+  @Override
   public final void verifyNotLocked(Path path) {
     throw new UnsupportedOperationException("This method is not supported for an External File System. Use verifyNotLocked(URI uri) instead.");
   }

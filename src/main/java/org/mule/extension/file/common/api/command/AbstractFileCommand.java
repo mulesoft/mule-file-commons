@@ -21,6 +21,13 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 
+/**
+ * Base class for implementations of the Command design pattern which performs operations on a file system
+ *
+ * @param <F> the generic type of the {@link FileSystem} on which the operation is performed
+ * @param <I> generic type for a class that identifies a file or directory.
+ * @since 1.3.0
+ */
 public abstract class AbstractFileCommand<F extends FileSystem, I> {
 
   private static final Logger LOGGER = getLogger(AbstractFileCommand.class);
@@ -258,12 +265,22 @@ public abstract class AbstractFileCommand<F extends FileSystem, I> {
    * Depending on the implementation, this method may throw an I/O error if the file
    * system is not accessible.
    *
+   * @param path the given path
+   *
    * @return the absolute path
    */
   protected abstract I getAbsolutePath(I path);
 
+  /**
+   * @return the path identified by {@code <I>} as a String.
+   */
   protected abstract String pathToString(I path);
 
+  /**
+   * Creates the directory pointed by {@code directoryPath}.
+   *
+   * @param directoryPath the path to the directory you want to create
+   */
   protected abstract void doMkDirs(I directoryPath);
 
 }

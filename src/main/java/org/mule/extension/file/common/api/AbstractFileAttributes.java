@@ -45,6 +45,11 @@ public abstract class AbstractFileAttributes implements FileAttributes, Serializ
     this.fileName = path.getFileName() != null ? path.getFileName().toString() : "";
   }
 
+  /**
+   * Creates a new instance
+   *
+   * @param uri a {@link URI} pointing to the represented file
+   */
   protected AbstractFileAttributes(URI uri) {
     this.path = uri.getPath();
     String name = FilenameUtils.getName(uri.getPath());

@@ -14,7 +14,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 
-import org.mule.extension.file.common.api.AbstractExternalFileSystem;
 import org.mule.extension.file.common.api.AbstractFileSystem;
 import org.mule.extension.file.common.api.ExternalFileSystem;
 import org.mule.extension.file.common.api.command.CopyCommand;

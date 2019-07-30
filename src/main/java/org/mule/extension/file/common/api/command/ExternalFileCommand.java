@@ -17,7 +17,8 @@ import java.net.URI;
 import org.slf4j.Logger;
 
 /**
- * Base class for implementations of the Command design pattern which performs operations on a external file system.
+ * Extension of {@link AbstractFileCommand} for local file systems which use {@link URI} to identify and manage
+ * files and directories.
  *
  * @param <F> the generic type of the {@link ExternalFileSystem} on which the operation is performed
  * @since 1.3.0
@@ -35,6 +36,9 @@ public abstract class ExternalFileCommand<F extends ExternalFileSystem> extends 
     super(externalFileSystem);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   protected String pathToString(URI uri) {
     return uri.getPath();
   }

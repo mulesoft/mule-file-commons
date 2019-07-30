@@ -14,7 +14,8 @@ import java.nio.file.Path;
 import org.slf4j.Logger;
 
 /**
- * Base class for implementations of the Command design pattern which performs operations on a file system
+ * Extension of {@link AbstractFileCommand} for local file systems which use {@link Path} to identify and manage
+ * files and directories.
  *
  * @param <F> the generic type of the {@link FileSystem} on which the operation is performed
  * @since 1.0
@@ -32,6 +33,9 @@ public abstract class FileCommand<F extends FileSystem> extends AbstractFileComm
     super(fileSystem);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   protected String pathToString(Path path) {
     return path.toString();
   }

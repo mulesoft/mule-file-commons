@@ -12,6 +12,8 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.io.FilenameUtils;
+
 /**
  * Class for creating and handling URIs.
  *
@@ -42,17 +44,37 @@ public final class UriUtils {
    * @return a {@link URI} representing the resolved Path between the two given arguments.
    */
   public static URI createUri(String basePath, String filePath) {
+    String fullPath;
     try {
-      if (isAbsolute(filePath)) {
-        return new URI(null, null, filePath, null);
+      if (filePath.length() > 0) {
+        if (isAbsolute(filePath)) {
+          fullPath = filePath;
+        } else {
+          fullPath = addSeparator(basePath) + filePath;
+        }
+      } else {
+        fullPath = removeSeparator(basePath);
       }
-      if (!basePath.endsWith(SEPARATOR) && filePath.length() > 0) {
-        basePath = basePath + SEPARATOR;
-      }
-      return new URI(null, null, basePath + filePath, null);
+      return new URI(null, null, fullPath, null);
     } catch (URISyntaxException e) {
       throw new IllegalPathException("Cannot convert given path into a valid Uri", e);
     }
+  }
+
+  /**
+   * Adds a separator at the end of the given path. If the path already ends with the separator, then
+   * this method does nothing.
+   */
+  private static String addSeparator(String path) {
+    return path.endsWith(SEPARATOR) ? path : path + SEPARATOR;
+  }
+
+  /**
+   * Removes the separator at the end of the given path. If the path does not end with the separator, then
+   * this method does nothing.
+   */
+  private static String removeSeparator(String path) {
+    return path.endsWith(SEPARATOR) ? path.substring(0, path.length() - 1) : path;
   }
 
   /**
