@@ -6,8 +6,10 @@
  */
 package org.mule.test.extension.file.common;
 
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeTrue;
 import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 
 import org.mule.extension.file.common.api.AbstractFileAttributes;
@@ -15,41 +17,129 @@ import org.mule.extension.file.common.api.AbstractFileAttributes;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
 
 public class AbstractFileAttributesTestCase {
 
-  @Test
-  public void bothConstructorAssignEqualFileNames() throws Exception {
-    List<String> paths = new ArrayList<String>();
-    paths.add("");
-    paths.add(" ");
-    paths.add("/.");
-    paths.add("/..");
-    paths.add("/root");
-    paths.add("/root/");
-    paths.add("/root/.");
-    paths.add("/root/..");
-    paths.add("/root/./$%@");
-    paths.add("/root/myFile");
-    paths.add("/root/myFile.txt");
-    paths.add("/root/my:File");
-    paths.add("/root/my:File.txt");
-    paths.add("/root/ /myFile");
-    paths.add("/root/@/myFile");
-    paths.add("/root/./myFile");
-    paths.add("/root/../myFile");
-    paths.add("/root/./");
-    paths.add("/root/./ ");
-    for (String path : paths) {
-      ConcreteFileAttributes pathAttributes = new ConcreteFileAttributes(Paths.get(path));
-      ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(path));
+  private static String path;
 
-      assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
-    }
+  @Test
+  public void bothConstructorAssignEqualFileNamesForEmptyPath() {
+    path = "";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForSpacePath() {
+    path = " ";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForCurrentDirectoryPath() {
+    path = "/.";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForParentDirectoryPath() {
+    path = "/..";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForSimplePath() {
+    path = "/root";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForTrailingSlashPath() {
+    path = "/root/";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForCurrentDirectoryWithParentPath() {
+    path = "/root/.";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForParentDirectoryWithParentPath() {
+    path = "/root/..";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForSpecialCharactersPath() {
+    assumeTrue(!IS_OS_WINDOWS);
+    path = "/root/./$%@<>";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForLongPath() {
+    path = "/root/myFile";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForPathWithColon() {
+    assumeTrue(!IS_OS_WINDOWS);
+    path = "/rootWith:/myFile";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForFileWithExtensionPath() {
+    path = "/root/myFile.txt";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForComplexPathWithSpaceDirectory() {
+    path = "/root/ /myFile";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForComplexPathWithSpecialCharacterDirectory() {
+    assumeTrue(!IS_OS_WINDOWS);
+    path = "/root/@/myFile";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForComplexPathWithCurrentDirectory() {
+    path = "/root/./myFile";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForComplexPathWithParentDirectory() {
+    path = "/root/../myFile";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForCurrentDirectoryWithTrailingSlashAndParentPath() {
+    path = "/root/./";
+    assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignEqualFileNamesForParentDirectoryWithTrailingSlashAndParentPath() {
+    path = "/root/../";
+    assertFileName(path);
+  }
+
+  private void assertFileName(String path) {
+    ConcreteFileAttributes pathAttributes = new ConcreteFileAttributes(Paths.get(path));
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(path));
+
+    assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
   }
 
   private class ConcreteFileAttributes extends AbstractFileAttributes {

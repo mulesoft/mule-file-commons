@@ -66,7 +66,7 @@ public final class UriUtils {
    * this method does nothing.
    */
   private static String addSeparator(String path) {
-    return path.endsWith(SEPARATOR) ? path : path + SEPARATOR;
+    return (path.endsWith(SEPARATOR) || path.length() == 1) ? path : path + SEPARATOR;
   }
 
   /**
@@ -74,7 +74,7 @@ public final class UriUtils {
    * this method does nothing.
    */
   private static String removeSeparator(String path) {
-    return path.endsWith(SEPARATOR) ? path.substring(0, path.length() - 1) : path;
+    return (!path.endsWith(SEPARATOR) || path.length() == 1) ? path : path.substring(0, path.length() - 1);
   }
 
   /**
