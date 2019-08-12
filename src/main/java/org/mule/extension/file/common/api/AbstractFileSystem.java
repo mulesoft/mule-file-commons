@@ -197,7 +197,7 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
    * {@inheritDoc}
    */
   @Override
-  public final synchronized PathLock lock(Path path) {
+  public synchronized PathLock lock(Path path) {
     PathLock lock = createLock(path);
     acquireLock(lock);
 

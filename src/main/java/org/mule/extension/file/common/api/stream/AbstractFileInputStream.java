@@ -8,6 +8,7 @@ package org.mule.extension.file.common.api.stream;
 
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
+import org.mule.extension.file.common.api.lock.Lock;
 import org.mule.extension.file.common.api.lock.PathLock;
 
 import java.io.IOException;
@@ -42,10 +43,10 @@ public abstract class AbstractFileInputStream extends AutoCloseInputStream {
   }
 
   private final LazyStreamSupplier streamSupplier;
-  private final PathLock lock;
+  private final Lock lock;
   private final AtomicBoolean closed = new AtomicBoolean(false);
 
-  public AbstractFileInputStream(LazyStreamSupplier streamSupplier, PathLock lock) {
+  public AbstractFileInputStream(LazyStreamSupplier streamSupplier, Lock lock) {
     super(createLazyStream(streamSupplier));
     this.lock = lock;
     this.streamSupplier = streamSupplier;
