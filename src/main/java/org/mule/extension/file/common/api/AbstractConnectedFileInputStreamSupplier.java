@@ -24,11 +24,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 
 /**
- * Abstractions that extends from {@link AbstractFileInputStreamSupplier}, this supplier can be used when you need a
- * {@link FileSystem} in order to get the file attributes in {@link AbstractFileInputStreamSupplier#getUpdatedAttributes()}
- * and the content in {@link AbstractFileInputStreamSupplier#getContentInputStream()} by implementing this methods and calling
+ * Abstraction that extends from {@link AbstractFileInputStreamSupplier}, this supplier can be used when you need a
+ * {@link FileSystem} in order to get the file attributes and the file content. This class implements the logic to retrieve
+ * and release the needed fileSystems, and the developer will be given the fileSystem to get the attributes and contents without
+ * to worry about how to get and retrieve connections.
  *
- * @param <T> the type used to retrive file contents and attributes
+ * @param <T> the type used to retrieve file contents and attributes
  */
 public abstract class AbstractConnectedFileInputStreamSupplier<T extends FileSystem> extends AbstractFileInputStreamSupplier {
 

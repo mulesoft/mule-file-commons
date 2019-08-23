@@ -14,7 +14,7 @@ import org.mule.runtime.core.api.connector.ConnectionManager;
 
 /**
  * Implementation of {@link ConnectionSource} that uses a {@link FileConnectorConfig} and a {@link ConnectionManager} to
- * ask for connections. It is necessary that all instances of this class release all the connections that
+ * ask for connections. It is necessary that all instances of this class release all the connections that it asked for.
  */
 public class ManagerBasedConnectionSource<T extends FileSystem> implements ConnectionSource<T> {
 
