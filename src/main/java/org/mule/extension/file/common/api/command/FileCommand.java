@@ -11,6 +11,8 @@ import org.mule.extension.file.common.api.FileSystem;
 
 import java.nio.file.Path;
 
+import org.mule.extension.file.common.api.exceptions.FileAlreadyExistsException;
+import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.slf4j.Logger;
 
 /**
@@ -67,4 +69,96 @@ public abstract class FileCommand<F extends FileSystem> extends AbstractFileComm
     return basePath.resolve(filePath);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @return whether the {@code Path} exists
+   */
+  protected abstract boolean exists(Path path);
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return whether the {@code Path} exists
+   */
+  protected abstract Path getBasePath(FileSystem fileSystem);
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return whether the {@code Path} exists
+   */
+  protected abstract void doMkDirs(Path directoryPath);
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return whether the {@code Path} exists
+   */
+  protected void assureParentFolderExists(Path path, boolean createParentFolder) {
+    super.assureParentFolderExists(path, createParentFolder);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return whether the {@code Path} exists
+   */
+  protected void mkdirs(Path directoryPath) {
+    super.mkdirs(directoryPath);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return whether the {@code Path} exists
+   */
+  protected Path resolvePath(String filePath) {
+    return super.resolvePath(filePath);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return an absolute {@code Path}
+   */
+  protected Path resolveExistingPath(String filePath) {
+    return super.resolveExistingPath(filePath);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@link IllegalPathException}
+   */
+  protected IllegalPathException cannotReadDirectoryException(Path path) {
+    return super.cannotReadDirectoryException(path);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@link IllegalPathException}
+   */
+  protected IllegalPathException cannotListFileException(Path path) {
+    return super.cannotListFileException(path);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@link IllegalPathException}
+   */
+  protected IllegalPathException pathNotFoundException(Path path) {
+    return super.pathNotFoundException(path);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@link IllegalPathException}
+   */
+  public FileAlreadyExistsException alreadyExistsException(Path path) {
+    return super.alreadyExistsException(path);
+  }
 }
