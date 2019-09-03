@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+      xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
+      xmlns:file="http://www.mulesoft.org/schema/mule/file"
+      xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
+        http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+
+    <munit:config name="integration-test-case"/>
+
+    <munit:test name="integration-test" description="Perform simple operations with all core components that uses File Commons">
+        <munit:execution>
+            <set-variable variableName="dir" value="temp"/>
+            <set-variable variableName="fileName" value="#[vars.dir ++ '/hello.txt']"/>
+            <set-variable variableName="fileContent" value="I just want to impress Mr. Stark"/>
+            <scatter-gather>
+                <route >
+                    <file:create-directory config-ref="file-config" directoryPath="temp" />
+                    <file:write config-ref="file-config" path="#[vars.fileName]">
+                        <file:content >FILE</file:content>
+                    </file:write>
+                    <file:list config-ref="file-config" directoryPath="#[vars.dir]"/>
+                    <munit-tools:store key="FILE">
+                        <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
+                    </munit-tools:store>
+                    <file:delete config-ref="file-config" path="#[vars.dir]"/>
+                </route>
+                <route >
+                    <sftp:create-directory config-ref="sftp-config" directoryPath="temp"/>
+                    <sftp:write config-ref="sftp-config" path="#[vars.fileName]">
+                        <sftp:content >SFTP</sftp:content>
+                    </sftp:write>
+                    <sftp:list config-ref="sftp-config" directoryPath="#[vars.dir]"/>
+                    <munit-tools:store key="SFTP">
+                        <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
+                    </munit-tools:store>
+                    <sftp:delete config-ref="sftp-config" path="#[vars.dir]"/>
+                </route>
+            </scatter-gather>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:retrieve key="FILE"/>
+            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('FILE')]"/>
+            <munit-tools:retrieve key="SFTP"/>
+            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('SFTP')]"/>
+        </munit:validation>
+    </munit:test>
+</mule>

@@ -46,6 +46,10 @@ public abstract class AbstractFileInputStream extends AutoCloseInputStream {
   private final Lock lock;
   private final AtomicBoolean closed = new AtomicBoolean(false);
 
+  public AbstractFileInputStream(LazyStreamSupplier streamSupplier, PathLock lock) {
+    this(streamSupplier, (Lock) lock);
+  }
+
   public AbstractFileInputStream(LazyStreamSupplier streamSupplier, Lock lock) {
     super(createLazyStream(streamSupplier));
     this.lock = lock;
