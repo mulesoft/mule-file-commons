@@ -35,7 +35,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
  *
  * @since 1.0
  *
- * @deprecated USe {@link AbstractNonFinalizableFileInputStream} instead.
+ * @deprecated Use {@link AbstractNonFinalizableFileInputStream} instead.
  */
 @Deprecated
 public abstract class AbstractFileInputStream extends AutoCloseInputStream {
