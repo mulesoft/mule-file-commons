@@ -55,6 +55,11 @@ public final class UriUtils {
       } else {
         fullPath = removeSeparator(basePath);
       }
+
+      if (fullPath.split("\\r?\\n").length != 1) {
+        throw new IllegalPathException("Path contains newline character: " + fullPath);
+      }
+
       return new URI(null, null, fullPath, null);
     } catch (URISyntaxException e) {
       throw new IllegalPathException("Cannot convert given path into a valid Uri", e);
