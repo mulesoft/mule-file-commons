@@ -22,7 +22,7 @@
         <ant.version>1.10.5</ant.version>
         <cglib.version>3.2.10</cglib.version>
         <commons.io.version>2.6</commons.io.version>
-        <commons.lang3.version>3.8.1</commons.lang3.version>
+        <commons.lang3.version>3.9</commons.lang3.version>
         <javax.activation.version>1.2.0</javax.activation.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
 
