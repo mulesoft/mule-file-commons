@@ -73,14 +73,14 @@ public abstract class AbstractPostActionGroup {
       if (!isAutoDelete()) {
         if (getMoveToDirectory() == null) {
           LOGGER.warn(String.format("A file with the same name was found when trying to rename '%s' to '%s'" +
-                          ". The file '%s' was not renamed and it remains on the poll directory.",
-                  fileAttributes.getName(), getRenameTo(), fileAttributes.getPath()));
+              ". The file '%s' was not renamed and it remains on the poll directory.",
+                                    fileAttributes.getName(), getRenameTo(), fileAttributes.getPath()));
         } else {
           String moveToFileName = getRenameTo() == null ? fileAttributes.getName() : getRenameTo();
           String moveToPath = Paths.get(getMoveToDirectory()).resolve(moveToFileName).toString();
           LOGGER.warn(String.format("A file with the same name was found when trying to move '%s' to '%s'" +
-                          ". The file '%s' was not sent to the moveTo directory and it remains on the poll directory.",
-                  fileAttributes.getPath(), moveToPath, fileAttributes.getPath()));
+              ". The file '%s' was not sent to the moveTo directory and it remains on the poll directory.",
+                                    fileAttributes.getPath(), moveToPath, fileAttributes.getPath()));
         }
         throw e;
       }
