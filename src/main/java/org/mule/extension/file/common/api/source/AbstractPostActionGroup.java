@@ -39,14 +39,10 @@ public abstract class AbstractPostActionGroup {
       if (getMoveToDirectory() != null) {
         throw new IllegalArgumentException(format("The autoDelete parameter was set to true, but the value '%s' was given to the "
             + "moveToDirectory parameter. These two are contradictory.", getMoveToDirectory()));
-      } else if (getRenameTo() != null)
+      } else if (getRenameTo() != null) {
         throw new IllegalArgumentException(format("The autoDelete parameter was set to true, but the value '%s' was given to the "
             + "renameTo parameter. These two are contradictory.", getRenameTo()));
-    }
-    if (getMoveToDirectory() == null && getRenameTo() != null) {
-      throw new IllegalArgumentException(format("The value '%s' was given to the renameTo parameter, but the moveToDirectory parameter"
-          + " was not set. renameTo is only used to change the name to the file when it is moved to " +
-          "the moveToDirectory.", getRenameTo()));
+      }
     }
   }
 
