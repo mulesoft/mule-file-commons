@@ -6,9 +6,11 @@
  */
 package org.mule.test.extension.file.common;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.mule.extension.file.common.api.AbstractFileSystem;
 import org.mule.extension.file.common.api.FileAttributes;
 import org.mule.extension.file.common.api.FileConnectorConfig;
@@ -17,17 +19,16 @@ import org.mule.extension.file.common.api.exceptions.FileAlreadyExistsException;
 import org.mule.extension.file.common.api.lock.PathLock;
 import org.mule.extension.file.common.api.source.AbstractPostActionGroup;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AbstractPostActionGroupTestCase {
@@ -78,7 +79,7 @@ public class AbstractPostActionGroupTestCase {
     fileSystem.clearActions();
     fileSystem.setCanMove(false);
     apply(moveToDirectory, null, true);
-    Assert.assertEquals(fileSystem.getActionExecuted(), DELETE);
+    assertThat(fileSystem.getActionExecuted(), is(DELETE));
   }
 
   @Test
@@ -86,7 +87,7 @@ public class AbstractPostActionGroupTestCase {
     fileSystem.clearActions();
     fileSystem.setCanMove(true);
     apply(moveToDirectory, null, false);
-    Assert.assertEquals(fileSystem.getActionExecuted(), MOVE);
+    assertThat(fileSystem.getActionExecuted(), is(MOVE));
   }
 
   @Test
@@ -94,7 +95,7 @@ public class AbstractPostActionGroupTestCase {
     fileSystem.clearActions();
     fileSystem.setCanMove(true);
     apply(moveToDirectory, null, true);
-    Assert.assertEquals(fileSystem.getActionExecuted(), MOVE);
+    assertThat(fileSystem.getActionExecuted(), is(MOVE));
   }
 
   @Test
@@ -111,7 +112,7 @@ public class AbstractPostActionGroupTestCase {
     fileSystem.clearActions();
     fileSystem.setCanRename(false);
     apply(null, renameTo, true);
-    Assert.assertEquals(fileSystem.getActionExecuted(), DELETE);
+    assertThat(fileSystem.getActionExecuted(), is(DELETE));
   }
 
   @Test
@@ -119,7 +120,7 @@ public class AbstractPostActionGroupTestCase {
     fileSystem.clearActions();
     fileSystem.setCanRename(true);
     apply(null, renameTo, false);
-    Assert.assertEquals(fileSystem.getActionExecuted(), RENAME);
+    assertThat(fileSystem.getActionExecuted(), is(RENAME));
   }
 
   @Test
@@ -127,7 +128,7 @@ public class AbstractPostActionGroupTestCase {
     fileSystem.clearActions();
     fileSystem.setCanRename(true);
     apply(null, renameTo, true);
-    Assert.assertEquals(fileSystem.getActionExecuted(), RENAME);
+    assertThat(fileSystem.getActionExecuted(), is(RENAME));
   }
 
   private void apply(String moveToDirectory, String renameTo, boolean autoDelete) {
