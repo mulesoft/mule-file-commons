@@ -39,14 +39,10 @@ public abstract class AbstractPostActionGroup {
       if (getMoveToDirectory() != null) {
         throw new IllegalArgumentException(format("The autoDelete parameter was set to true, but the value '%s' was given to the "
             + "moveToDirectory parameter. These two are contradictory.", getMoveToDirectory()));
-      } else if (getRenameTo() != null)
+      } else if (getRenameTo() != null) {
         throw new IllegalArgumentException(format("The autoDelete parameter was set to true, but the value '%s' was given to the "
             + "renameTo parameter. These two are contradictory.", getRenameTo()));
-    }
-    if (getMoveToDirectory() == null && getRenameTo() != null) {
-      throw new IllegalArgumentException(format("The value '%s' was given to the renameTo parameter, but the moveToDirectory parameter"
-          + " was not set. renameTo is only used to change the name to the file when it is moved to " +
-          "the moveToDirectory.", getRenameTo()));
+      }
     }
   }
 
@@ -59,24 +55,33 @@ public abstract class AbstractPostActionGroup {
       }
     }
 
-    boolean moved = false;
+    boolean movedOrRenamed = false;
     try {
       if (getMoveToDirectory() != null) {
         fileSystem.move(config, fileAttributes.getPath(), getMoveToDirectory(), false, true,
                         getRenameTo());
-        moved = true;
+        movedOrRenamed = true;
+      } else if (getRenameTo() != null) {
+        fileSystem.rename(fileAttributes.getPath(), getRenameTo(), false);
+        movedOrRenamed = true;
       }
     } catch (FileAlreadyExistsException e) {
       if (!isAutoDelete()) {
-        String moveToFileName = getRenameTo() == null ? fileAttributes.getName() : getRenameTo();
-        String moveToPath = Paths.get(getMoveToDirectory()).resolve(moveToFileName).toString();
-        LOGGER.warn(String.format("A file with the same name was found when trying to move '%s' to '%s'" +
-            ". The file '%s' was not sent to the moveTo directory and it remains on the poll directory.",
-                                  fileAttributes.getPath(), moveToPath, fileAttributes.getPath()));
+        if (getMoveToDirectory() == null) {
+          LOGGER.warn(format("A file with the same name was found when trying to rename '%s' to '%s'" +
+              ". The file '%s' was not renamed and it remains on the poll directory.",
+                             fileAttributes.getName(), getRenameTo(), fileAttributes.getPath()));
+        } else {
+          String moveToFileName = getRenameTo() == null ? fileAttributes.getName() : getRenameTo();
+          String moveToPath = Paths.get(getMoveToDirectory()).resolve(moveToFileName).toString();
+          LOGGER.warn(format("A file with the same name was found when trying to move '%s' to '%s'" +
+              ". The file '%s' was not sent to the moveTo directory and it remains on the poll directory.",
+                             fileAttributes.getPath(), moveToPath, fileAttributes.getPath()));
+        }
         throw e;
       }
     } finally {
-      if (isAutoDelete() && !moved) {
+      if (isAutoDelete() && !movedOrRenamed) {
         fileSystem.delete(fileAttributes.getPath());
       }
     }
