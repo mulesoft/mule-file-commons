@@ -6,6 +6,7 @@
         <groupId>org.mule.runtime</groupId>
         <artifactId>mule-modules</artifactId>
         <version>4.1.0</version>
+        <relativePath></relativePath>
     </parent>
 
     <groupId>org.mule.modules</groupId>
@@ -124,11 +125,6 @@
             <id>mule</id>
             <name>Mule Repository</name>
             <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
-        </repository>
-        <repository>
-            <id>spring-snapshot</id>
-            <name>Spring Snapshot Repository</name>
-            <url>http://repo.spring.io/snapshot/</url>
         </repository>
     </repositories>
 
