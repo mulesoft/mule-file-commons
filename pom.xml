@@ -22,17 +22,17 @@
         <mule.version>4.1.0</mule.version>
         <cglib.version>3.3.0</cglib.version>
         <commons.io.version>2.6</commons.io.version>
-        <commons.lang3.version>3.8.1</commons.lang3.version>
+        <commons.lang3.version>3.9</commons.lang3.version>
         <javax.activation.version>1.2.0</javax.activation.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
 
         <!-- Remove when a new parent version with MTF is available -->
         <munit.input.directory>src/test/munit</munit.input.directory>
         <munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
-        <munit.extensions.maven.plugin.version>1.0.0-BETA3</munit.extensions.maven.plugin.version>
-        <munit.version>2.2.1</munit.version>
+        <munit.extensions.maven.plugin.version>1.0.0</munit.extensions.maven.plugin.version>
+        <munit.version>2.2.3</munit.version>
         <mavenResources.version>3.0.2</mavenResources.version>
-        <docker.maven.plugin.version>0.30.0</docker.maven.plugin.version>
+        <docker.maven.plugin.version>0.33.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.0.0</maven.helper.plugin.version>
 
