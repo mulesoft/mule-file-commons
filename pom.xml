@@ -34,7 +34,7 @@
         <mavenResources.version>3.0.2</mavenResources.version>
         <docker.maven.plugin.version>0.33.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
-        <maven.helper.plugin.version>3.1.0</maven.helper.plugin.version>
+        <maven.helper.plugin.version>3.2.0</maven.helper.plugin.version>
 
     </properties>
 
