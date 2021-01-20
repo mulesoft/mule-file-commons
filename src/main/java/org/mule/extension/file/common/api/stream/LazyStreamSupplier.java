@@ -19,7 +19,7 @@ public final class LazyStreamSupplier implements Supplier<InputStream> {
 
   private volatile InputStream stream;
   private Supplier<InputStream> delegate;
-  protected boolean supplied = false;
+  private boolean supplied = false;
 
   public LazyStreamSupplier(Supplier<InputStream> streamFactory) {
     delegate = () -> {
