@@ -11,14 +11,14 @@ import java.io.InputStream;
 
 public class ExceptionInputStream extends InputStream {
 
-  Exception exception;
+  RuntimeException exception;
 
-  public ExceptionInputStream(Exception exception) {
+  public ExceptionInputStream(RuntimeException exception) {
     this.exception = exception;
   }
 
   @Override
   public int read() throws IOException {
-    throw new IOException(exception);
+    throw exception;
   }
 }

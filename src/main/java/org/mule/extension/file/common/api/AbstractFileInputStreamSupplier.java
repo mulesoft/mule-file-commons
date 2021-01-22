@@ -63,7 +63,7 @@ public abstract class AbstractFileInputStreamSupplier implements Supplier<InputS
     }
     try {
       return getContentInputStream();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       return new ExceptionInputStream(e);
     }
   }
