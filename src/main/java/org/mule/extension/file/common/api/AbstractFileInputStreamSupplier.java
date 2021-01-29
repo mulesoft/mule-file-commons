@@ -8,9 +8,11 @@ package org.mule.extension.file.common.api;
 
 import org.mule.extension.file.common.api.exceptions.DeletedFileWhileReadException;
 import org.mule.extension.file.common.api.exceptions.FileBeingModifiedException;
+import org.mule.extension.file.common.api.stream.ExceptionInputStream;
 import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.slf4j.Logger;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -59,8 +61,11 @@ public abstract class AbstractFileInputStreamSupplier implements Supplier<InputS
         onFileDeleted();
       }
     }
-
-    return getContentInputStream();
+    try {
+      return getContentInputStream();
+    } catch (RuntimeException e) {
+      return new ExceptionInputStream(e);
+    }
   }
 
   private FileAttributes getUpdatedStableAttributes() {
