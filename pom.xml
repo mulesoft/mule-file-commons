@@ -165,7 +165,7 @@
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-ftp-connector</artifactId>
-                        <version>1.5.3</version>
+                        <version>1.5.4</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
