@@ -171,7 +171,7 @@
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-sftp-connector</artifactId>
-                        <version>1.4.0</version>
+                        <version>1.4.1</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
