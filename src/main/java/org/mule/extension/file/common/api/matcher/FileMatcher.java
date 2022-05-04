@@ -16,19 +16,22 @@ import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import java.util.function.Predicate;
 
 /**
- * Builds a {@link Predicate} which verifies that a {@link FileAttributes} instance is compliant with a number of criterias. This
+ * Builds a {@link Predicate} which verifies that a {@link FileAttributes} instance is compliant with a number of criteria. This
  * builder is stateful and not thread-safe. A new instance should be use per each desired {@link Predicate}.
  * <p>
  * This builder can either be used programmatically or through Mule's SDK since its internal state is annotated with the
  * {@link Parameter} annotation.
  * <p>
- * Criterias are evaluated using an {@code AND} operator, meaning that for the predicate to accept a file, ALL the criterias must
- * be complied with.
+ * Criteria are evaluated using an {@code AND} operator, meaning that for the predicate to accept a file, ALL the criteria must
+ * be met.
  * <p>
- * None of the criteria fields are mandatory. If a particular criteria is not specified, then it's simply not applied on the
+ * None of the criteria fields are mandatory. If a particular criterion is not specified, then it's simply not applied on the
  * evaluation.
  * <p>
  * The class is also given the &quot;matcher&quot; alias to make it DSL/XML friendly.
@@ -37,7 +40,7 @@ import java.util.function.Predicate;
  * @param <A> The concrete implementation of {@link FileAttributes} that this builder uses to assert the file properties
  * @since 1.0
  */
-public abstract class FileMatcher<T extends FileMatcher, A extends FileAttributes> {
+public abstract class FileMatcher<T extends FileMatcher<T, A>, A extends FileAttributes> {
 
   private static final String SIZE_MUST_BE_GREATER_THAN_ZERO_MESSAGE =
       "Matcher attribute '%s' must be greater than zero but '%d' was received";
@@ -104,6 +107,20 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
   @Optional
   private Long maxSize;
 
+  /**
+   * Whether files are matched in a case-sensitive manner.
+   */
+  private Boolean caseSensitive = FileSystems.getDefault().getPathMatcher("glob:path").matches(Paths.get("PATH"));
+
+  /**
+   * Separator used in paths (e.g. "/" on Linux and "\" on Windows).
+   */
+  private String fileSeparator = File.separator;
+
+  /**
+   * Whether to use the native OS-dependent matcher for glob patterns.
+   */
+  private boolean nativeMatcher = true;
 
   /**
    * Builds a {@link Predicate} from the criterias in {@code this} builder's state.
@@ -113,12 +130,14 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
   public Predicate<A> build() {
     Predicate<A> predicate = payload -> true;
     if (filenamePattern != null) {
-      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(filenamePattern);
+      PathMatcherPredicate pathMatcher = nativeMatcher ? new PathMatcherPredicate(filenamePattern)
+          : new PathMatcherPredicate(filenamePattern, caseSensitive, fileSeparator);
       predicate = predicate.and(payload -> pathMatcher.test(payload.getName()));
     }
 
     if (pathPattern != null) {
-      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(pathPattern);
+      PathMatcherPredicate pathMatcher = nativeMatcher ? new PathMatcherPredicate(pathPattern)
+          : new PathMatcherPredicate(pathPattern, caseSensitive, fileSeparator);
       predicate = predicate.and(payload -> pathMatcher.test(payload.getPath()));
     }
 
@@ -219,6 +238,24 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
 
   public T setMaxSize(Long maxSize) {
     this.maxSize = maxSize;
+    return (T) this;
+  }
+
+  /**
+   * Whether files are matched in a case-sensitive manner.
+   */
+  public T setCaseSensitive(boolean caseSensitive) {
+    this.caseSensitive = caseSensitive;
+    this.nativeMatcher = false;
+    return (T) this;
+  }
+
+  /**
+   * Separator used in paths (e.g. "/" on Linux and "\" on Windows.
+   */
+  public T setFileSeparator(String fileSeparator) {
+    this.fileSeparator = fileSeparator;
+    this.nativeMatcher = false;
     return (T) this;
   }
 }
