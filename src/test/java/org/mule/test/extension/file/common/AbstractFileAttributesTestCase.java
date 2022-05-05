@@ -6,22 +6,22 @@
  */
 package org.mule.test.extension.file.common;
 
+import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assume.assumeTrue;
-import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 
 import org.mule.extension.file.common.api.AbstractFileAttributes;
 
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import org.junit.Test;
 
 public class AbstractFileAttributesTestCase {
 
+  private static final String TEST_FILENAME = "test.txt";
   private static String path;
 
   @Test
@@ -133,6 +133,25 @@ public class AbstractFileAttributesTestCase {
   public void bothConstructorAssignEqualFileNamesForParentDirectoryWithTrailingSlashAndParentPath() {
     path = "/root/../";
     assertFileName(path);
+  }
+
+  @Test
+  public void bothConstructorAssignAnEmptyBasePath() {
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri("", TEST_FILENAME));
+    assertThat(uriAttributes.getPath(), equalTo(TEST_FILENAME));
+  }
+
+  @Test
+  public void bothConstructorAssignAnEmptyFilePath() {
+    path = "/test";
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(path, ""));
+    assertThat(uriAttributes.getPath(), equalTo(path));
+  }
+
+  @Test
+  public void bothConstructorAssignAnEmptyFilePathWithoutDash() {
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(TEST_FILENAME, ""));
+    assertThat(uriAttributes.getPath(), equalTo(TEST_FILENAME));
   }
 
   private void assertFileName(String path) {
