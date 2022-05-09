@@ -12,6 +12,8 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.io.FilenameUtils;
+
 /**
  * Class for creating and handling URIs.
  *
@@ -69,7 +71,7 @@ public final class UriUtils {
    * this method does nothing.
    */
   private static String addSeparator(String path) {
-    return (path.endsWith(SEPARATOR) || path.length() <= 1) ? path : path + SEPARATOR;
+    return (path.endsWith(SEPARATOR) || path.length() == 1) ? path : path + SEPARATOR;
   }
 
   /**
