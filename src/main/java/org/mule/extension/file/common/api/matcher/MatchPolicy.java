@@ -12,7 +12,7 @@ import static java.util.Optional.of;
 import java.util.Optional;
 
 /**
- * Criteria used to accept or reject a matcher filter.
+ * Criterias used to accept or reject a matcher filter.
  *
  * @since 1.0
  */
