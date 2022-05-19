@@ -31,23 +31,12 @@ public final class PathMatcherPredicate implements Predicate<String> {
   private final Predicate<String> delegate;
 
   /**
-   * Creates a new instance using the given pattern using the native implementation and file system rules.
+   * Creates a new instance using the given pattern
    *
    * @param pattern the pattern to be used to test paths.
    */
   public PathMatcherPredicate(String pattern) {
     delegate = getPredicateForFilename(pattern);
-  }
-
-  /**
-   * Creates a new instance using the given pattern.
-   *
-   * @param pattern         the pattern to be used to test paths.
-   * @param caseSensitive   whether matching is case-sensitive
-   * @param fileSeparator   what separates a path components
-   */
-  public PathMatcherPredicate(String pattern, boolean caseSensitive, String fileSeparator) {
-    delegate = getPredicateForFilename(pattern, caseSensitive, fileSeparator, false);
   }
 
   /**
@@ -61,26 +50,13 @@ public final class PathMatcherPredicate implements Predicate<String> {
   }
 
   private Predicate<String> getPredicateForFilename(String pattern) {
-    return getPredicateForFilename(pattern, true, "ignored", true);
-  }
-
-  private Predicate<String> getPredicateForFilename(String pattern, boolean caseSensitive, String fileSeparator,
-                                                    boolean nativeMatcher) {
-    String regex;
     if (pattern.startsWith(REGEX_PREFIX)) {
-      regex = pattern.substring(REGEX_PREFIX.length());
+      return Pattern.compile(stripRegexPrefix(pattern)).asPredicate();
+    } else if (pattern.startsWith(GLOB_PREFIX)) {
+      return getGlobPredicate(pattern);
     } else {
-      String globPattern;
-      if (pattern.startsWith(GLOB_PREFIX)) {
-        globPattern = pattern.substring(GLOB_PREFIX.length());
-      } else {
-        globPattern = pattern;
-      }
-      if (nativeMatcher)
-        return getGlobPredicate(globPattern);
-      regex = globPatternToRegex(globPattern, fileSeparator);
+      return getGlobPredicate(GLOB_PREFIX + pattern);
     }
-    return Pattern.compile(regex, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE).asPredicate();
   }
 
   private Predicate<String> getGlobPredicate(String pattern) {
@@ -88,90 +64,7 @@ public final class PathMatcherPredicate implements Predicate<String> {
     return path -> matcher.matches(Paths.get(path));
   }
 
-  /** Turns a glob pattern into a regular expression pattern.
-   *
-   *  The glob pattern syntax supported is the one defined for {@link java.nio.file.FileSystem#getPathMatcher(String)}.
-   *
-   * @param globPattern the input glob pattern
-   * @param fileSeparator what's used to separate path components (i.e. "/" or "\")
-   * @return a regular expression
-   */
-  private static String globPatternToRegex(String globPattern, String fileSeparator) {
-    if (fileSeparator.equals("\\"))
-      fileSeparator = "\\\\";
-    int length = globPattern.length();
-    StringBuilder sb = new StringBuilder(length + length / 2).append('^');
-    int bracesLevel = 0;
-    boolean inBracketExpression = false;
-    for (int i = 0; i < length; i++) {
-      char ch = globPattern.charAt(i);
-      if (inBracketExpression) {
-        if (ch == '[')
-          sb.append('\\'); // this is so character classes (e.g. [:alnum:] ) don't work
-        sb.append(ch);
-        if (ch == ']') {
-          inBracketExpression = false;
-        }
-        continue;
-      }
-      switch (ch) {
-        case '\\':
-          if (i + 1 < length) {
-            char nextCh = globPattern.charAt(++i);
-            sb.append(Pattern.quote(String.valueOf(nextCh)));
-          }
-          break;
-        case '?':
-          sb.append('.');
-          break;
-        case '*':
-          if (i + 1 < length && globPattern.charAt(i + 1) == '*') {
-            sb.append(".*");
-            i++;
-          } else {
-            sb.append("[^").append(fileSeparator).append("]*");
-          }
-          break;
-        case '{':
-          if (globPattern.substring(i + 1).indexOf('}') == -1) {
-            sb.append("\\{");
-          } else {
-            sb.append("(");
-            bracesLevel++;
-          }
-          break;
-        case '}':
-          if (bracesLevel == 0) {
-            sb.append(ch);
-          } else {
-            sb.append(')');
-            bracesLevel--;
-          }
-          break;
-        case ',':
-          if (bracesLevel == 0)
-            sb.append(ch);
-          else
-            sb.append('|');
-          break;
-        case '[':
-          inBracketExpression = true;
-          sb.append(ch);
-          if (i + 1 < length && globPattern.charAt(i + 1) == '!') {
-            sb.append('^');
-            i++;
-          }
-          break;
-        case '.':
-        case '(':
-        case ')':
-        case '|':
-          sb.append('\\');
-        default:
-          sb.append(ch);
-      }
-    }
-    sb.append('$');
-    return sb.toString();
+  private String stripRegexPrefix(String pattern) {
+    return pattern.replaceAll(REGEX_PREFIX, "");
   }
 }
