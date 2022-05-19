@@ -77,7 +77,7 @@ public final class PathMatcherPredicate implements Predicate<String> {
         globPattern = pattern;
       }
       if (nativeMatcher)
-        return getGlobPredicate(GLOB_PREFIX + globPattern);
+        return getGlobPredicate(globPattern);
       regex = globPatternToRegex(globPattern, fileSeparator);
     }
     return Pattern.compile(regex, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE).asPredicate();
