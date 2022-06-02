@@ -26,9 +26,13 @@ import org.mule.extension.file.common.api.exceptions.FileAlreadyExistsException;
 import org.mule.extension.file.common.api.lock.PathLock;
 import org.mule.extension.file.common.api.source.AbstractPostActionGroup;
 
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 import org.junit.Before;
 import org.junit.Test;

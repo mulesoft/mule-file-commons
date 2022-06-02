@@ -331,8 +331,7 @@ public interface FileSystem<A extends FileAttributes> {
 
   String getBasePath();
 
-//  default Predicate<String> getGlobPredicate(String pattern) {
-//    PathMatcher matcher = FileSystems.getDefault().getPathMatcher(pattern);
-//    return path -> matcher.matches(Paths.get(path));
-//  }
+  default FileSystemFamily getFileSystemFamily() {
+    return FileSystemFamily.DEFAULT;
+  }
 }

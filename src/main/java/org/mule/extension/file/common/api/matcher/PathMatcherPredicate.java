@@ -9,11 +9,13 @@ package org.mule.extension.file.common.api.matcher;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
 import org.mule.extension.file.common.api.FileSystem;
+import org.mule.extension.file.common.api.FileSystemFamily;
 import org.mule.runtime.core.api.util.StringUtils;
 
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -32,13 +34,19 @@ public final class PathMatcherPredicate implements Predicate<String> {
 
   private final Predicate<String> delegate;
 
+
+
   /**
    * Creates a new instance using the given pattern
    *
    * @param pattern the pattern to be used to test paths.
    */
-  public PathMatcherPredicate(String pattern) {
-    delegate = getPredicateForFilename(pattern);
+  //  public PathMatcherPredicate(String pattern) {
+  //    delegate = getPredicateForFilename(pattern, FileSystemFamily.DEFAULT);
+  //  }
+
+  public PathMatcherPredicate(String pattern, FileSystemFamily fileSystemFamily) {
+    delegate = getPredicateForFilename(pattern, fileSystemFamily);
   }
 
   /**
@@ -51,19 +59,14 @@ public final class PathMatcherPredicate implements Predicate<String> {
     return delegate.test(path);
   }
 
-  private Predicate<String> getPredicateForFilename(String pattern) {
+  private Predicate<String> getPredicateForFilename(String pattern, FileSystemFamily fileSystemFamily) {
     if (pattern.startsWith(REGEX_PREFIX)) {
       return Pattern.compile(stripRegexPrefix(pattern)).asPredicate();
     } else if (pattern.startsWith(GLOB_PREFIX)) {
-      return getGlobPredicate(pattern);
+      return fileSystemFamily.getPredicate(pattern);
     } else {
-      return getGlobPredicate(GLOB_PREFIX + pattern);
+      return fileSystemFamily.getPredicate(GLOB_PREFIX + pattern);
     }
-  }
-
-  private Predicate<String> getGlobPredicate(String pattern) {
-    PathMatcher matcher = FileSystems.getDefault().getPathMatcher(pattern);
-    return path -> matcher.matches(Paths.get(path));
   }
 
   private String stripRegexPrefix(String pattern) {

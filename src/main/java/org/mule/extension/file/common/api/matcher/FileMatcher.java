@@ -10,6 +10,7 @@ import static java.lang.String.format;
 import static org.mule.extension.file.common.api.matcher.MatchPolicy.INCLUDE;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.extension.file.common.api.FileAttributes;
+import org.mule.extension.file.common.api.FileSystemFamily;
 import org.mule.extension.file.common.api.util.TimeSinceFunction;
 import org.mule.extension.file.common.api.util.TimeUntilFunction;
 import org.mule.runtime.extension.api.annotation.param.Optional;
@@ -105,6 +106,8 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
   private Long maxSize;
 
 
+  private FileSystemFamily fileSystemFamily = FileSystemFamily.DEFAULT;
+
   /**
    * Builds a {@link Predicate} from the criterias in {@code this} builder's state.
    *
@@ -113,12 +116,12 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
   public Predicate<A> build() {
     Predicate<A> predicate = payload -> true;
     if (filenamePattern != null) {
-      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(filenamePattern);
+      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(filenamePattern, fileSystemFamily);
       predicate = predicate.and(payload -> pathMatcher.test(payload.getName()));
     }
 
     if (pathPattern != null) {
-      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(pathPattern);
+      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(pathPattern, fileSystemFamily);
       predicate = predicate.and(payload -> pathMatcher.test(payload.getPath()));
     }
 
@@ -219,6 +222,11 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
 
   public T setMaxSize(Long maxSize) {
     this.maxSize = maxSize;
+    return (T) this;
+  }
+
+  public T setFileSystemFamily(FileSystemFamily fileSystemFamily) {
+    this.fileSystemFamily = fileSystemFamily;
     return (T) this;
   }
 }
