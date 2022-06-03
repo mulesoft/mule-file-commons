@@ -23,6 +23,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.regex.PatternSyntaxException;
+
 @SmallTest
 public class FileMatcherContractTestCase<T extends FileMatcher, A extends FileAttributes>
     extends AbstractMuleTestCase {
@@ -33,6 +38,8 @@ public class FileMatcherContractTestCase<T extends FileMatcher, A extends FileAt
 
   protected T builder = createPredicateBuilder();
   protected A attributes;
+
+  protected int failures;
 
   @Rule
   public ExpectedException expectedException = none();
@@ -151,6 +158,101 @@ public class FileMatcherContractTestCase<T extends FileMatcher, A extends FileAt
   }
 
   @Test
+  public void correctInputs() {
+    assertMatch("foo.html", "foo.html");
+    assertNotMatch("foo.html", "foo.htm");
+    assertNotMatch("foo.html", "bar.html");
+
+    // match zero or more characters
+    assertMatch("foo.html", "f*");
+    assertMatch("foo.html", "*.html");
+    assertMatch("foo.html", "foo.html*");
+    assertMatch("foo.html", "*foo.html");
+    assertMatch("foo.html", "*foo.html*");
+    assertNotMatch("foo.html", "*.htm");
+    assertNotMatch("foo.html", "f.*");
+
+    // match one character
+    assertMatch("foo.html", "?oo.html");
+    assertMatch("foo.html", "??o.html");
+    assertMatch("foo.html", "???.html");
+    assertMatch("foo.html", "???.htm?");
+    assertNotMatch("foo.html", "foo.???");
+
+    // group of subpatterns
+    assertMatch("foo.html", "foo{.html,.class}");
+    assertMatch("foo.html", "foo.{class,html}");
+    assertNotMatch("foo.html", "foo{.htm,.class}");
+
+    // bracket expressions
+    assertMatch("foo.html", "[f]oo.html");
+    assertMatch("foo.html", "[e-g]oo.html");
+    assertMatch("foo.html", "[abcde-g]oo.html");
+    assertMatch("foo.html", "[abcdefx-z]oo.html");
+    assertMatch("foo.html", "[!a]oo.html");
+    assertMatch("foo.html", "[!a-e]oo.html");
+    assertMatch("foo-bar", "foo[-a-z]bar");     // match dash
+    assertMatch("foo.html", "foo[!-]html");     // match !dash
+
+    // groups of subpattern with bracket expressions
+    assertMatch("foo.html", "[f]oo.{[h]tml,class}");
+    assertMatch("foo.html", "foo.{[a-z]tml,class}");
+    assertMatch("foo.html", "foo.{[!a-e]tml,.class}");
+
+    // assume special characters are allowed in file names
+    assertMatch("{foo}.html", "\\{foo*");
+    assertMatch("{foo}.html", "*\\}.html");
+    assertMatch("[foo].html", "\\[foo*");
+    assertMatch("[foo].html", "*\\].html");
+
+    //Windows paths
+    assertMatch("C:\\foo", "C:\\\\f*");
+    //assertMatch("C:\\FOO", "c:\\\\f*");
+    assertMatch("C:\\foo\\bar\\gus", "C:\\\\**\\\\gus");
+    assertMatch("C:\\foo\\bar\\gus", "C:\\\\**");
+
+    assertMatch("/tmp/foo", "/tmp/*");
+    assertMatch("/tmp/foo/bar", "/tmp/**");
+
+    // some special characters not allowed on Windows
+    assertMatch("myfile?", "myfile\\?");
+    assertMatch("one\\two", "one\\\\two");
+    assertMatch("one*two", "one\\*two");
+
+    assertBadPattern("foo.html", "*[a--z]");            // bad range
+    assertBadPattern("foo.html", "*[a--]");             // bad range
+    assertBadPattern("foo.html", "*[a-z");              // missing ]
+    assertBadPattern("foo.html", "*{class,java");       // missing }
+    assertBadPattern("foo.html", "*.{class,{.java}}");  // nested group
+    assertBadPattern("foo.html", "*.html\\");           // nothing to escape
+
+    assertRegExMatch("foo.html", ".*\\.html");
+    assertRegExMatch("foo012", "foo\\d+");
+    assertRegExMatch("fo o", "fo\\so");
+    assertRegExMatch("foo", "\\w+");
+
+    try {
+      System.out.format("Test unknown syntax");
+      FileSystems.getDefault().getPathMatcher("grep:foo");
+      System.out.println(" ==> NOT EXPECTED TO COMPILE");
+      failures++;
+    } catch (UnsupportedOperationException e) {
+      System.out.println(" OKAY");
+    }
+
+    if (failures > 0)
+      throw new RuntimeException(failures +
+              " sub-test(s) failed - see log for details");
+
+  }
+
+  @Test
+  public void incorrect(){
+    assertBadPattern("foo.html", "*{class,java");
+  }
+
+
+  @Test
   public void rejectPathByRegex() {
     when(attributes.getName()).thenReturn("20060101_TEST.csv");
     builder.setFilenamePattern("regex:[0-9]*_test.csv");
@@ -265,5 +367,39 @@ public class FileMatcherContractTestCase<T extends FileMatcher, A extends FileAt
 
   protected void assertReject() {
     assertThat(builder.build().test(attributes), is(false));
+  }
+
+  public void assertMatch(String path, String pattern) {
+    when(attributes.getName()).thenReturn(path);
+    builder.setFilenamePattern(pattern);
+    builder.setFileSeparator("/");
+    assertMatch();
+  }
+
+  public void assertNotMatch(String path, String pattern) {
+    when(attributes.getName()).thenReturn(path);
+    builder.setFilenamePattern(pattern);
+    assertReject();
+  }
+
+  public void assertBadPattern(String path, String pattern) {
+    System.out.format("Compile bad pattern %s\t", pattern);
+    try {
+      when(attributes.getName()).thenReturn(path);
+      builder.setFilenamePattern(pattern);
+      builder.setFileSeparator("/");
+      assertMatch();
+      System.out.println("Compiled ==> UNEXPECTED RESULT!");
+      failures++;
+    } catch (PatternSyntaxException e) {
+      System.out.println("Failed to compile ==> OKAY");
+    }
+  }
+
+  public void assertRegExMatch(String path, String pattern) {
+    System.out.format("Test regex pattern: %s", pattern);
+    when(attributes.getName()).thenReturn(path);
+    builder.setFilenamePattern("regex:" + pattern);
+    assertMatch();
   }
 }
