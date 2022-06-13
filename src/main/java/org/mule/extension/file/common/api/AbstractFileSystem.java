@@ -115,6 +115,19 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
   /**
    * {@inheritDoc}
    */
+  @Override
+  public List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                           String directoryPath,
+                                           boolean recursive,
+                                           Predicate<A> matcher,
+                                           Long timeBetweenSizeCheck,
+                                           SubsetList subsetList) {
+    return getListCommand().list(config, directoryPath, recursive, matcher, timeBetweenSizeCheck, subsetList);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Deprecated
   @Override
   public Result<InputStream, A> read(FileConnectorConfig config, String filePath,
