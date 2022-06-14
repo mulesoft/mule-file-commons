@@ -11,15 +11,6 @@ import static java.nio.file.Paths.get;
 import static org.mule.runtime.core.api.util.StringUtils.isBlank;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
-
-import javax.activation.MimetypesFileTypeMap;
-
 import org.mule.extension.file.common.api.exceptions.IllegalContentException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.mule.extension.file.common.api.matcher.FileMatcher;
@@ -35,6 +26,15 @@ import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.runtime.streaming.PagingProvider;
 import org.mule.runtime.extension.api.runtime.streaming.StreamingHelper;
+
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
+
+import javax.activation.MimetypesFileTypeMap;
 
 /**
  * Basic set of operations and templates for extensions which perform operations over a generic file system
@@ -412,7 +412,6 @@ public abstract class BaseFileSystemOperations {
   }
 
   private Predicate<FileAttributes> getPredicate(FileMatcher builder) {
-    return builder != null ? builder.build()
-        : new NullFilePayloadPredicate();
+    return builder != null ? builder.build() : new NullFilePayloadPredicate();
   }
 }
