@@ -14,10 +14,7 @@ import org.mule.runtime.core.api.message.OutputHandler;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.io.InputStream;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -330,8 +327,4 @@ public interface FileSystem<A extends FileAttributes> {
   void changeToBaseDir();
 
   String getBasePath();
-
-  default FileSystemFamily getFileSystemFamily() {
-    return FileSystemFamily.DEFAULT;
-  }
 }

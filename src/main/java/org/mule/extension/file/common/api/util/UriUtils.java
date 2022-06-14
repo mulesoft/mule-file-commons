@@ -31,15 +31,16 @@ public final class UriUtils {
    * Creates an {@link URI} for a given path.
    *
    * @param path the path to the file or directory.
-   * @return a {@link URI} representing the path in the following format (using the unix path separator): "/directory/subdirectory"
+   * @return a {@link URI} representing the path in the following format (using the unix path separator):
+   *         "/directory/subdirectory"
    */
   public static URI createUri(String path) {
     return createUri(path, "");
   }
 
   /**
-   * Creates an {@link URI} for a given basePath and a filePath, resolving them in the process. This means that if the filePath
-   * is absolute, then a uri representing it is returned. Otherwise, the basePath and filePath are combined together.
+   * Creates an {@link URI} for a given basePath and a filePath, resolving them in the process. This means that if the filePath is
+   * absolute, then a uri representing it is returned. Otherwise, the basePath and filePath are combined together.
    *
    * @param basePath the path to the base directory.
    * @param filePath the path to the file.
@@ -68,25 +69,16 @@ public final class UriUtils {
     }
   }
 
-  public static String toUnixRegexPattern(String globPattern) {
-    return toRegexPattern(globPattern, false);
-  }
-
-  public static String toWindowsRegexPattern(String globPattern) {
-    return toRegexPattern(globPattern, true);
-  }
-
   /**
-   * Adds a separator at the end of the given path. If the path already ends with the separator, then
-   * this method does nothing.
+   * Adds a separator at the end of the given path. If the path already ends with the separator, then this method does nothing.
    */
   private static String addSeparator(String path) {
     return (path.endsWith(SEPARATOR) || path.length() == 1) ? path : path + SEPARATOR;
   }
 
   /**
-   * Removes the separator at the end of the given path. If the path does not end with the separator, then
-   * this method does nothing.
+   * Removes the separator at the end of the given path. If the path does not end with the separator, then this method does
+   * nothing.
    */
   private static String removeSeparator(String path) {
     return (!path.endsWith(SEPARATOR) || path.length() == 1) ? path : path.substring(0, path.length() - 1);
@@ -118,8 +110,7 @@ public final class UriUtils {
   }
 
   /**
-   * Creates a new uri by trimming the last path fragment from the given uri. Can also be thought as getting the
-   * 'parent' uri.
+   * Creates a new uri by trimming the last path fragment from the given uri. Can also be thought as getting the 'parent' uri.
    *
    * @param uri the uri to trim.
    * @return the trimmed or 'parent' uri.
@@ -129,7 +120,7 @@ public final class UriUtils {
     return index != -1 ? createUri(uri.getPath().substring(0, index)) : null;
   }
 
-  private static String toRegexPattern(String globPattern, boolean isDos) {
+  public static String toRegexPattern(String globPattern) {
     boolean inGroup = false;
     StringBuilder regex = new StringBuilder("^");
 
@@ -150,19 +141,11 @@ public final class UriUtils {
           regex.append(next);
           break;
         case '/':
-          if (isDos) {
-            regex.append("\\\\");
-          } else {
-            regex.append(c);
-          }
+          regex.append(c);
           break;
         case '[':
           // don't match name separator in class
-          if (isDos) {
-            regex.append("[[^\\\\]&&[");
-          } else {
-            regex.append("[[^/]&&[");
-          }
+          regex.append("[[^/]&&[");
           if (next(globPattern, i) == '^') {
             // escape the regex negation char if it appears
             regex.append("\\^");
@@ -186,7 +169,7 @@ public final class UriUtils {
             if (c == ']') {
               break;
             }
-            if (c == '/' || (isDos && c == '\\')) {
+            if (c == '/') {
               throw new PatternSyntaxException("Explicit 'name separator' in class",
                                                globPattern, i - 1);
             }
@@ -252,21 +235,12 @@ public final class UriUtils {
             i++;
           } else {
             // within directory boundary
-            if (isDos) {
-              regex.append("[^\\\\]*");
-            } else {
-              regex.append("[^/]*");
-            }
+            regex.append("[^/]*");
           }
           break;
         case '?':
-          if (isDos) {
-            regex.append("[^\\\\]");
-          } else {
-            regex.append("[^/]");
-          }
+          regex.append("[^/]");
           break;
-
         default:
           if (isRegexMeta(c)) {
             regex.append('\\');

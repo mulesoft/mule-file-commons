@@ -67,7 +67,7 @@ public abstract class BaseFileSystemOperations {
                                                              boolean recursive,
                                                              FileMatcher matchWith) {
     fileSystem.changeToBaseDir();
-    return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith, fileSystem));
+    return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith));
   }
 
   /**
@@ -94,7 +94,7 @@ public abstract class BaseFileSystemOperations {
                                                              FileMatcher matchWith,
                                                              Long timeBetweenSizeCheck) {
     fileSystem.changeToBaseDir();
-    return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith, fileSystem), timeBetweenSizeCheck);
+    return fileSystem.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck);
   }
 
 
@@ -146,7 +146,7 @@ public abstract class BaseFileSystemOperations {
 
       private void initializePagingProvider(FileSystem connection) {
         connection.changeToBaseDir();
-        files = connection.list(config, directoryPath, recursive, getPredicate(matchWith, connection), timeBetweenSizeCheck);
+        files = connection.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck);
         filesIterator = files.iterator();
       }
 
@@ -411,8 +411,8 @@ public abstract class BaseFileSystemOperations {
     }
   }
 
-  private Predicate<FileAttributes> getPredicate(FileMatcher builder, FileSystem fileSystem) {
-    return builder != null ? builder.setFileSystemFamily(fileSystem.getFileSystemFamily()).build()
+  private Predicate<FileAttributes> getPredicate(FileMatcher builder) {
+    return builder != null ? builder.build()
         : new NullFilePayloadPredicate();
   }
 }

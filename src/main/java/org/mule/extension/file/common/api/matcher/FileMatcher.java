@@ -10,7 +10,7 @@ import static java.lang.String.format;
 import static org.mule.extension.file.common.api.matcher.MatchPolicy.INCLUDE;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.extension.file.common.api.FileAttributes;
-import org.mule.extension.file.common.api.FileSystemFamily;
+import org.mule.extension.file.common.api.PredicateType;
 import org.mule.extension.file.common.api.util.TimeSinceFunction;
 import org.mule.extension.file.common.api.util.TimeUntilFunction;
 import org.mule.runtime.extension.api.annotation.param.Optional;
@@ -106,7 +106,9 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
   private Long maxSize;
 
 
-  private FileSystemFamily fileSystemFamily = FileSystemFamily.DEFAULT;
+  private PredicateType predicateType = PredicateType.LOCAL_FILE_SYSTEM;
+
+  private boolean caseSensitive = true;
 
   /**
    * Builds a {@link Predicate} from the criterias in {@code this} builder's state.
@@ -116,12 +118,12 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
   public Predicate<A> build() {
     Predicate<A> predicate = payload -> true;
     if (filenamePattern != null) {
-      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(filenamePattern, fileSystemFamily);
+      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(filenamePattern, predicateType, caseSensitive);
       predicate = predicate.and(payload -> pathMatcher.test(payload.getName()));
     }
 
     if (pathPattern != null) {
-      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(pathPattern, fileSystemFamily);
+      PathMatcherPredicate pathMatcher = new PathMatcherPredicate(pathPattern, predicateType, caseSensitive);
       predicate = predicate.and(payload -> pathMatcher.test(payload.getPath()));
     }
 
@@ -225,8 +227,13 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
     return (T) this;
   }
 
-  public T setFileSystemFamily(FileSystemFamily fileSystemFamily) {
-    this.fileSystemFamily = fileSystemFamily;
+  public T setPredicateType(PredicateType predicateType) {
+    this.predicateType = predicateType;
+    return (T) this;
+  }
+
+  public T setCaseSensitive(boolean caseSensitive) {
+    this.caseSensitive = caseSensitive;
     return (T) this;
   }
 }

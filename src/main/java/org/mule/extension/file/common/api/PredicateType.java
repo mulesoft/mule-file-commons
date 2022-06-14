@@ -6,7 +6,6 @@
  */
 package org.mule.extension.file.common.api;
 
-import org.apache.commons.io.FilenameUtils;
 import org.mule.extension.file.common.api.util.UriUtils;
 
 import java.nio.file.FileSystems;
@@ -15,30 +14,26 @@ import java.nio.file.Paths;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
-public enum FileSystemFamily {
-  UNIX {
+public enum PredicateType {
+
+  EXTERNAL_FILE_SYSTEM {
+
     @Override
-    public Predicate<String> getPredicate(final String pattern) {
-      final String regex = UriUtils.toUnixRegexPattern(getPattern(pattern));
-      return Pattern.compile(regex).asPredicate();
+    public Predicate<String> getPredicate(final String pattern, final boolean caseSensitive) {
+      final String regex = UriUtils.toRegexPattern(getPattern(pattern));
+      return Pattern.compile(regex, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE).asPredicate();
     }
   },
-  WINDOWS {
+  LOCAL_FILE_SYSTEM {
+
     @Override
-    public Predicate<String> getPredicate(final String pattern) {
-      final String regex = UriUtils.toWindowsRegexPattern(getPattern(pattern));
-      return Pattern.compile(regex).asPredicate();
-    }
-  },
-  DEFAULT {
-    @Override
-    public Predicate<String> getPredicate(final String pattern) {
+    public Predicate<String> getPredicate(final String pattern, final boolean caseSensitive) {
       PathMatcher matcher = FileSystems.getDefault().getPathMatcher(pattern);
       return path -> matcher.matches(Paths.get(path));
     }
   };
 
-  public abstract Predicate<String> getPredicate(final String pattern);
+  public abstract Predicate<String> getPredicate(final String pattern, final boolean caseSensitive);
 
   private static String getPattern(final String syntaxAndInput) {
     int pos = syntaxAndInput.indexOf(':');

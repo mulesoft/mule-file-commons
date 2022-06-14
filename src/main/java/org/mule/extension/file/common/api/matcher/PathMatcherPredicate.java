@@ -8,14 +8,9 @@ package org.mule.extension.file.common.api.matcher;
 
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
-import org.mule.extension.file.common.api.FileSystem;
-import org.mule.extension.file.common.api.FileSystemFamily;
+import org.mule.extension.file.common.api.PredicateType;
 import org.mule.runtime.core.api.util.StringUtils;
 
-import java.nio.file.FileSystems;
-import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -40,13 +35,12 @@ public final class PathMatcherPredicate implements Predicate<String> {
    * Creates a new instance using the given pattern
    *
    * @param pattern the pattern to be used to test paths.
+   * @param predicateType if is gonna a match local file system or a remote file system ex:ftp , sftp
+   * @param caseSensitive if the predicateType is a external file system predicate this set the case sensitivity
    */
-  //  public PathMatcherPredicate(String pattern) {
-  //    delegate = getPredicateForFilename(pattern, FileSystemFamily.DEFAULT);
-  //  }
 
-  public PathMatcherPredicate(String pattern, FileSystemFamily fileSystemFamily) {
-    delegate = getPredicateForFilename(pattern, fileSystemFamily);
+  public PathMatcherPredicate(String pattern, PredicateType predicateType, final boolean caseSensitive) {
+    delegate = getPredicateForFilename(pattern, predicateType, caseSensitive);
   }
 
   /**
@@ -59,13 +53,13 @@ public final class PathMatcherPredicate implements Predicate<String> {
     return delegate.test(path);
   }
 
-  private Predicate<String> getPredicateForFilename(String pattern, FileSystemFamily fileSystemFamily) {
+  private Predicate<String> getPredicateForFilename(String pattern, PredicateType predicateType, final boolean caseSensitive) {
     if (pattern.startsWith(REGEX_PREFIX)) {
       return Pattern.compile(stripRegexPrefix(pattern)).asPredicate();
     } else if (pattern.startsWith(GLOB_PREFIX)) {
-      return fileSystemFamily.getPredicate(pattern);
+      return predicateType.getPredicate(pattern, caseSensitive);
     } else {
-      return fileSystemFamily.getPredicate(GLOB_PREFIX + pattern);
+      return predicateType.getPredicate(GLOB_PREFIX + pattern, caseSensitive);
     }
   }
 
