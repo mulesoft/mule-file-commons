@@ -11,15 +11,6 @@ import static java.nio.file.Paths.get;
 import static org.mule.runtime.core.api.util.StringUtils.isBlank;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
-
-import javax.activation.MimetypesFileTypeMap;
-
 import org.mule.extension.file.common.api.exceptions.IllegalContentException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.mule.extension.file.common.api.matcher.FileMatcher;
@@ -36,6 +27,15 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.runtime.streaming.PagingProvider;
 import org.mule.runtime.extension.api.runtime.streaming.StreamingHelper;
 
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
+
+import javax.activation.MimetypesFileTypeMap;
+
 /**
  * Basic set of operations and templates for extensions which perform operations over a generic file system
  *
@@ -49,15 +49,16 @@ public abstract class BaseFileSystemOperations {
    * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
    * <p>
    * If the listing encounters a directory, the output list will include its contents depending on the value of the
-   * {@code recursive} parameter. If {@code recursive} is enabled, then all the files in that directory will be
-   * listed immediately after their parent directory.
+   * {@code recursive} parameter. If {@code recursive} is enabled, then all the files in that directory will be listed immediately
+   * after their parent directory.
    * <p>
    *
    * @param config        the config that is parameterizing this operation
    * @param directoryPath the path to the directory to be listed
    * @param recursive     whether to include the contents of sub-directories. Defaults to false.
    * @param matchWith     a matcher used to filter the output list
-   * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the attributes
+   * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the
+   *         attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
   @Deprecated
@@ -78,11 +79,11 @@ public abstract class BaseFileSystemOperations {
    * after their parent directory.
    * <p>
    *
-   * @param config                the config that is parameterizing this operation
-   * @param directoryPath         the path to the directory to be listed
-   * @param recursive             whether to include the contents of sub-directories. Defaults to false.
-   * @param matchWith             a matcher used to filter the output list
-   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param config               the config that is parameterizing this operation
+   * @param directoryPath        the path to the directory to be listed
+   * @param recursive            whether to include the contents of sub-directories. Defaults to false.
+   * @param matchWith            a matcher used to filter the output list
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the
    *         attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
@@ -106,13 +107,13 @@ public abstract class BaseFileSystemOperations {
    * after their parent directory.
    * <p>
    *
-   * @param config                the config that is parameterizing this operation
-   * @param directoryPath         the path to the directory to be listed
-   * @param recursive             whether to include the contents of sub-directories. Defaults to false.
-   * @param matchWith             a matcher used to filter the output list
-   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
-   * @return a {@link PagingProvider} of {@link Result} objects each one containing each file's content in the payload and metadata in the
-   *         attributes
+   * @param config               the config that is parameterizing this operation
+   * @param directoryPath        the path to the directory to be listed
+   * @param recursive            whether to include the contents of sub-directories. Defaults to false.
+   * @param matchWith            a matcher used to filter the output list
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return a {@link PagingProvider} of {@link Result} objects each one containing each file's content in the payload and
+   *         metadata in the attributes
    * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
    */
   protected PagingProvider<FileSystem, Result<CursorProvider, FileAttributes>> doPagedList(FileConnectorConfig config,
@@ -206,11 +207,11 @@ public abstract class BaseFileSystemOperations {
    * be used to make an educated guess on the file's mime type. The user also has the chance to force the output encoding and
    * mimeType through the {@code outputEncoding} and {@code outputMimeType} optional parameters.
    *
-   * @param config                the config that is parameterizing this operation
-   * @param fileSystem            a reference to the host {@link FileSystem}
-   * @param path                  the path to the file to be read
-   * @param lock                  whether or not to lock the file. Defaults to false.
-   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param config               the config that is parameterizing this operation
+   * @param fileSystem           a reference to the host {@link FileSystem}
+   * @param path                 the path to the file to be read
+   * @param lock                 whether or not to lock the file. Defaults to false.
+   * @param timeBetweenSizeCheck wait time between size checks to determine if a file is ready to be read in milliseconds.
    * @return the file's content and metadata on a {@link FileAttributes} instance
    * @throws IllegalArgumentException if the file at the given path doesn't exist
    */
@@ -225,25 +226,27 @@ public abstract class BaseFileSystemOperations {
   }
 
   /**
-   * @deprecated {@link #doWrite(FileConnectorConfig, FileSystem, String, InputStream, boolean, boolean, FileWriteMode)}
-   * must be used instead.
+   * @deprecated {@link #doWrite(FileConnectorConfig, FileSystem, String, InputStream, boolean, boolean, FileWriteMode)} must be
+   *             used instead.
    *
-   * Writes the {@code content} into the file pointed by {@code path}.
-   * <p>
-   * If the directory on which the file is attempting to be written doesn't exist, then the operation will either throw
-   * {@link IllegalArgumentException} or create such folder depending on the value of the {@code createParentDirectory}.
-   * <p>
-   * If the file itself already exists, then the behavior depends on the supplied {@code mode}.
-   * <p>
-   * This operation also supports locking support depending on the value of the {@code lock} argument, but following the same
-   * rules and considerations as described in the read operation.
+   *             Writes the {@code content} into the file pointed by {@code path}.
+   *             <p>
+   *             If the directory on which the file is attempting to be written doesn't exist, then the operation will either
+   *             throw {@link IllegalArgumentException} or create such folder depending on the value of the
+   *             {@code createParentDirectory}.
+   *             <p>
+   *             If the file itself already exists, then the behavior depends on the supplied {@code mode}.
+   *             <p>
+   *             This operation also supports locking support depending on the value of the {@code lock} argument, but following
+   *             the same rules and considerations as described in the read operation.
    *
    * @param config                  the {@link FileConnectorConfig} on which the operation is being executed
    * @param fileSystem              a reference to the host {@link FileSystem}
    * @param path                    the path of the file to be written
    * @param content                 the content to be written into the file. Defaults to the current {@link Message} payload
-   * @param encoding                when {@code content} is a {@link String}, this attribute specifies the encoding to be used when writing. If
-   *                                not set, then it defaults to {@link FileConnectorConfig#getDefaultWriteEncoding()}
+   * @param encoding                when {@code content} is a {@link String}, this attribute specifies the encoding to be used
+   *                                when writing. If not set, then it defaults to
+   *                                {@link FileConnectorConfig#getDefaultWriteEncoding()}
    * @param createParentDirectories whether or not to attempt creating any parent directories which don't exists.
    * @param lock                    whether or not to lock the file. Defaults to false
    * @param mode                    a {@link FileWriteMode}. Defaults to {@code OVERWRITE}
@@ -375,7 +378,8 @@ public abstract class BaseFileSystemOperations {
    * <p>
    * {@code to} argument should not contain any path separator. {@link IllegalArgumentException} will be thrown if this
    * precondition is not honored.
-   *  @param fileSystem a reference to the host {@link FileSystem}
+   * 
+   * @param fileSystem a reference to the host {@link FileSystem}
    * @param path       the path to the file to be renamed
    * @param to         the file's new name
    * @param overwrite  whether or not overwrite the file if the target destination already exists.
@@ -412,7 +416,6 @@ public abstract class BaseFileSystemOperations {
   }
 
   private Predicate<FileAttributes> getPredicate(FileMatcher builder) {
-    return builder != null ? builder.build()
-        : new NullFilePayloadPredicate();
+    return builder != null ? builder.build() : new NullFilePayloadPredicate();
   }
 }
