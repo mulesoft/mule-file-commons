@@ -120,6 +120,7 @@ public final class UriUtils {
     return index != -1 ? createUri(uri.getPath().substring(0, index)) : null;
   }
 
+  //This implementation is coming from JDK implementation to map a glob patter to a regex
   public static String toRegexPattern(String globPattern) {
     boolean inGroup = false;
     StringBuilder regex = new StringBuilder("^");
