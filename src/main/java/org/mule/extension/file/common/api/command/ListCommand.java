@@ -9,7 +9,7 @@ package org.mule.extension.file.common.api.command;
 import org.mule.extension.file.common.api.FileAttributes;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
-import org.mule.extension.file.common.api.SubsetList;
+import org.mule.extension.file.common.api.subset.SubsetList;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import java.io.InputStream;
 import java.util.List;

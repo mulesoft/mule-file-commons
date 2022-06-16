@@ -7,6 +7,7 @@
 package org.mule.extension.file.common.api;
 
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.extension.file.common.api.subset.SubsetList;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
