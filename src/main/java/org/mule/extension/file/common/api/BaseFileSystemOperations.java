@@ -15,6 +15,7 @@ import org.mule.extension.file.common.api.exceptions.IllegalContentException;
 import org.mule.extension.file.common.api.exceptions.IllegalPathException;
 import org.mule.extension.file.common.api.matcher.FileMatcher;
 import org.mule.extension.file.common.api.matcher.NullFilePayloadPredicate;
+import org.mule.extension.file.common.api.subset.SubsetList;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.streaming.CursorProvider;
@@ -121,6 +122,34 @@ public abstract class BaseFileSystemOperations {
                                                                                            FileMatcher matchWith,
                                                                                            Long timeBetweenSizeCheck,
                                                                                            StreamingHelper streamingHelper) {
+    return doPagedList(config, directoryPath, recursive, matchWith, timeBetweenSizeCheck, streamingHelper, null);
+  }
+
+  /**
+   * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
+   * <p>
+   * If the listing encounters a directory, the output list will include its contents depending on the value of the
+   * {@code recursive} parameter. If {@code recursive} is enabled, then all the files in that directory will be listed immediately
+   * after their parent directory.
+   * <p>
+   *
+   * @param config                the config that is parameterizing this operation
+   * @param directoryPath         the path to the directory to be listed
+   * @param recursive             whether to include the contents of sub-directories. Defaults to false.
+   * @param matchWith             a matcher used to filter the output list
+   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param subsetList        parameter group that lets you obtain a subset of the results
+   * @return a {@link PagingProvider} of {@link Result} objects each one containing each file's content in the payload and metadata in the
+   *         attributes
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
+   */
+  protected PagingProvider<FileSystem, Result<CursorProvider, FileAttributes>> doPagedList(FileConnectorConfig config,
+                                                                                           String directoryPath,
+                                                                                           boolean recursive,
+                                                                                           FileMatcher matchWith,
+                                                                                           Long timeBetweenSizeCheck,
+                                                                                           StreamingHelper streamingHelper,
+                                                                                           SubsetList subsetList) {
     return new PagingProvider<FileSystem, Result<CursorProvider, FileAttributes>>() {
 
       private List<Result<InputStream, FileAttributes>> files;
@@ -146,7 +175,7 @@ public abstract class BaseFileSystemOperations {
 
       private void initializePagingProvider(FileSystem connection) {
         connection.changeToBaseDir();
-        files = connection.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck);
+        files = connection.list(config, directoryPath, recursive, getPredicate(matchWith), timeBetweenSizeCheck, subsetList);
         filesIterator = files.iterator();
       }
 

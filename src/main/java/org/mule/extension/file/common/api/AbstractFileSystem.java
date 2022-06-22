@@ -17,6 +17,7 @@ import org.mule.extension.file.common.api.command.RenameCommand;
 import org.mule.extension.file.common.api.command.WriteCommand;
 import org.mule.extension.file.common.api.exceptions.FileLockedException;
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.extension.file.common.api.subset.SubsetList;
 import org.mule.runtime.api.lock.LockFactory;
 import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.extension.api.runtime.operation.Result;
@@ -110,6 +111,19 @@ public abstract class AbstractFileSystem<A extends FileAttributes> implements Fi
                                            Predicate<A> matcher,
                                            Long timeBetweenSizeCheck) {
     return getListCommand().list(config, directoryPath, recursive, matcher, timeBetweenSizeCheck);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                           String directoryPath,
+                                           boolean recursive,
+                                           Predicate<A> matcher,
+                                           Long timeBetweenSizeCheck,
+                                           SubsetList subsetList) {
+    return getListCommand().list(config, directoryPath, recursive, matcher, timeBetweenSizeCheck, subsetList);
   }
 
   /**

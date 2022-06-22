@@ -7,6 +7,7 @@
 package org.mule.extension.file.common.api;
 
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.extension.file.common.api.subset.SubsetList;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
@@ -76,6 +77,32 @@ public interface FileSystem<A extends FileAttributes> {
                                             Predicate<A> matcher,
                                             Long timeBetweenSizeCheck) {
     return list(config, directoryPath, recursive, matcher);
+  }
+
+  /**
+   * Lists all the files in the {@code directoryPath} which match the given {@code matcher}.
+   * <p>
+   * If the listing encounters a directory, the output list will include its contents depending on the value of the
+   * {@code recursive} argument. If {@code recursive} is enabled, then all the files in that directory will be listed immediately
+   * after their parent directory.
+   * <p>
+   *
+   * @param config                the config that is parameterizing this operation
+   * @param directoryPath         the path to the directory to be listed
+   * @param recursive             whether to include the contents of sub-directories
+   * @param matcher               a {@link Predicate} of {@link FileAttributes} used to filter the output list
+   * @param timeBetweenSizeCheck  wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @param subsetList        parameter group that lets you obtain a subset of the results
+   * @return a {@link List} of {@link Result} objects, each one containing each file's content in the payload and metadata in the
+   *         attributes
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
+   */
+  default List<Result<InputStream, A>> list(FileConnectorConfig config,
+                                            String directoryPath,
+                                            boolean recursive,
+                                            Predicate<A> matcher,
+                                            Long timeBetweenSizeCheck, SubsetList subsetList) {
+    return list(config, directoryPath, recursive, matcher, timeBetweenSizeCheck);
   }
 
   /**
