@@ -16,6 +16,7 @@
         "org.mule.extension.file.common.api.source",
         "org.mule.extension.file.common.api.metadata",
         "org.mule.extension.file.common.api.stream",
+        "org.mule.extension.file.common.api.subset",
         "org.mule.extension.file.common.api.util",
         "org.apache.commons.io.input"
       ],
