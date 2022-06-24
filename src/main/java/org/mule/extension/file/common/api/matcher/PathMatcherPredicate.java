@@ -31,7 +31,6 @@ public final class PathMatcherPredicate implements Predicate<String> {
 
 
 
-
   /**
    * Creates a new instance using the given pattern
    *
@@ -46,7 +45,7 @@ public final class PathMatcherPredicate implements Predicate<String> {
   /**
    * Creates a new instance using the given pattern
    *
-   * @param pattern the pattern to be used to test paths.
+   * @param pattern       the pattern to be used to test paths.
    * @param predicateType if is gonna a match local file system or a remote file system ex:ftp , sftp
    * @param caseSensitive if the predicateType is a external file system predicate this set the case sensitivity
    */

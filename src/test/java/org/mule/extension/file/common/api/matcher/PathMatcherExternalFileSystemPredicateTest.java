@@ -10,17 +10,19 @@ package org.mule.extension.file.common.api.matcher;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.mule.extension.file.common.api.PredicateType;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.PatternSyntaxException;
 
 import org.junit.Test;
-import org.mule.extension.file.common.api.PredicateType;
 
 /**
- *
+ * Path marcher external file system tests
+ * 
+ * @since 1.4.0
  */
-public class PathMatcherPredicateTest {
+public class PathMatcherExternalFileSystemPredicateTest {
 
   public int failures;
 
@@ -180,7 +182,7 @@ public class PathMatcherPredicateTest {
     assertBadPattern("foo.html", "*.html\\"); // nothing to escape
 
     assertMatch("C:\\foo", "C:\\\\f*");
-    //assertMatch("C:\\FOO", "c:\\\\f*");
+    // assertMatch("C:\\FOO", "c:\\\\f*");
     assertMatch("C:\\foo\\bar\\gus", "C:\\\\**\\\\gus");
     assertMatch("C:\\foo\\bar\\gus", "C:\\\\**");
 
