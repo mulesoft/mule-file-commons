@@ -7,6 +7,7 @@
 package org.mule.extension.file.common.api.matcher;
 
 import static java.lang.String.format;
+import static org.mule.extension.file.common.api.PredicateType.*;
 import static org.mule.extension.file.common.api.matcher.MatchPolicy.INCLUDE;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.extension.file.common.api.FileAttributes;
@@ -106,7 +107,7 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
   private Long maxSize;
 
 
-  private PredicateType predicateType = PredicateType.LOCAL_FILE_SYSTEM;
+  private PredicateType predicateType = LOCAL_FILE_SYSTEM;
 
   private boolean caseSensitive = true;
 
@@ -227,11 +228,19 @@ public abstract class FileMatcher<T extends FileMatcher, A extends FileAttribute
     return (T) this;
   }
 
+  /**
+   * @param predicateType {@link PredicateType} set the type of predicate
+   * @return {@link FileMatcher}
+   */
   public T setPredicateType(PredicateType predicateType) {
     this.predicateType = predicateType;
     return (T) this;
   }
 
+  /**
+   * @param caseSensitive set case sensitivity
+   * @return {@link FileMatcher}
+   */
   public T setCaseSensitive(boolean caseSensitive) {
     this.caseSensitive = caseSensitive;
     return (T) this;

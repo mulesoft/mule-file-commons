@@ -31,6 +31,18 @@ public final class PathMatcherPredicate implements Predicate<String> {
 
 
 
+
+  /**
+   * Creates a new instance using the given pattern
+   *
+   * @param pattern the pattern to be used to test paths.
+   *
+   */
+
+  public PathMatcherPredicate(String pattern) {
+    delegate = getPredicateForFilename(pattern, PredicateType.LOCAL_FILE_SYSTEM, true);
+  }
+
   /**
    * Creates a new instance using the given pattern
    *

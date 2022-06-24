@@ -17,6 +17,9 @@ import java.util.regex.PatternSyntaxException;
 import org.junit.Test;
 import org.mule.extension.file.common.api.PredicateType;
 
+/**
+ *
+ */
 public class PathMatcherPredicateTest {
 
   public int failures;
