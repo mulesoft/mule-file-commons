@@ -6,12 +6,11 @@
  */
 package org.mule.extension.file.common.api.matcher;
 
-import static java.lang.String.format;
 import static org.mule.extension.file.common.api.PredicateType.LOCAL_FILE_SYSTEM;
 import static org.mule.extension.file.common.api.matcher.MatchPolicy.INCLUDE;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
-import java.util.function.Predicate;
+import static java.lang.String.format;
 
 import org.mule.extension.file.common.api.FileAttributes;
 import org.mule.extension.file.common.api.PredicateType;
@@ -20,6 +19,8 @@ import org.mule.extension.file.common.api.util.TimeUntilFunction;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
+
+import java.util.function.Predicate;
 
 /**
  * Builds a {@link Predicate} which verifies that a {@link FileAttributes} instance is compliant with a number of criterias. This
