@@ -6,6 +6,7 @@
  */
 package org.mule.extension.file.common.api.matcher;
 
+import static org.mule.extension.file.common.api.matcher.FileMatcher.DEFAULT_CASE_SENSITIVE;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
 import org.mule.extension.file.common.api.PredicateType;
@@ -39,7 +40,7 @@ public final class PathMatcherPredicate implements Predicate<String> {
    */
 
   public PathMatcherPredicate(String pattern) {
-    delegate = getPredicateForFilename(pattern, PredicateType.LOCAL_FILE_SYSTEM, true);
+    delegate = getPredicateForFilename(pattern, PredicateType.LOCAL_FILE_SYSTEM, DEFAULT_CASE_SENSITIVE);
   }
 
   /**

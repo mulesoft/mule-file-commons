@@ -6,12 +6,12 @@
  */
 package org.mule.extension.file.common.api.util;
 
+import org.mule.extension.file.common.api.exceptions.IllegalPathException;
+import org.mule.runtime.api.exception.MuleRuntimeException;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.PatternSyntaxException;
-
-import org.mule.extension.file.common.api.exceptions.IllegalPathException;
-import org.mule.runtime.api.exception.MuleRuntimeException;
 
 /**
  * Class for creating and handling URIs.
@@ -123,7 +123,7 @@ public final class UriUtils {
   /**
    * Creates a regex pattern from the given glob expression.
    *
-   * @param globPattern  glob pattern to be converted to a regular expression
+   * @param globPattern glob pattern to be converted to a regular expression
    * @return regular expression
    * @throws PatternSyntaxException
    */
