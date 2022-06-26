@@ -6,7 +6,6 @@
  */
 package org.mule.extension.file.common.api;
 
-import com.google.gson.annotations.Since;
 import org.mule.extension.file.common.api.util.UriUtils;
 
 import java.nio.file.FileSystems;
