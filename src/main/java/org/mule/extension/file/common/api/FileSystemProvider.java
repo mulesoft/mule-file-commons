@@ -18,7 +18,7 @@ import java.util.Objects;
  * @param <T> The generic type of the file system implementation
  * @since 1.0
  */
-public abstract class FileSystemProvider<T extends FileSystem> implements ConnectionProvider<T> {
+public abstract class   FileSystemProvider<T extends FileSystem> implements ConnectionProvider<T> {
 
   @RefName
   private String configName;

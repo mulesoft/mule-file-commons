@@ -50,7 +50,7 @@ public final class UriUtils {
     String fullPath;
     try {
       if (filePath.length() > 0) {
-        if (isAbsolute(filePath)) {
+        if (isAbsolute(filePath) || basePath.isEmpty()) {
           fullPath = filePath;
         } else {
           fullPath = addSeparator(basePath) + filePath;
@@ -73,7 +73,7 @@ public final class UriUtils {
    * Adds a separator at the end of the given path. If the path already ends with the separator, then this method does nothing.
    */
   private static String addSeparator(String path) {
-    return (path.endsWith(SEPARATOR) || path.length() == 1) ? path : path + SEPARATOR;
+    return (path.endsWith(SEPARATOR)) ? path : path + SEPARATOR;
   }
 
   /**
