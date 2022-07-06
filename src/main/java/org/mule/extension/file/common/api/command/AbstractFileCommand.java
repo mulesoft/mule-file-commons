@@ -6,6 +6,7 @@
  */
 package org.mule.extension.file.common.api.command;
 
+
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 import static java.lang.String.format;
 import static org.slf4j.LoggerFactory.getLogger;

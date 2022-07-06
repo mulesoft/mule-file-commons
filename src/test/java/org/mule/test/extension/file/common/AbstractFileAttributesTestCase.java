@@ -161,6 +161,13 @@ public class AbstractFileAttributesTestCase {
     assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
   }
 
+  @Test
+  public void bothConstructorWithBasePathAssignInSpecificFolderWithSeparator2() {
+    ConcreteFileAttributes pathAttributes = new ConcreteFileAttributes(Paths.get("/myFile.txt"));
+    // Basepath parameter will be ignored when tne filepath is absolute (when it start with slash)
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri("/root/", "/myFile.txt"));
+    assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
+  }
 
   @Test
   public void bothConstructorWithBasePathInHome() {
@@ -180,14 +187,6 @@ public class AbstractFileAttributesTestCase {
   @Test
   public void bothConstructorWithBasePathAssignInSpecificFolderWithSeparator() {
     assertBasePathAndFileName("/root/", "myFile.txt");
-  }
-
-  @Test
-  public void bothConstructorWithBasePathAssignInSpecificFolderWithSeparator2() {
-    ConcreteFileAttributes pathAttributes = new ConcreteFileAttributes(Paths.get("/myFile.txt"));
-    // Basepath parameter will be ignored when tne filepath is absolute (when it start with slash)
-    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri("/root/", "/myFile.txt"));
-    assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
   }
 
   @Test
