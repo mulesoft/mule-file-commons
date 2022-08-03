@@ -148,6 +148,7 @@ public class AbstractPostActionGroupTestCase {
     private String moveToDirectory;
     private String renameTo;
     private boolean isAutoDelete;
+    private boolean overwrite = false;
 
     public ConcretePostActionGroup(String moveToDirectory, String renameTo, boolean isAutoDelete) {
       this.moveToDirectory = moveToDirectory;
@@ -173,6 +174,11 @@ public class AbstractPostActionGroupTestCase {
     @Override
     public boolean isApplyPostActionWhenFailed() {
       return false;
+    }
+
+    @Override
+    public boolean getOverwrite() {
+      return overwrite;
     }
   }
 
