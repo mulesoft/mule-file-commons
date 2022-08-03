@@ -73,7 +73,10 @@ public final class UriUtils {
    * Adds a separator at the end of the given path. If the path already ends with the separator, then this method does nothing.
    */
   private static String addSeparator(String path) {
-    return (path.endsWith(SEPARATOR) || path.length() == 1) ? path : path + SEPARATOR;
+    if (path == null) {
+      return "";
+    }
+    return (path.isEmpty() || path.endsWith(SEPARATOR)) ? path : path + SEPARATOR;
   }
 
   /**

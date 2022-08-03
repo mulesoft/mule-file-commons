@@ -6,11 +6,12 @@
  */
 package org.mule.test.extension.file.common;
 
+import static org.mule.extension.file.common.api.util.UriUtils.createUri;
+
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assume.assumeTrue;
-import static org.mule.extension.file.common.api.util.UriUtils.createUri;
 
 import org.mule.extension.file.common.api.AbstractFileAttributes;
 
@@ -22,6 +23,7 @@ import org.junit.Test;
 
 public class AbstractFileAttributesTestCase {
 
+  private static final String TEST_FILENAME = "test.txt";
   private static String path;
 
   @Test
@@ -135,11 +137,115 @@ public class AbstractFileAttributesTestCase {
     assertFileName(path);
   }
 
+  @Test
+  public void bothConstructorAssignAnEmptyBasePath() {
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri("", TEST_FILENAME));
+    assertThat(uriAttributes.getPath(), equalTo(TEST_FILENAME));
+  }
+
+  @Test
+  public void bothConstructorAssignAnEmptyFilePath() {
+    path = "/test";
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(path, ""));
+    assertThat(uriAttributes.getPath(), equalTo(path));
+  }
+
+  @Test
+  public void bothConstructorAssignAnEmptyFilePathWithoutDash() {
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(TEST_FILENAME, ""));
+    assertThat(uriAttributes.getPath(), equalTo(TEST_FILENAME));
+  }
+
   private void assertFileName(String path) {
     ConcreteFileAttributes pathAttributes = new ConcreteFileAttributes(Paths.get(path));
     ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(path));
 
     assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInSpecificFolderWithSeparator2() {
+    ConcreteFileAttributes pathAttributes = new ConcreteFileAttributes(Paths.get("/myFile.txt"));
+    // Basepath parameter will be ignored when tne filepath is absolute (when it start with slash)
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri("/root/", "/myFile.txt"));
+    assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
+  }
+
+  @Test
+  public void bothConstructorWithBasePathInHome() {
+    assertBasePathAndFileName("~", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInCurrent() {
+    assertBasePathAndFileName(".", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInSpecificFolder() {
+    assertBasePathAndFileName("/root", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInSpecificFolderWithSeparator() {
+    assertBasePathAndFileName("/root/", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInSpecificFolderWithoutSeparators() {
+    assertBasePathAndFileName("root", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInSpecificFoldersWithoutSeparators() {
+    assertBasePathAndFileName("root/test", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInRoot() {
+    assertBasePathAndFileName("/", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInParent() {
+    assertBasePathAndFileName("..", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAssignInParentSpeficFolder() {
+    assertBasePathAndFileName("/root", "../myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAEmpty() {
+    assertBasePathAndFileName("", "myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAEmptyAndSeparator() {
+    assertBasePathAndFileName("", "/myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAEmptyAndRelativePathFile() {
+    assertBasePathAndFileName("", "~/myFile.txt");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathAEmptyAndFilePathEmpty() {
+    assertBasePathAndFileName("", "");
+  }
+
+  @Test
+  public void bothConstructorWithBasePathWithSpaceAndFilePathEmpty() {
+    assertBasePathAndFileName(" ", "");
+  }
+
+  private void assertBasePathAndFileName(String basePath, String filePath) {
+    ConcreteFileAttributes pathAttributes = new ConcreteFileAttributes(Paths.get(basePath, filePath));
+    ConcreteFileAttributes uriAttributes = new ConcreteFileAttributes(createUri(basePath, filePath));
+    assertThat(pathAttributes.getName(), equalTo(uriAttributes.getName()));
+    assertThat(pathAttributes.getPath(), equalTo(uriAttributes.getPath()));
   }
 
   private class ConcreteFileAttributes extends AbstractFileAttributes {
