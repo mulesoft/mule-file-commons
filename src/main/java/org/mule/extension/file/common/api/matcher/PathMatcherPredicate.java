@@ -6,14 +6,15 @@
  */
 package org.mule.extension.file.common.api.matcher;
 
+import static org.mule.extension.file.common.api.PredicateType.LOCAL_FILE_SYSTEM;
+import static org.mule.extension.file.common.api.matcher.FileMatcher.DEFAULT_CASE_SENSITIVE;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import org.mule.runtime.core.api.util.StringUtils;
 
-import java.nio.file.FileSystems;
-import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+
+import org.mule.extension.file.common.api.PredicateType;
+import org.mule.runtime.core.api.util.StringUtils;
 
 /**
  * A {@link Predicate} which tests random paths in {@link String} representation to match a specific pattern.
@@ -30,13 +31,29 @@ public final class PathMatcherPredicate implements Predicate<String> {
 
   private final Predicate<String> delegate;
 
+
+
   /**
    * Creates a new instance using the given pattern
    *
    * @param pattern the pattern to be used to test paths.
+   *
    */
+
   public PathMatcherPredicate(String pattern) {
-    delegate = getPredicateForFilename(pattern);
+    delegate = getPredicateForFilename(pattern, LOCAL_FILE_SYSTEM, DEFAULT_CASE_SENSITIVE);
+  }
+
+  /**
+   * Creates a new instance using the given pattern
+   *
+   * @param pattern       the pattern to be used to test paths.
+   * @param predicateType if is gonna a match local file system or a remote file system ex:ftp , sftp
+   * @param caseSensitive if the predicateType is a external file system predicate this set the case sensitivity
+   */
+
+  public PathMatcherPredicate(String pattern, PredicateType predicateType, final boolean caseSensitive) {
+    delegate = getPredicateForFilename(pattern, predicateType, caseSensitive);
   }
 
   /**
@@ -49,19 +66,14 @@ public final class PathMatcherPredicate implements Predicate<String> {
     return delegate.test(path);
   }
 
-  private Predicate<String> getPredicateForFilename(String pattern) {
+  private Predicate<String> getPredicateForFilename(String pattern, PredicateType predicateType, final boolean caseSensitive) {
     if (pattern.startsWith(REGEX_PREFIX)) {
       return Pattern.compile(stripRegexPrefix(pattern)).asPredicate();
     } else if (pattern.startsWith(GLOB_PREFIX)) {
-      return getGlobPredicate(pattern);
+      return predicateType.getPredicate(pattern, caseSensitive);
     } else {
-      return getGlobPredicate(GLOB_PREFIX + pattern);
+      return predicateType.getPredicate(GLOB_PREFIX + pattern, caseSensitive);
     }
-  }
-
-  private Predicate<String> getGlobPredicate(String pattern) {
-    PathMatcher matcher = FileSystems.getDefault().getPathMatcher(pattern);
-    return path -> matcher.matches(Paths.get(path));
   }
 
   private String stripRegexPrefix(String pattern) {
