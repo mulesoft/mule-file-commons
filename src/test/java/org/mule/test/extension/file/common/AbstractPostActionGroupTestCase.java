@@ -138,8 +138,29 @@ public class AbstractPostActionGroupTestCase {
     assertThat(fileSystem.getActionExecuted(), is(RENAME));
   }
 
+  @Test
+  public void moveToDirectoryWithoutOverwrite() {
+    expectedException.expect(FileAlreadyExistsException.class);
+    fileSystem.clearActions();
+    fileSystem.setCanMove(false);
+    apply(moveToDirectory, null, false, false);
+  }
+
+  @Test
+  public void moveToDirectoryWithOverwrite() {
+    fileSystem.clearActions();
+    fileSystem.setCanMove(true);
+    apply(moveToDirectory, null, false, true);
+    assertThat(fileSystem.getActionExecuted(), is(MOVE));
+  }
+
   private void apply(String moveToDirectory, String renameTo, boolean autoDelete) {
     ConcretePostActionGroup postActionGroup = new ConcretePostActionGroup(moveToDirectory, renameTo, autoDelete);
+    postActionGroup.apply(fileSystem, fileAttributes, fileConnectorConfig);
+  }
+
+  private void apply(String moveToDirectory, String renameTo, boolean autoDelete, boolean overwrite) {
+    ConcretePostActionGroup postActionGroup = new ConcretePostActionGroup(moveToDirectory, renameTo, autoDelete, overwrite);
     postActionGroup.apply(fileSystem, fileAttributes, fileConnectorConfig);
   }
 
@@ -148,12 +169,19 @@ public class AbstractPostActionGroupTestCase {
     private String moveToDirectory;
     private String renameTo;
     private boolean isAutoDelete;
-    private boolean overwrite = false;
+    private boolean overwrite;
 
     public ConcretePostActionGroup(String moveToDirectory, String renameTo, boolean isAutoDelete) {
       this.moveToDirectory = moveToDirectory;
       this.renameTo = renameTo;
       this.isAutoDelete = isAutoDelete;
+    }
+
+    public ConcretePostActionGroup(String moveToDirectory, String renameTo, boolean isAutoDelete, boolean overwrite) {
+      this.moveToDirectory = moveToDirectory;
+      this.renameTo = renameTo;
+      this.isAutoDelete = isAutoDelete;
+      this.overwrite = overwrite;
     }
 
     @Override
