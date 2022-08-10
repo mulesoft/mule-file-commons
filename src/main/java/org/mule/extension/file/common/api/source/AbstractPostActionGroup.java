@@ -32,6 +32,8 @@ public abstract class AbstractPostActionGroup {
 
   public abstract String getRenameTo();
 
+  public abstract boolean getOverwrite();
+
   public abstract boolean isApplyPostActionWhenFailed();
 
   public void validateSelf() throws IllegalArgumentException {
@@ -58,11 +60,11 @@ public abstract class AbstractPostActionGroup {
     boolean movedOrRenamed = false;
     try {
       if (getMoveToDirectory() != null) {
-        fileSystem.move(config, fileAttributes.getPath(), getMoveToDirectory(), false, true,
+        fileSystem.move(config, fileAttributes.getPath(), getMoveToDirectory(), getOverwrite(), true,
                         getRenameTo());
         movedOrRenamed = true;
       } else if (getRenameTo() != null) {
-        fileSystem.rename(fileAttributes.getPath(), getRenameTo(), false);
+        fileSystem.rename(fileAttributes.getPath(), getRenameTo(), getOverwrite());
         movedOrRenamed = true;
       }
     } catch (FileAlreadyExistsException e) {
