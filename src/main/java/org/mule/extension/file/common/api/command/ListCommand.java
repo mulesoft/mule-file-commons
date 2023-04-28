@@ -59,6 +59,26 @@ public interface ListCommand<A extends FileAttributes> {
   }
 
   /**
+   * Lists and read files under the considerations of {@link FileSystem#list(FileConnectorConfig, String, boolean, Predicate)}
+   *
+   * @param config                    the config that is parameterizing this operation
+   * @param directoryPath             the path to the directory to be listed
+   * @param recursive                 whether to include the contents of sub-directories
+   * @param matcher                   a {@link Predicate} of {@link FileAttributes} used to filter the output list
+   * @param timeBetweenSizeCheck      wait time between size checks to determine if a file is ready to be read in milliseconds.
+   * @return a {@link List} of {@link Result} objects each one containing each file's content in the payload and metadata in the
+   *         attributes
+   * @throws IllegalArgumentException if {@code directoryPath} points to a file which doesn't exist or is not a directory
+   */
+  default List<Result<InputStream, A>> listAndRead(FileConnectorConfig config,
+                                                   String directoryPath,
+                                                   boolean recursive,
+                                                   Predicate<A> matcher,
+                                                   Long timeBetweenSizeCheck) {
+    return list(config, directoryPath, recursive, matcher);
+  }
+
+  /**
    * Lists files under the considerations of {@link FileSystem#list(FileConnectorConfig, String, boolean, Predicate)}
    *
    * @param config                    the config that is parameterizing this operation
