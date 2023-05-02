@@ -88,7 +88,7 @@ public abstract class AbstractFileInputStreamSupplier implements Supplier<InputS
       }
       updatedAttributes = getUpdatedAttributes();
     } while (updatedAttributes != null && updatedAttributes.getSize() != oldAttributes.getSize()
-        && retries++ < MAX_SIZE_CHECK_RETRIES);
+        && retries++ <= MAX_SIZE_CHECK_RETRIES);
     if (retries > MAX_SIZE_CHECK_RETRIES) {
       throw new FileBeingModifiedException(createStaticMessage("File on path " + attributes.getPath()
           + " is still being written."));
