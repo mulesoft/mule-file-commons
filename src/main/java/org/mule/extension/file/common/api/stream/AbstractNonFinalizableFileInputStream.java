@@ -27,8 +27,6 @@ import org.apache.commons.io.input.AutoCloseInputStream;
 import org.apache.commons.io.input.ClosedInputStream;
 import org.apache.commons.io.input.ProxyInputStream;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -49,22 +47,22 @@ public abstract class AbstractNonFinalizableFileInputStream extends ProxyInputSt
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
     try {
-      return (new ByteBuddy()).subclass(InputStream.class,  DEFAULT_CONSTRUCTOR)
-              .constructor(any())
-              .intercept(to(streamFactory.get())
-                      .andThen(SuperMethodCall.INSTANCE))
-              .make()
-              .load(AbstractNonFinalizableFileInputStream.class.getClassLoader())
-              .getLoaded()
-              .newInstance();
+      return (new ByteBuddy()).subclass(InputStream.class, DEFAULT_CONSTRUCTOR)
+          .constructor(any())
+          .intercept(to(streamFactory.get())
+              .andThen(SuperMethodCall.INSTANCE))
+          .make()
+          .load(AbstractNonFinalizableFileInputStream.class.getClassLoader())
+          .getLoaded()
+          .newInstance();
     } catch (InstantiationException e) {
       throw new RuntimeException(e);
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e);
     }
-//    return (InputStream) Enhancer.create(InputStream.class,
-//                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
-//                                             .invoke(streamFactory.get(), arguments));
+    //    return (InputStream) Enhancer.create(InputStream.class,
+    //                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
+    //                                             .invoke(streamFactory.get(), arguments));
   }
 
   private final LazyStreamSupplier streamSupplier;
