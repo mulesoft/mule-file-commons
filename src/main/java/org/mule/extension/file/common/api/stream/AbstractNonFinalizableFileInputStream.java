@@ -6,8 +6,13 @@
  */
 package org.mule.extension.file.common.api.stream;
 
+import static net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy.Default.DEFAULT_CONSTRUCTOR;
+import static net.bytebuddy.implementation.MethodDelegation.to;
+import static net.bytebuddy.matcher.ElementMatchers.any;
 import static org.apache.commons.io.IOUtils.EOF;
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.implementation.SuperMethodCall;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
