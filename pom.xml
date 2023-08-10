@@ -35,6 +35,7 @@
         <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
+        <net.bytebuddy.version>1.14.5</net.bytebuddy.version>
 
     </properties>
 
@@ -46,10 +47,15 @@
             <version>${mule.version}</version>
             <scope>provided</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cglib</groupId>-->
+<!--            <artifactId>cglib</artifactId>-->
+<!--            <version>${cglib.version}</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>${cglib.version}</version>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${net.bytebuddy.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.activation</groupId>

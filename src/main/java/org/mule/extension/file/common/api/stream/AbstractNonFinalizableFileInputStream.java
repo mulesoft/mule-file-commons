@@ -43,9 +43,23 @@ import net.sf.cglib.proxy.MethodInterceptor;
 public abstract class AbstractNonFinalizableFileInputStream extends ProxyInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
-    return (InputStream) Enhancer.create(InputStream.class,
-                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
-                                             .invoke(streamFactory.get(), arguments));
+    try {
+      return (new ByteBuddy()).subclass(InputStream.class,  DEFAULT_CONSTRUCTOR)
+              .constructor(any())
+              .intercept(to(streamFactory.get())
+                      .andThen(SuperMethodCall.INSTANCE))
+              .make()
+              .load(AbstractNonFinalizableFileInputStream.class.getClassLoader())
+              .getLoaded()
+              .newInstance();
+    } catch (InstantiationException e) {
+      throw new RuntimeException(e);
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+//    return (InputStream) Enhancer.create(InputStream.class,
+//                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
+//                                             .invoke(streamFactory.get(), arguments));
   }
 
   private final LazyStreamSupplier streamSupplier;
