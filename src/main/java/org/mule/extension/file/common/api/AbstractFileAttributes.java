@@ -75,7 +75,6 @@ public abstract class AbstractFileAttributes implements FileAttributes, Serializ
   /**
    * {@inheritDoc}
    */
-  @Override
   public String getFileName() {
     return fileName;
   }
