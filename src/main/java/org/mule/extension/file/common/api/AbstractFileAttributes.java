@@ -73,7 +73,7 @@ public abstract class AbstractFileAttributes implements FileAttributes, Serializ
   }
 
   /**
-   * {@inheritDoc}
+   * @return The file's name
    */
   public String getFileName() {
     return fileName;
