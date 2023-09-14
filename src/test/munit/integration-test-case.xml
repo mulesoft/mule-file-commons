@@ -12,7 +12,7 @@
         http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
         http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
 
-    <munit:config name="integration-test-case"/>
+    <munit:config name="integration-test-case" minMuleVersion="4.3.0"/>
 
     <munit:test name="integration-test" description="Perform simple operations with all core components that uses File Commons">
         <munit:execution>
