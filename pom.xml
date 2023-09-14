@@ -36,6 +36,9 @@
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
 
+        <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
+        <sftp-connector.version>1.6.2-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
+        <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
     </properties>
 
     <dependencies>
@@ -165,19 +168,19 @@
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-ftp-connector</artifactId>
-                        <version>1.6.0</version>
+                        <version>${ftp-connector.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-sftp-connector</artifactId>
-                        <version>1.4.1</version>
+                        <version>${sftp-connector.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-file-connector</artifactId>
-                        <version>1.3.5</version>
+                    <version>${file-connector.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                 </dependencies>
