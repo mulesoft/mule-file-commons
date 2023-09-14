@@ -12,7 +12,7 @@
         http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
         http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
 
-    <munit:config name="integration-test-case"/>
+    <munit:config name="integration-test-case" minMuleVersion="4.3.0"/>
 
     <munit:test name="integration-test" description="Perform simple operations with all core components that uses File Commons">
         <munit:execution>
@@ -37,9 +37,8 @@
                         <sftp:content >SFTP</sftp:content>
                     </sftp:write>
                     <sftp:list config-ref="sftp-config" directoryPath="#[vars.dir]"/>
-                    <sftp:read config-ref="sftp-config" path="#[output text/plain --- payload[0].payload]"/>
                     <munit-tools:store key="SFTP">
-                        <munit-tools:value>#[payload]</munit-tools:value>
+                        <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
                     </munit-tools:store>
                     <sftp:delete config-ref="sftp-config" path="#[vars.dir]"/>
                 </route>
