@@ -6,6 +6,7 @@
  */
 package org.mule.extension.file.common.api.stream;
 
+import net.bytebuddy.ByteBuddy;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
@@ -17,9 +18,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import org.apache.commons.io.input.AutoCloseInputStream;
+import org.mule.runtime.api.exception.MuleRuntimeException;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
+import static net.bytebuddy.implementation.MethodDelegation.to;
+import static net.bytebuddy.matcher.ElementMatchers.isDeclaredBy;
+import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -41,9 +44,23 @@ import net.sf.cglib.proxy.MethodInterceptor;
 public abstract class AbstractFileInputStream extends AutoCloseInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
-    return (InputStream) Enhancer.create(InputStream.class,
-                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
-                                             .invoke(streamFactory.get(), arguments));
+    return getInputStreamFromStreamFactory(streamFactory);
+  }
+
+  public static InputStream getInputStreamFromStreamFactory(LazyStreamSupplier streamFactory) {
+    try {
+      InputStream target = streamFactory.get();
+      return new ByteBuddy()
+          .subclass(InputStream.class)
+          .method(isDeclaredBy(InputStream.class))
+          .intercept(to(target))
+          .make()
+          .load(target.getClass().getClassLoader())
+          .getLoaded()
+          .newInstance();
+    } catch (InstantiationException | IllegalAccessException e) {
+      throw new MuleRuntimeException(createStaticMessage("Could not create instance of " + InputStream.class), e);
+    }
   }
 
   private final LazyStreamSupplier streamSupplier;

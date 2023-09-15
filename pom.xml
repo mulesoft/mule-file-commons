@@ -12,7 +12,7 @@
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-file-extension-common</artifactId>
     <name>Mule File Extension Common</name>
-    <version>1.5.0-SNAPSHOT-TEST-SABRI</version>
+    <version>1.5.0-SNAPSHOT</version>
     <packaging>mule-plugin</packaging>
     <description>
         Reusable components for extensions built using Mule's SDK which operate over file systems (e.g: file, ftp, sftp, etc)
@@ -20,7 +20,6 @@
 
     <properties>
         <mule.version>4.1.0</mule.version>
-        <cglib.version>3.3.0</cglib.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <javax.activation.version>1.2.0</javax.activation.version>
@@ -47,11 +46,6 @@
             <version>${mule.version}</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>cglib</groupId>-->
-<!--            <artifactId>cglib</artifactId>-->
-<!--            <version>${cglib.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>

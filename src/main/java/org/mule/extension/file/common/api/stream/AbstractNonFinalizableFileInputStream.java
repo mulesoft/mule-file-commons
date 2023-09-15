@@ -6,13 +6,11 @@
  */
 package org.mule.extension.file.common.api.stream;
 
-import static net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy.Default.DEFAULT_CONSTRUCTOR;
 import static net.bytebuddy.implementation.MethodDelegation.to;
-import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.isDeclaredBy;
 import static org.apache.commons.io.IOUtils.EOF;
+import static org.mule.extension.file.common.api.stream.AbstractFileInputStream.getInputStreamFromStreamFactory;
 
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.implementation.SuperMethodCall;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
@@ -46,23 +44,7 @@ import org.apache.commons.io.input.ProxyInputStream;
 public abstract class AbstractNonFinalizableFileInputStream extends ProxyInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
-    try {
-      return (new ByteBuddy()).subclass(InputStream.class, DEFAULT_CONSTRUCTOR)
-          .constructor(any())
-          .intercept(to(streamFactory.get())
-              .andThen(SuperMethodCall.INSTANCE))
-          .make()
-          .load(AbstractNonFinalizableFileInputStream.class.getClassLoader())
-          .getLoaded()
-          .newInstance();
-    } catch (InstantiationException e) {
-      throw new RuntimeException(e);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    }
-    //    return (InputStream) Enhancer.create(InputStream.class,
-    //                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
-    //                                             .invoke(streamFactory.get(), arguments));
+    return getInputStreamFromStreamFactory(streamFactory);
   }
 
   private final LazyStreamSupplier streamSupplier;
