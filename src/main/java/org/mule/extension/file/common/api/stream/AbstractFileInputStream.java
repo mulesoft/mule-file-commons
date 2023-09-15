@@ -6,24 +6,26 @@
  */
 package org.mule.extension.file.common.api.stream;
 
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.dynamic.DynamicType;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
 import org.mule.extension.file.common.api.lock.PathLock;
+import org.mule.runtime.api.exception.MuleRuntimeException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.DynamicType.Builder.MethodDefinition.ReceiverTypeDefinition;
+import net.bytebuddy.dynamic.DynamicType.Unloaded;
 import org.apache.commons.io.input.AutoCloseInputStream;
-import org.mule.runtime.api.exception.MuleRuntimeException;
+
+import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 
 import static net.bytebuddy.implementation.MethodDelegation.to;
 import static net.bytebuddy.matcher.ElementMatchers.isDeclaredBy;
-import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -51,11 +53,11 @@ public abstract class AbstractFileInputStream extends AutoCloseInputStream {
   public static InputStream getInputStreamFromStreamFactory(LazyStreamSupplier streamFactory) {
     try {
       InputStream target = streamFactory.get();
-      DynamicType.Builder.MethodDefinition.ReceiverTypeDefinition<InputStream> inputStreamReceiverTypeDefinition = new ByteBuddy()
+      ReceiverTypeDefinition<InputStream> inputStreamReceiverTypeDefinition = new ByteBuddy()
           .subclass(InputStream.class)
           .method(isDeclaredBy(InputStream.class))
           .intercept(to(target));
-      try (DynamicType.Unloaded<InputStream> make = inputStreamReceiverTypeDefinition.make() {
+      try (Unloaded<InputStream> make = inputStreamReceiverTypeDefinition.make()) {
         return make
             .load(target.getClass().getClassLoader())
             .getLoaded()

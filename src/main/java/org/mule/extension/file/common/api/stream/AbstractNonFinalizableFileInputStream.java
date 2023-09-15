@@ -6,11 +6,6 @@
  */
 package org.mule.extension.file.common.api.stream;
 
-import static net.bytebuddy.implementation.MethodDelegation.to;
-import static net.bytebuddy.matcher.ElementMatchers.isDeclaredBy;
-import static org.apache.commons.io.IOUtils.EOF;
-import static org.mule.extension.file.common.api.stream.AbstractFileInputStream.getInputStreamFromStreamFactory;
-
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
@@ -25,6 +20,8 @@ import org.apache.commons.io.input.AutoCloseInputStream;
 import org.apache.commons.io.input.ClosedInputStream;
 import org.apache.commons.io.input.ProxyInputStream;
 
+import static org.apache.commons.io.IOUtils.EOF;
+import static org.mule.extension.file.common.api.stream.AbstractFileInputStream.getInputStreamFromStreamFactory;
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
