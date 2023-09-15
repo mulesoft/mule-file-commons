@@ -7,6 +7,7 @@
 package org.mule.extension.file.common.api.stream;
 
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.DynamicType;
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
@@ -50,15 +51,17 @@ public abstract class AbstractFileInputStream extends AutoCloseInputStream {
   public static InputStream getInputStreamFromStreamFactory(LazyStreamSupplier streamFactory) {
     try {
       InputStream target = streamFactory.get();
-      return new ByteBuddy()
+      DynamicType.Builder.MethodDefinition.ReceiverTypeDefinition<InputStream> inputStreamReceiverTypeDefinition = new ByteBuddy()
           .subclass(InputStream.class)
           .method(isDeclaredBy(InputStream.class))
-          .intercept(to(target))
-          .make()
-          .load(target.getClass().getClassLoader())
-          .getLoaded()
-          .newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
+          .intercept(to(target));
+      try (DynamicType.Unloaded<InputStream> make = inputStreamReceiverTypeDefinition.make() {
+        return make
+            .load(target.getClass().getClassLoader())
+            .getLoaded()
+            .newInstance();
+      }
+    } catch (InstantiationException | IllegalAccessException | IOException e) {
       throw new MuleRuntimeException(createStaticMessage("Could not create instance of " + InputStream.class), e);
     }
   }
