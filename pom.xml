@@ -20,7 +20,6 @@
 
     <properties>
         <mule.version>4.1.0</mule.version>
-        <cglib.version>3.3.0</cglib.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <javax.activation.version>1.2.0</javax.activation.version>
@@ -35,6 +34,7 @@
         <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
+        <net.bytebuddy.version>1.14.5</net.bytebuddy.version>
 
         <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
         <sftp-connector.version>1.6.2-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
@@ -50,9 +50,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>${cglib.version}</version>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${net.bytebuddy.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.activation</groupId>
