@@ -1,0 +1,698 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------< org.mule.modules:mule-module-file-extension-common >---------
+[INFO] Building Mule File Extension Common 1.5.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] ----------------------------[ mule-plugin ]-----------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ mule-module-file-extension-common ---
+[INFO] ShortRevision tag detected. The value is '8'.
+[INFO] Executing: /bin/sh -c cd '/Users/fburman/Documents/connectors/mule-file-commons' && 'git' 'rev-parse' '--verify' '--short=8' 'HEAD'
+[INFO] Working directory: /Users/fburman/Documents/connectors/mule-file-commons
+[INFO] Storing buildNumber: 9ef81d3e at timestamp: 2023-Oct-03 10:36:50
+[INFO] Storing buildScmBranch: main
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-versions) @ mule-module-file-extension-common ---
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.0:resources (default-resources) @ mule-module-file-extension-common ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ mule-module-file-extension-common ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- formatter-maven-plugin:1.9.0:validate (apply-format) @ mule-module-file-extension-common ---
+[INFO] Formatting is skipped
+[INFO] 
+[INFO] --- license-maven-plugin:2.11:check (default) @ mule-module-file-extension-common ---
+[INFO] 
+[INFO] --- maven-jdeps-plugin:3.1.2:jdkinternals (default) @ mule-module-file-extension-common ---
+[INFO] 
+Warning: /Users/fburman/.m2/repository/net/bytebuddy/byte-buddy/1.14.5/byte-buddy-1.14.5.jar is a multi-release jar file.
+All versioned entries are analyzed. To analyze the entries for a specific
+version, use a newer version of jdeps (JDK 9 or later) "--multi-release" option.
+classes -> /Users/fburman/.m2/repository/net/bytebuddy/byte-buddy/1.14.5/byte-buddy-1.14.5.jar
+classes -> /Users/fburman/.m2/repository/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar
+classes -> /Users/fburman/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar
+classes -> /Users/fburman/.m2/repository/com/sun/activation/javax.activation/1.2.0/javax.activation-1.2.0.jar
+classes -> /Users/fburman/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar
+classes -> /Users/fburman/.m2/repository/org/mule/runtime/mule-api/1.1.0/mule-api-1.1.0.jar
+classes -> /Users/fburman/.m2/repository/org/mule/runtime/mule-core/4.1.0/mule-core-4.1.0.jar
+classes -> /Users/fburman/.m2/repository/org/mule/runtime/mule-extensions-api/1.1.0/mule-extensions-api-1.1.0.jar
+classes -> /Users/fburman/.sdkman/candidates/java/8.0.372-amzn/jre/lib/rt.jar
+classes -> /Users/fburman/.m2/repository/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar
+   org.mule.extension.file.common.api (classes)
+      -> java.io                                            
+      -> java.lang                                          
+      -> java.lang.invoke                                   
+      -> java.net                                           
+      -> java.nio.file                                      
+      -> java.time                                          
+      -> java.util                                          
+      -> java.util.concurrent                               
+      -> java.util.concurrent.atomic                        
+      -> java.util.concurrent.locks                         
+      -> java.util.function                                 
+      -> java.util.regex                                    
+      -> javax.activation                                   javax.activation-1.2.0.jar
+      -> javax.inject                                       javax.inject-1.jar
+      -> org.apache.commons.io                              commons-io-2.11.0.jar
+      -> org.apache.commons.lang3.builder                   commons-lang3-3.12.0.jar
+      -> org.mule.extension.file.common.api.command         classes
+      -> org.mule.extension.file.common.api.connection      classes
+      -> org.mule.extension.file.common.api.exceptions      classes
+      -> org.mule.extension.file.common.api.lock            classes
+      -> org.mule.extension.file.common.api.matcher         classes
+      -> org.mule.extension.file.common.api.stream          classes
+      -> org.mule.extension.file.common.api.subset          classes
+      -> org.mule.extension.file.common.api.util            classes
+      -> org.mule.runtime.api.connection                    mule-api-1.1.0.jar
+      -> org.mule.runtime.api.exception                     mule-api-1.1.0.jar
+      -> org.mule.runtime.api.i18n                          mule-api-1.1.0.jar
+      -> org.mule.runtime.api.lock                          mule-api-1.1.0.jar
+      -> org.mule.runtime.api.metadata                      mule-api-1.1.0.jar
+      -> org.mule.runtime.api.streaming                     mule-api-1.1.0.jar
+      -> org.mule.runtime.core.api.connector                mule-core-4.1.0.jar
+      -> org.mule.runtime.core.api.util                     mule-core-4.1.0.jar
+      -> org.mule.runtime.extension.api.annotation.param    mule-extensions-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.annotation.param.display mule-extensions-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.runtime.operation   mule-extensions-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.runtime.streaming   mule-extensions-api-1.1.0.jar
+      -> org.slf4j                                          slf4j-api-1.7.25.jar
+   org.mule.extension.file.common.api.command (classes)
+      -> java.io                                            
+      -> java.lang                                          
+      -> java.net                                           
+      -> java.nio.file                                      
+      -> java.util                                          
+      -> java.util.concurrent.locks                         
+      -> java.util.function                                 
+      -> org.mule.extension.file.common.api                 classes
+      -> org.mule.extension.file.common.api.exceptions      classes
+      -> org.mule.extension.file.common.api.subset          classes
+      -> org.mule.extension.file.common.api.util            classes
+      -> org.mule.runtime.api.exception                     mule-api-1.1.0.jar
+      -> org.mule.runtime.api.i18n                          mule-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.runtime.operation   mule-extensions-api-1.1.0.jar
+      -> org.slf4j                                          slf4j-api-1.7.25.jar
+   org.mule.extension.file.common.api.connection (classes)
+      -> java.lang                                          
+      -> org.mule.extension.file.common.api                 classes
+      -> org.mule.runtime.api.connection                    mule-api-1.1.0.jar
+      -> org.mule.runtime.core.api.connector                mule-core-4.1.0.jar
+   org.mule.extension.file.common.api.exceptions (classes)
+      -> java.lang                                          
+      -> java.util                                          
+      -> org.mule.runtime.api.exception                     mule-api-1.1.0.jar
+      -> org.mule.runtime.api.i18n                          mule-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.annotation.error    mule-extensions-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.error               mule-extensions-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.exception           mule-extensions-api-1.1.0.jar
+   org.mule.extension.file.common.api.lock (classes)
+      -> java.lang                                          
+      -> java.net                                           
+      -> java.nio.file                                      
+      -> java.util.concurrent.atomic                        
+      -> java.util.concurrent.locks                         
+      -> org.mule.runtime.api.lock                          mule-api-1.1.0.jar
+   org.mule.extension.file.common.api.matcher (classes)
+      -> java.lang                                          
+      -> java.lang.invoke                                   
+      -> java.util                                          
+      -> java.util.function                                 
+      -> java.util.regex                                    
+      -> org.mule.extension.file.common.api                 classes
+      -> org.mule.extension.file.common.api.util            classes
+      -> org.mule.runtime.api.util                          mule-api-1.1.0.jar
+      -> org.mule.runtime.core.api.util                     mule-core-4.1.0.jar
+      -> org.mule.runtime.extension.api.annotation.param    mule-extensions-api-1.1.0.jar
+      -> org.mule.runtime.extension.api.annotation.param.display mule-extensions-api-1.1.0.jar
+   org.mule.extension.file.common.api.source (classes)
+      -> java.lang                                          
+      -> java.nio.file                                      
+      -> org.mule.extension.file.common.api                 classes
+      -> org.mule.extension.file.common.api.exceptions      classes
+      -> org.slf4j                                          slf4j-api-1.7.25.jar
+   org.mule.extension.file.common.api.stream (classes)
+      -> java.io                                            
+      -> java.lang                                          
+      -> java.lang.invoke                                   
+      -> java.util.concurrent.atomic                        
+      -> java.util.function                                 
+      -> net.bytebuddy                                      byte-buddy-1.14.5.jar
+      -> net.bytebuddy.dynamic                              byte-buddy-1.14.5.jar
+      -> net.bytebuddy.implementation                       byte-buddy-1.14.5.jar
+      -> net.bytebuddy.matcher                              byte-buddy-1.14.5.jar
+      -> org.apache.commons.io                              commons-io-2.11.0.jar
+      -> org.apache.commons.io.input                        commons-io-2.11.0.jar
+      -> org.mule.extension.file.common.api.lock            classes
+      -> org.mule.runtime.api.exception                     mule-api-1.1.0.jar
+      -> org.mule.runtime.api.i18n                          mule-api-1.1.0.jar
+   org.mule.extension.file.common.api.subset (classes)
+      -> java.lang                                          
+   org.mule.extension.file.common.api.util (classes)
+      -> java.lang                                          
+      -> java.net                                           
+      -> java.time                                          
+      -> java.time.chrono                                   
+      -> java.util.function                                 
+      -> java.util.regex                                    
+      -> org.mule.extension.file.common.api.exceptions      classes
+      -> org.mule.runtime.api.exception                     mule-api-1.1.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.0:testResources (default-testResources) @ mule-module-file-extension-common ---
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- build-helper-maven-plugin:3.3.0:reserve-network-port (reserve-network-port) @ mule-module-file-extension-common ---
+[INFO] Reserved port 50462 for sftp.server.port
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.0:copy-resources (copy-munit-resources) @ mule-module-file-extension-common ---
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ mule-module-file-extension-common ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-jdeps-plugin:3.1.2:test-jdkinternals (default) @ mule-module-file-extension-common ---
+[INFO] 
+Warning: /Users/fburman/.m2/repository/net/bytebuddy/byte-buddy/1.14.5/byte-buddy-1.14.5.jar is a multi-release jar file.
+All versioned entries are analyzed. To analyze the entries for a specific
+version, use a newer version of jdeps (JDK 9 or later) "--multi-release" option.
+Warning: /Users/fburman/.m2/repository/org/apache/logging/log4j/log4j-api/2.10.0/log4j-api-2.10.0.jar is a multi-release jar file.
+All versioned entries are analyzed. To analyze the entries for a specific
+version, use a newer version of jdeps (JDK 9 or later) "--multi-release" option.
+test-classes -> /Users/fburman/Documents/connectors/mule-file-commons/target/classes
+test-classes -> /Users/fburman/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar
+test-classes -> /Users/fburman/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+test-classes -> /Users/fburman/.m2/repository/junit/junit/4.12/junit-4.12.jar
+test-classes -> /Users/fburman/.m2/repository/org/mockito/mockito-core/1.10.19/mockito-core-1.10.19.jar
+test-classes -> /Users/fburman/.m2/repository/org/mule/runtime/mule-api/1.1.0/mule-api-1.1.0.jar
+test-classes -> /Users/fburman/.m2/repository/org/mule/runtime/mule-core/4.1.0/mule-core-4.1.0.jar
+test-classes -> /Users/fburman/.m2/repository/org/mule/tests/plugin/mule-tests-component-plugin/4.1.0/mule-tests-component-plugin-4.1.0-mule-plugin.jar
+test-classes -> /Users/fburman/.m2/repository/org/mule/tests/mule-tests-unit/4.1.0/mule-tests-unit-4.1.0.jar
+test-classes -> /Users/fburman/.sdkman/candidates/java/8.0.372-amzn/jre/lib/rt.jar
+   org.mule.extension.file.common.api.matcher (test-classes)
+      -> java.io                                            
+      -> java.lang                                          
+      -> java.nio.file                                      
+      -> java.util.regex                                    
+      -> org.junit                                          junit-4.12.jar
+      -> org.mule.extension.file.common.api                 classes
+   org.mule.extension.file.common.api.stream (test-classes)
+      -> java.io                                            
+      -> java.lang                                          
+      -> java.util.function                                 
+      -> junit.framework                                    junit-4.12.jar
+      -> org.mockito                                        mockito-core-1.10.19.jar
+      -> org.mockito.stubbing                               mockito-core-1.10.19.jar
+      -> org.mockito.verification                           mockito-core-1.10.19.jar
+      -> org.mule.extension.file.common.api.lock            classes
+   org.mule.test.extension.file.common (test-classes)
+      -> java.lang                                          
+      -> java.lang.invoke                                   
+      -> java.net                                           
+      -> java.nio.file                                      
+      -> java.util                                          
+      -> java.util.concurrent                               
+      -> java.util.concurrent.atomic                        
+      -> java.util.function                                 
+      -> org.apache.commons.lang3                           commons-lang3-3.12.0.jar
+      -> org.hamcrest                                       hamcrest-core-1.3.jar
+      -> org.junit                                          junit-4.12.jar
+      -> org.junit.rules                                    junit-4.12.jar
+      -> org.junit.runner                                   junit-4.12.jar
+      -> org.mockito                                        mockito-core-1.10.19.jar
+      -> org.mockito.stubbing                               mockito-core-1.10.19.jar
+      -> org.mule.extension.file.common.api                 classes
+      -> org.mule.extension.file.common.api.command         classes
+      -> org.mule.extension.file.common.api.exceptions      classes
+      -> org.mule.extension.file.common.api.lock            classes
+      -> org.mule.extension.file.common.api.matcher         classes
+      -> org.mule.extension.file.common.api.source          classes
+      -> org.mule.extension.file.common.api.util            classes
+      -> org.mule.runtime.api.util.concurrent               mule-api-1.1.0.jar
+      -> org.mule.tck.junit4                                mule-tests-unit-4.1.0.jar
+      -> org.mule.tck.size                                  mule-tests-unit-4.1.0.jar
+   org.mule.test.extension.file.common.api (test-classes)
+      -> java.lang                                          
+      -> org.junit.rules                                    junit-4.12.jar
+      -> org.mule.functional.api.exception                  mule-tests-component-plugin-4.1.0-mule-plugin.jar
+   org.mule.test.extension.file.common.api.util (test-classes)
+      -> java.lang                                          
+      -> java.time                                          
+      -> org.hamcrest                                       hamcrest-core-1.3.jar
+      -> org.junit                                          junit-4.12.jar
+      -> org.mule.extension.file.common.api.util            classes
+   org.mule.test.extension.file.common.connection (test-classes)
+      -> java.lang                                          
+      -> java.lang.invoke                                   
+      -> org.hamcrest                                       hamcrest-core-1.3.jar
+      -> org.hamcrest.core                                  hamcrest-core-1.3.jar
+      -> org.junit                                          junit-4.12.jar
+      -> org.mockito                                        mockito-core-1.10.19.jar
+      -> org.mockito.invocation                             mockito-core-1.10.19.jar
+      -> org.mockito.stubbing                               mockito-core-1.10.19.jar
+      -> org.mockito.verification                           mockito-core-1.10.19.jar
+      -> org.mule.extension.file.common.api                 classes
+      -> org.mule.extension.file.common.api.connection      classes
+      -> org.mule.runtime.api.connection                    mule-api-1.1.0.jar
+      -> org.mule.runtime.core.api.connector                mule-core-4.1.0.jar
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.20.1:test (default-test) @ mule-module-file-extension-common ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.mule.extension.file.common.api.stream.FileInputStreamTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.69 s - in org.mule.extension.file.common.api.stream.FileInputStreamTest
+[INFO] Running org.mule.extension.file.common.api.matcher.PathMatcherExternalFileSystemPredicateTest
+Compile bad pattern *[a--z]	Failed to compile ==> OKAY
+Compile bad pattern *[a--]	Failed to compile ==> OKAY
+Compile bad pattern *[a-z	Failed to compile ==> OKAY
+Compile bad pattern *{class,java	Failed to compile ==> OKAY
+Compile bad pattern *.{class,{.java}}	Failed to compile ==> OKAY
+Compile bad pattern *.html\	Failed to compile ==> OKAY
+Test regex pattern: .*\.html OKAY
+Test regex pattern: foo\d+ OKAY
+Test regex pattern: fo\so OKAY
+Test regex pattern: \w+ OKAY
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.121 s - in org.mule.extension.file.common.api.matcher.PathMatcherExternalFileSystemPredicateTest
+[INFO] Running org.mule.extension.file.common.api.matcher.PathMatcherLocalFileSystemPredicateTest
+Compile bad pattern *[a--z]	Failed to compile ==> OKAY
+Compile bad pattern *[a--]	Failed to compile ==> OKAY
+Compile bad pattern *[a-z	Failed to compile ==> OKAY
+Compile bad pattern *{class,java	Failed to compile ==> OKAY
+Compile bad pattern *.{class,{.java}}	Failed to compile ==> OKAY
+Compile bad pattern *.html\	Failed to compile ==> OKAY
+Test regex pattern: .*\.html OKAY
+Test regex pattern: foo\d+ OKAY
+Test regex pattern: fo\so OKAY
+Test regex pattern: \w+ OKAY
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 s - in org.mule.extension.file.common.api.matcher.PathMatcherLocalFileSystemPredicateTest
+[INFO] Running org.mule.test.extension.file.common.connection.StaticConnectionSourceUnitTestCase
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s - in org.mule.test.extension.file.common.connection.StaticConnectionSourceUnitTestCase
+[INFO] Running org.mule.test.extension.file.common.connection.ManagerBasedConnectionSourceUnitTestCase
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 s - in org.mule.test.extension.file.common.connection.ManagerBasedConnectionSourceUnitTestCase
+[INFO] Running org.mule.test.extension.file.common.FileMatcherContractTestCase
+
+================================================================================
+= Testing: isSymbolicLink                                                      =
+================================================================================
+
+================================================================================
+= Testing: rejectPathByGlob                                                    =
+================================================================================
+
+================================================================================
+= Testing: matchFilenameByGlob                                                 =
+================================================================================
+
+================================================================================
+= Testing: matchesManyButFailsOne                                              =
+================================================================================
+
+================================================================================
+= Testing: matchPathByRegex                                                    =
+================================================================================
+
+================================================================================
+= Testing: rejectFilenameByGlob                                                =
+================================================================================
+
+================================================================================
+= Testing: regularFile                                                         =
+================================================================================
+
+================================================================================
+= Testing: rejectPathByRegex                                                   =
+================================================================================
+
+================================================================================
+= Testing: matchPathByGlob                                                     =
+================================================================================
+
+================================================================================
+= Testing: failOnInvalidMaxSize                                                =
+================================================================================
+
+================================================================================
+= Testing: failOnInvalidMinSize                                                =
+================================================================================
+
+================================================================================
+= Testing: isDirectory                                                         =
+================================================================================
+
+================================================================================
+= Testing: rejectPathLiterally                                                 =
+================================================================================
+
+================================================================================
+= Testing: rejectFilenameByRegex                                               =
+================================================================================
+
+================================================================================
+= Testing: rejectRegularFile                                                   =
+================================================================================
+
+================================================================================
+= Testing: maxSize                                                             =
+================================================================================
+
+================================================================================
+= Testing: rejectNotSymbolicLink                                               =
+================================================================================
+
+================================================================================
+= Testing: minSize                                                             =
+================================================================================
+
+================================================================================
+= Testing: rejectMaxSize                                                       =
+================================================================================
+
+================================================================================
+= Testing: rejectMinSize                                                       =
+================================================================================
+
+================================================================================
+= Testing: rejectSymbolicLink                                                  =
+================================================================================
+
+================================================================================
+= Testing: rejectNotRegularFile                                                =
+================================================================================
+
+================================================================================
+= Testing: rejectFilenameLiterally                                             =
+================================================================================
+
+================================================================================
+= Testing: matchPathLiterally                                                  =
+================================================================================
+
+================================================================================
+= Testing: rejectDirectory                                                     =
+================================================================================
+
+================================================================================
+= Testing: matchesAll                                                          =
+================================================================================
+
+================================================================================
+= Testing: matchFilenameByRegex                                                =
+================================================================================
+
+================================================================================
+= Testing: matchFilenameLiterally                                              =
+================================================================================
+
+================================================================================
+= Testing: rejectNotDirectory                                                  =
+================================================================================
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.374 s - in org.mule.test.extension.file.common.FileMatcherContractTestCase
+[INFO] Running org.mule.test.extension.file.common.ConcurrentLockTestCase
+WARN  2023-10-03 10:37:05,975 [main] org.mule.tck.junit4.AbstractMuleTestCase: 
+--------------------------------------------------------------------------------
+Hung threads count: 4. Test case: org.mule.test.extension.file.common.FileMatcherContractTestCase. Thread names:
+-> Log4j2-TF-1-AsyncLoggerConfig--1 - 16
+-> ping-30s - 13
+-> process reaper - 14
+-> surefire-forkedjvm-command-thread - 12
+--------------------------------------------------------------------------------
+
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.109 s - in org.mule.test.extension.file.common.ConcurrentLockTestCase
+[INFO] Running org.mule.test.extension.file.common.api.util.TimeAfterFunctionTestCase
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s - in org.mule.test.extension.file.common.api.util.TimeAfterFunctionTestCase
+[INFO] Running org.mule.test.extension.file.common.api.util.TimeSinceFunctionTestCase
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in org.mule.test.extension.file.common.api.util.TimeSinceFunctionTestCase
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 67, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:test-jar (default-test-jar) @ mule-module-file-extension-common ---
+[INFO] 
+[INFO] --- mule-plugin-maven-plugin:1.1.0:package (default-package) @ mule-module-file-extension-common ---
+[INFO] Building zip: /Users/fburman/Documents/connectors/mule-file-commons/target/mule-module-file-extension-common-1.5.0-SNAPSHOT-mule-plugin.jar
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:test-jar (attach-test-jar) @ mule-module-file-extension-common ---
+[INFO] Skipping packaging of the test-jar
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:test-jar (default) @ mule-module-file-extension-common ---
+[WARNING] artifact org.mule.modules:mule-module-file-extension-common:test-jar:tests:1.5.0-SNAPSHOT already attached, replace previous instance
+[INFO] 
+[INFO] --- docker-maven-plugin:0.41.0:stop (start) @ mule-module-file-extension-common ---
+[INFO] 
+[INFO] --- docker-maven-plugin:0.41.0:build (start) @ mule-module-file-extension-common ---
+[INFO] Building tar: /Users/fburman/Documents/connectors/mule-file-commons/target/docker/sftp/tmp/docker-build.tar
+[INFO] DOCKER> [sftp:latest] "sftp": Created docker-build.tar in 33 milliseconds
+[INFO] DOCKER> [sftp:latest] "sftp": Built image sha256:74176
+[INFO] 
+[INFO] --- docker-maven-plugin:0.41.0:start (start) @ mule-module-file-extension-common ---
+[WARNING] DOCKER> The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+[INFO] DOCKER> [sftp:latest] "sftp": Start container 59060db6217d
+[INFO] 
+[INFO] --- munit-extensions-maven-plugin:1.1.3:test (default) @ mule-module-file-extension-common ---
+sftp> [/usr/local/bin/create-sftp-user] Parsing user data: "anonymous:password:::tests"
+Downloading from maven-default-http-blocker: http://0.0.0.0/org/mule/connectors/mule-ftp-connector/2.0.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Could not transfer metadata org.mule.connectors:mule-ftp-connector:2.0.0-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): transfer failed for http://0.0.0.0/org/mule/connectors/mule-ftp-connector/2.0.0-SNAPSHOT/maven-metadata.xml
+[WARNING] org.mule.connectors:mule-ftp-connector:2.0.0-SNAPSHOT/maven-metadata.xmlfailed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.mule.connectors:mule-ftp-connector:2.0.0-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): transfer failed for http://0.0.0.0/org/mule/connectors/mule-ftp-connector/2.0.0-SNAPSHOT/maven-metadata.xml
+Downloading from maven-default-http-blocker: http://0.0.0.0/org/mule/connectors/mule-file-connector/2.0.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Could not transfer metadata org.mule.connectors:mule-file-connector:2.0.0-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): transfer failed for http://0.0.0.0/org/mule/connectors/mule-file-connector/2.0.0-SNAPSHOT/maven-metadata.xml
+[WARNING] org.mule.connectors:mule-file-connector:2.0.0-SNAPSHOT/maven-metadata.xmlfailed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.mule.connectors:mule-file-connector:2.0.0-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): transfer failed for http://0.0.0.0/org/mule/connectors/mule-file-connector/2.0.0-SNAPSHOT/maven-metadata.xml
+sftp> [/usr/local/bin/create-sftp-user] Creating directory: /home/anonymous/tests
+[INFO] Acquiring dynamic ports...
+[INFO] Dynamic port definition [DONE]
+sftp> Generating public/private ed25519 key pair.
+sftp> Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
+sftp> Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
+sftp> The key fingerprint is:
+sftp> SHA256:lVFlmSy3873l3MszD3zWUyykmOd6SMM5ykGieakKe1s root@59060db6217d
+sftp> The key's randomart image is:
+sftp> +--[ED25519 256]--+
+sftp> |          ...ooo |
+sftp> |           o..=  |
+sftp> |          o  o.. |
+sftp> |      . .. o oo. |
+[INFO] Copying files to /Users/fburman/Documents/connectors/mule-file-commons/target/munitworkingdir-199242668820208/mule-module-file-extension-common-test-application
+sftp> |     o +S.o.o .o+|
+sftp> |    o o . *o . .*|
+sftp> |.   Eo . + +. o+B|
+sftp> | o...   o ... .B=|
+sftp> |..oo      ..   o*|
+sftp> +----[SHA256]-----+
+[INFO] Running MULE_EE with version 4.5.0-rc13
+Picked up _JAVA_OPTIONS: -XX:+PrintCommandLineFlags --illegal-access=warn
+-XX:G1ConcRefinementThreads=9 -XX:GCDrainStackTargetSize=64 -XX:InitialHeapSize=1073741824 -XX:MaxHeapSize=17179869184 -XX:+PrintCommandLineFlags -XX:ReservedCodeCacheSize=251658240 -XX:+SegmentedCodeCache -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseG1GC 
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+
+sftp> Generating public/private rsa key pair.
+sftp> Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+sftp> Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+sftp> The key fingerprint is:
+sftp> SHA256:3MXzJTTTU2TC8j2QS/0x5TDE5uLRCWbC+Nx26U0vAQY root@59060db6217d
+sftp> The key's randomart image is:
+sftp> +---[RSA 4096]----+
+sftp> |         oE. +@oB|
+sftp> |        . o.B=+&.|
+sftp> |         o *=O++B|
+sftp> |       . .o.=+O++|
+sftp> |        S .o =.+o|
+sftp> |            . o o|
+sftp> |               . |
+sftp> |                 |
+sftp> |                 |
+sftp> +----[SHA256]-----+
+sftp> [/entrypoint] Executing sshd
+sftp> Server listening on 0.0.0.0 port 22.
+sftp> Server listening on :: port 22.
+WARNING: Illegal reflective access by org.mule.runtime.module.deployment.internal.MuleDeploymentService (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-deployment/4.5.0-rc13/mule-module-deployment-4.5.0-rc13.jar) to field java.lang.reflect.Field.modifiers
+WARNING: Illegal reflective access by org.mule.runtime.module.extension.internal.util.IntrospectionUtils (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-extensions-support/4.5.0-rc13/mule-module-extensions-support-4.5.0-rc13.jar) to field java.lang.reflect.Field.modifiers
+INFO  2023-10-03 10:43:29,613 [CronSchedulerHandler] org.quartz.impl.StdSchedulerFactory: Using default implementation for ThreadExecutor
+INFO  2023-10-03 10:43:29,640 [CronSchedulerHandler] org.quartz.core.SchedulerSignalerImpl: Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+INFO  2023-10-03 10:43:29,640 [CronSchedulerHandler] org.quartz.core.QuartzScheduler: Quartz Scheduler v.2.3.2 created.
+INFO  2023-10-03 10:43:29,640 [CronSchedulerHandler] org.quartz.simpl.RAMJobStore: RAMJobStore initialized.
+INFO  2023-10-03 10:43:29,640 [CronSchedulerHandler] org.quartz.core.QuartzScheduler: Scheduler meta-data: Quartz Scheduler (v2.3.2) '[MuleRuntime].' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 1 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+INFO  2023-10-03 10:43:29,640 [CronSchedulerHandler] org.quartz.impl.StdSchedulerFactory: Quartz scheduler '[MuleRuntime].' initialized from an externally provided properties instance.
+INFO  2023-10-03 10:43:29,640 [CronSchedulerHandler] org.quartz.impl.StdSchedulerFactory: Quartz scheduler version: 2.3.2
+INFO  2023-10-03 10:43:29,644 [Embedded] org.quartz.core.QuartzScheduler: Scheduler [MuleRuntime]._$_NON_CLUSTERED started.
+WARNING: Illegal reflective access by org.mule.service.scheduler.internal.AbstractRunnableFutureDecorator (file:/Users/fburman/Documents/connectors/mule-file-commons/target/munitworkingdir-199242668820208/container/services/mule-service-scheduler-1.5.0-rc13/lib/mule-service-scheduler-1.5.0-rc13.jar) to field java.lang.Thread.threadLocals
+WARN  2023-10-03 10:43:30,726 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-core' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,726 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,726 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,726 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-artifact-declaration' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,726 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:api-annotations' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-dsl-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-extensions-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-http-policy-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-policy-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-xml' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-java' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-message-metadata-model' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,727 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-json' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,740 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-service' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,740 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-artifact' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-logging' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-core' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-artifact-declaration' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:api-annotations' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-dsl-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-extensions-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-http-policy-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-policy-api' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,741 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-xml' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,742 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-java' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,742 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-message-metadata-model' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,742 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-metadata-model-json' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,743 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-service' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,743 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-artifact' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:30,743 [Embedded] org.mule.runtime.module.artifact.activation.internal.classloader.AbstractArtifactClassLoaderConfigurationAssembler: Shared library 'org.mule.runtime:mule-module-logging' is a Mule Runtime dependency. It will not be used by 'mule-module-file-extension-common-test-application' in order to avoid classloading issues. Please consider removing it, or at least not putting it as a sharedLibrary.
+WARN  2023-10-03 10:43:31,392 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,439 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,456 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,457 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,459 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,460 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,462 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,476 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,479 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,480 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,492 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,495 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,503 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,524 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:31,529 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,037 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,044 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,047 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,050 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,054 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,057 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,060 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,062 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,101 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,527 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,529 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,530 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,532 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,534 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,535 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,536 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,538 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,549 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,703 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,703 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,704 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,705 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,706 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,706 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,707 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,708 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:32,720 [Embedded] org.mule.runtime.module.extension.internal.loader.utils.JavaMetadataKeyIdModelParserUtils: A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+WARN  2023-10-03 10:43:33,865 [Embedded] org.mule.runtime.core.internal.el.DefaultBindingContextBuilder$BindingContextImplementation: Two modules with namespace 'Munit' were found in a binding context. Set log level to DEBUG for details
+WARN  2023-10-03 10:43:37,897 [munit.01] org.mule.runtime.config.internal.dsl.spring.ComponentConfigurationBuilder: Parameter ignore from extension munit has a defaultValue configured in the componentBuildingDefinition but not in the extensionModel.
+sftp> Accepted password for anonymous from 192.168.65.1 port 63105 ssh2
+================================================================================
+
+
+=== Running suite: integration-test-case.xml                                 ===
+================================================================================
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Running test: integration-test - Perform simple operations with all core comp+
++ onents that uses File Commons                                                +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+WARNING: Illegal reflective access by net.sf.cglib.core.ReflectUtils$1 (file:/Users/fburman/.m2/repository/cglib/cglib/3.3.0/cglib-3.3.0.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+
+
+================================================================================
+= Tests run: 1 - Failed: 0 - Errors: 0 - Skipped: 0 - Time elapsed: 0.48 sec   =
+================================================================================
+
+
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.ThreadGroupContext.contexts
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap.table
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.beans.ThreadGroupContext.clearBeanInfoCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.Class.classValueMap
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.lang.ClassValue$ClassValueMap.getCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.ClassValue$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.ThreadGroupContext.contexts
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap.table
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.beans.ThreadGroupContext.clearBeanInfoCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.Class.classValueMap
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.lang.ClassValue$ClassValueMap.getCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.ClassValue$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.ThreadGroupContext.contexts
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap.table
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.beans.ThreadGroupContext.clearBeanInfoCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.Class.classValueMap
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.lang.ClassValue$ClassValueMap.getCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.ClassValue$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.ThreadGroupContext.contexts
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap.table
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.beans.ThreadGroupContext.clearBeanInfoCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.Class.classValueMap
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.lang.ClassValue$ClassValueMap.getCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.ClassValue$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.ThreadGroupContext.contexts
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap.table
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.beans.ThreadGroupContext.clearBeanInfoCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.Class.classValueMap
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.lang.ClassValue$ClassValueMap.getCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.ClassValue$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.ThreadGroupContext.contexts
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap.table
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.beans.ThreadGroupContext.clearBeanInfoCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.Class.classValueMap
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.lang.ClassValue$ClassValueMap.getCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.ClassValue$Entry.value
+INFO  2023-10-03 10:43:42,032 [Embedded] org.quartz.core.QuartzScheduler: Scheduler [MuleRuntime]._$_NON_CLUSTERED shutting down.
+INFO  2023-10-03 10:43:42,032 [Embedded] org.quartz.core.QuartzScheduler: Scheduler [MuleRuntime]._$_NON_CLUSTERED paused.
+INFO  2023-10-03 10:43:42,253 [Embedded] org.quartz.core.QuartzScheduler: Scheduler [MuleRuntime]._$_NON_CLUSTERED shutdown complete.
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.ThreadGroupContext.contexts
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap.table
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.beans.WeakIdentityMap$Entry.value
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ThreadGroupContextClassLoaderSoftReferenceBuster (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.beans.ThreadGroupContext.clearBeanInfoCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.Class.classValueMap
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to method java.lang.ClassValue$ClassValueMap.getCache()
+WARNING: Illegal reflective access by org.mule.module.artifact.classloader.ScalaClassValueReleaser (file:/Users/fburman/.m2/repository/org/mule/runtime/mule-module-artifact/4.5.0-rc13/mule-module-artifact-4.5.0-rc13.jar) to field java.lang.ClassValue$Entry.value
+
+
+[INFO] ====================================================================================
+[INFO] MUnit Run Summary - Product: MULE_EE, Version: 4.5.0-rc13
+[INFO] ====================================================================================
+[INFO]  >> integration-test-case.xml test result: Tests: 1, Errors: 0, Failures: 0, Skipped: 0
+[INFO] 	
+[INFO] ====================================================================================
+[INFO]  > Tests:   	1
+[INFO]  > Errors:  	0
+[INFO]  > Failures:	0
+[INFO]  > Skipped: 	0
+[INFO] ====================================================================================
+[INFO] 
+[INFO] --- docker-maven-plugin:0.41.0:stop (stop) @ mule-module-file-extension-common ---
+sftp> Received signal 15; terminating.
+[INFO] DOCKER> [sftp:latest] "sftp": Stop and removed container 59060db6217d after 0 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  06:54 min
+[INFO] Finished at: 2023-10-03T10:43:43-03:00
+[INFO] ------------------------------------------------------------------------
