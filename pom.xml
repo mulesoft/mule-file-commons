@@ -37,7 +37,7 @@
         <net.bytebuddy.version>1.14.5</net.bytebuddy.version>
 
         <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
-        <sftp-connector.version>1.6.2-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
+        <sftp-connector.version>1.6.3-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
         <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
     </properties>
 
