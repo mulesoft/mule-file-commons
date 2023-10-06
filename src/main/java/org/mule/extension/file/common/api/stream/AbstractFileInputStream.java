@@ -14,12 +14,16 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.DynamicType.Builder.MethodDefinition.ReceiverTypeDefinition;
 import net.bytebuddy.dynamic.DynamicType.Unloaded;
+import net.bytebuddy.dynamic.loading.ClassInjector;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import org.apache.commons.io.input.AutoCloseInputStream;
 
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
@@ -51,21 +55,41 @@ public abstract class AbstractFileInputStream extends AutoCloseInputStream {
   }
 
   public static InputStream getInputStreamFromStreamFactory(LazyStreamSupplier streamFactory) {
-    try {
-      InputStream target = streamFactory.get();
-      ReceiverTypeDefinition<InputStream> inputStreamReceiverTypeDefinition = new ByteBuddy()
-          .subclass(InputStream.class)
-          .method(isDeclaredBy(InputStream.class))
-          .intercept(to(target));
-      try (Unloaded<InputStream> make = inputStreamReceiverTypeDefinition.make()) {
-        return make
-            .load(target.getClass().getClassLoader())
-            .getLoaded()
-            .newInstance();
-      }
-    } catch (InstantiationException | IllegalAccessException | IOException e) {
+    InputStream target = streamFactory.get();
+    ReceiverTypeDefinition<InputStream> inputStreamReceiverTypeDefinition = new ByteBuddy()
+        .subclass(InputStream.class)
+        .method(isDeclaredBy(InputStream.class))
+        .intercept(to(target));
+    try (Unloaded<InputStream> make = inputStreamReceiverTypeDefinition.make()) {
+      return make
+          .load(target.getClass().getClassLoader(), getClassLoadingStrategy())
+          .getLoaded()
+          .newInstance();
+    } catch (InstantiationException | IllegalAccessException | IOException | ClassNotFoundException | InvocationTargetException
+        | NoSuchMethodException e) {
       throw new MuleRuntimeException(createStaticMessage("Could not create instance of " + InputStream.class), e);
     }
+  }
+
+  private static ClassLoadingStrategy<? super ClassLoader> getClassLoadingStrategy()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    ClassLoadingStrategy<ClassLoader> strategy;
+    if (ClassInjector.UsingLookup.isAvailable()) {
+      // Java 9 and above
+      Class<?> methodHandles = Class.forName("java.lang.invoke.MethodHandles");
+      Object lookup = methodHandles.getMethod("lookup").invoke(null);
+      Method privateLookupIn = methodHandles.getMethod("privateLookupIn",
+                                                       Class.class,
+                                                       Class.forName("java.lang.invoke.MethodHandles$Lookup"));
+      Object privateLookup = privateLookupIn.invoke(null, InputStream.class, lookup);
+      strategy = ClassLoadingStrategy.UsingLookup.of(privateLookup);
+    } else if (ClassInjector.UsingReflection.isAvailable()) {
+      // Java 8
+      strategy = ClassLoadingStrategy.Default.INJECTION;
+    } else {
+      throw new IllegalStateException("No code generation strategy available");
+    }
+    return strategy;
   }
 
   private final LazyStreamSupplier streamSupplier;
