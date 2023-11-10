@@ -3,13 +3,13 @@
       xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
       xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
       xmlns="http://www.mulesoft.org/schema/mule/core"
-      xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
+      xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
       xmlns:file="http://www.mulesoft.org/schema/mule/file"
       xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
-        http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
+        http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
         http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
 
     <munit:config name="integration-test-case" minMuleVersion="4.3.0"/>
@@ -25,30 +25,42 @@
                     <file:write config-ref="file-config" path="#[vars.fileName]">
                         <file:content >FILE</file:content>
                     </file:write>
+                    <logger level="INFO" message="PAYLOAD FILE WRITE" />
+                    <logger level="INFO" message="#[payload]" />
                     <file:list config-ref="file-config" directoryPath="#[vars.dir]"/>
+                    <logger level="INFO" message="PAYLOAD FILE LIST" />
+                    <logger level="INFO" message="#[payload]" />
                     <munit-tools:store key="FILE">
                         <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
                     </munit-tools:store>
                     <file:delete config-ref="file-config" path="#[vars.dir]"/>
                 </route>
                 <route >
-                    <sftp:create-directory config-ref="sftp-config" directoryPath="temp"/>
-                    <sftp:write config-ref="sftp-config" path="#[vars.fileName]">
-                        <sftp:content >SFTP</sftp:content>
-                    </sftp:write>
-                    <sftp:list config-ref="sftp-config" directoryPath="#[vars.dir]"/>
-                    <munit-tools:store key="SFTP">
+                    <ftp:create-directory config-ref="ftp-config" directoryPath="temp"/>
+                    <ftp:write config-ref="ftp-config" path="#[vars.fileName]">
+                        <ftp:content >FTP</ftp:content>
+                    </ftp:write>
+                    <logger level="INFO" message="PAYLOAD SFTP WRITE" />
+                    <logger level="INFO" message="#[payload]" />
+                    <ftp:list config-ref="ftp-config" directoryPath="#[vars.dir]"/>
+                    <logger level="INFO" message="PAYLOAD SFTP LIST" />
+                    <logger level="INFO" message="#[payload]" />
+                    <munit-tools:store key="FTP">
                         <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
                     </munit-tools:store>
-                    <sftp:delete config-ref="sftp-config" path="#[vars.dir]"/>
+                    <ftp:delete config-ref="ftp-config" path="#[vars.dir]"/>
                 </route>
             </scatter-gather>
         </munit:execution>
         <munit:validation>
             <munit-tools:retrieve key="FILE"/>
+            <logger level="INFO" message="READING FILE FILE!!!" />
+            <logger level="INFO" message="#[payload]" />
             <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('FILE')]"/>
-            <munit-tools:retrieve key="SFTP"/>
-            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('SFTP')]"/>
+            <munit-tools:retrieve key="FTP"/>
+            <logger level="INFO" message="READING SFTP FILE!!!" />
+            <logger level="INFO" message="#[payload]" />
+            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('FTP')]"/>
         </munit:validation>
     </munit:test>
 </mule>
