@@ -36,8 +36,8 @@
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
 
-        <ftp-connector.version>1.8.5</ftp-connector.version>
-        <file-connector.version>1.5.1</file-connector.version>
+        <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
+        <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
     </properties>
 
     <dependencies>
