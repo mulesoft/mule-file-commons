@@ -20,7 +20,7 @@
 
     <properties>
         <mule.version>4.1.0</mule.version>
-        <commons.io.version>2.15.0</commons.io.version>
+        <commons.io.version>2.11.0</commons.io.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <javax.activation.version>1.2.0</javax.activation.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
@@ -37,6 +37,7 @@
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
 
         <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
+        <sftp-connector.version>1.6.3-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
         <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
     </properties>
 
@@ -172,6 +173,12 @@
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
+                        <groupId>org.mule.connectors</groupId>
+                        <artifactId>mule-sftp-connector</artifactId>
+                        <version>${sftp-connector.version}</version>
+                        <classifier>mule-plugin</classifier>
+                    </dependency>
+                    <dependency>
                         <groupId>com.mulesoft.munit</groupId>
                         <artifactId>mtf-tools</artifactId>
                         <version>${mtf.tools.version}</version>
@@ -192,19 +199,61 @@
                         </goals>
                         <configuration>
                             <portNames>
-                                <portName>ftp.listener.port</portName>
-                                <portName>ftp.passivePort1</portName>
-                                <portName>ftp.passivePort2</portName>
-                                <portName>squid.port.http</portName>
-                                <portName>squid.port.https</portName>
-                                <portName>squid.port.auth</portName>
-                                <portName>ftp.proxy</portName>
-                                <portName>ftp.proxy.auth</portName>
+                                <portName>sftp.server.port</portName>
                             </portNames>
-                            <minPortNumber>9000</minPortNumber>
-                            <maxPortNumber>10000</maxPortNumber>
-                            <randomPort>false</randomPort>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.plugin.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>sftp</alias>
+                            <run>
+                                <ports>
+                                    <port>${sftp.server.port}:22</port>
+                                </ports>
+                                <cmd>anonymous:password:::tests</cmd>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                        <version>2.0.6</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                        <version>2.0.6</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                            <goal>build</goal>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <showLogs>true</showLogs>
+                            <logStdout>true</logStdout>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -226,67 +275,15 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>mule/vsftpd-ftp-${ftp.listener.port}</name>
+                                    <alias>sftp</alias>
+                                    <name>sftp</name>
                                     <build>
-                                        <contextDir>${project.basedir}/src/test/resources/docker</contextDir>
+                                        <contextDir>${project.build.testOutputDirectory}/sftp</contextDir>
+                                        <dockerFile>${project.build.testOutputDirectory}/sftp/Dockerfile</dockerFile>
                                     </build>
-                                    <run>
-                                        <ports>
-                                            <!--ftp command port-->
-                                            <port>${ftp.listener.port}:21</port>
-                                            <!--ftp data ports-->
-                                            <port>${ftp.passivePort1}:${ftp.passivePort1}</port>
-                                            <port>${ftp.passivePort2}:${ftp.passivePort2}</port>
-                                        </ports>
-                                        <env>
-                                            <FTP_USER>bob</FTP_USER>
-                                            <FTP_PASS>1234</FTP_PASS>
-                                            <PASV_ADDRESS>127.0.0.1</PASV_ADDRESS>
-                                            <PASV_MIN_PORT>${ftp.passivePort1}</PASV_MIN_PORT>
-                                            <PASV_MAX_PORT>${ftp.passivePort2}</PASV_MAX_PORT>
-                                        </env>
-                                        <log>
-                                            <enabled>true</enabled>
-                                        </log>
-                                    </run>
                                 </image>
                             </images>
-                            <verbose>true</verbose>
                         </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>slf4j-api</artifactId>
-                                <version>2.0.7</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>jcl-over-slf4j</artifactId>
-                                <version>2.0.7</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <id>start</id>
-                                <phase>test-compile</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                    <goal>start</goal>
-                                </goals>
-                                <configuration>
-                                    <showLogs>true</showLogs>
-                                    <logStdout>true</logStdout>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>stop</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                    <goal>remove</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>

@@ -1,2 +1,0 @@
-FROM fauria/vsftpd:latest
-

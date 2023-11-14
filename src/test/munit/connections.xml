@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+      xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
       xmlns:file="http://www.mulesoft.org/schema/mule/file"
       xmlns="http://www.mulesoft.org/schema/mule/core"
       xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-        http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
+        http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
         http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
 
-    <ftp:config name="ftp-config">
-        <ftp:connection username="bob" password="1234" host="127.0.0.1" port="${ftp.listener.port}" workingDir="/tests" />
-    </ftp:config>
+    <sftp:config name="sftp-config">
+        <sftp:connection username="anonymous" password="password" host="localhost" port="${sftp.server.port}" workingDir="/tests" prngAlgorithm="SHA1PRNG" />
+    </sftp:config>
 
     <file:config name="file-config">
         <file:connection workingDir="${munit.temporary.directory}"/>
