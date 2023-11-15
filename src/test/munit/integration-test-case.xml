@@ -21,7 +21,6 @@
             <set-variable variableName="fileContent" value="I just want to impress Mr. Stark"/>
             <scatter-gather>
                 <route >
-                    <file:create-directory config-ref="file-config" directoryPath="temp" />
                     <file:write config-ref="file-config" path="#[vars.fileName]">
                         <file:content >FILE</file:content>
                     </file:write>
@@ -36,7 +35,6 @@
                     <file:delete config-ref="file-config" path="#[vars.dir]"/>
                 </route>
                 <route >
-                    <sftp:create-directory config-ref="sftp-config" directoryPath="temp"/>
                     <sftp:write config-ref="sftp-config" path="#[vars.fileName]">
                         <sftp:content >SFTP</sftp:content>
                     </sftp:write>
