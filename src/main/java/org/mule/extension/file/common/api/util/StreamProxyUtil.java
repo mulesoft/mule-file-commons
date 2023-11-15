@@ -14,7 +14,7 @@ import java.io.InputStream;
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 
 /**
- * Utility class for creating proxy instances of {@link InputStream} using Byte Buddy.
+ * Utility class for creating proxy instances of {@link InputStream}
  * The proxies lazily initialize and delegate method calls to real {@link InputStream} instances.
  *
  * <p>This utility is particularly useful when there's a need to delay the initialization of an {@link InputStream}

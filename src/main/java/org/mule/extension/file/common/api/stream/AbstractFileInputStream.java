@@ -10,7 +10,6 @@ import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
 import org.mule.extension.file.common.api.lock.PathLock;
-import org.mule.extension.file.common.api.util.StreamProxyUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import org.apache.commons.io.input.AutoCloseInputStream;
+
+import static org.mule.extension.file.common.api.util.StreamProxyUtil.getInputStreamFromStreamFactory;
+
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -39,7 +41,7 @@ import org.apache.commons.io.input.AutoCloseInputStream;
 public abstract class AbstractFileInputStream extends AutoCloseInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
-    return StreamProxyUtil.getInputStreamFromStreamFactory(streamFactory);
+    return getInputStreamFromStreamFactory(streamFactory);
   }
 
   private final LazyStreamSupplier streamSupplier;

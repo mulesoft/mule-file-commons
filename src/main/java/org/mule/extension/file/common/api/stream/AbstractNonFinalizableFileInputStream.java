@@ -19,9 +19,10 @@ import java.util.function.Predicate;
 import org.apache.commons.io.input.AutoCloseInputStream;
 import org.apache.commons.io.input.ClosedInputStream;
 import org.apache.commons.io.input.ProxyInputStream;
-import org.mule.extension.file.common.api.util.StreamProxyUtil;
 
 import static org.apache.commons.io.IOUtils.EOF;
+import static org.mule.extension.file.common.api.util.StreamProxyUtil.getInputStreamFromStreamFactory;
+
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -41,7 +42,7 @@ import static org.apache.commons.io.IOUtils.EOF;
 public abstract class AbstractNonFinalizableFileInputStream extends ProxyInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
-    return StreamProxyUtil.getInputStreamFromStreamFactory(streamFactory);
+    return getInputStreamFromStreamFactory(streamFactory);
   }
 
   private final LazyStreamSupplier streamSupplier;
