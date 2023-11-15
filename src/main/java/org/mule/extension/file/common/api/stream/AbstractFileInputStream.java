@@ -11,7 +11,6 @@ import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
 import org.mule.extension.file.common.api.lock.PathLock;
 import org.mule.extension.file.common.api.util.StreamProxyUtil;
-import org.mule.runtime.api.exception.MuleRuntimeException;
 
 import java.io.IOException;
 import java.io.InputStream;
