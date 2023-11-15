@@ -14,7 +14,7 @@
 
     <munit:config name="integration-test-case" minMuleVersion="4.3.0"/>
 
-    <munit:test name="integration-test" description="Perform simple operations with all core components that uses File Commons" ignore="true">
+    <munit:test name="integration-test" description="Perform simple operations with all core components that uses File Commons">
         <munit:execution>
             <set-variable variableName="dir" value="temp"/>
             <set-variable variableName="fileName" value="#[vars.dir ++ '/hello.txt']"/>
@@ -60,7 +60,7 @@
             <munit-tools:retrieve key="SFTP"/>
             <logger level="INFO" message="READING SFTP FILE!!!" />
             <logger level="INFO" message="#[payload]" />
-            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('SFTP')]"/>
+            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('/tests/temp/hello.txt')]"/>
         </munit:validation>
     </munit:test>
 </mule>
