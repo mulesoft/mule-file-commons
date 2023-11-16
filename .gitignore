@@ -17,6 +17,7 @@ target/
 
 # Mac
 .DS_Store
+test.sh
 
 # Test remnants
 objectstore/

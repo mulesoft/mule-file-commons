@@ -10,22 +10,16 @@ import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
 import org.mule.extension.file.common.api.lock.PathLock;
-import org.mule.runtime.api.exception.MuleRuntimeException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.dynamic.DynamicType.Builder.MethodDefinition.ReceiverTypeDefinition;
-import net.bytebuddy.dynamic.DynamicType.Unloaded;
 import org.apache.commons.io.input.AutoCloseInputStream;
 
-import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
+import static org.mule.extension.file.common.api.util.StreamProxyUtil.getInputStreamFromStreamFactory;
 
-import static net.bytebuddy.implementation.MethodDelegation.to;
-import static net.bytebuddy.matcher.ElementMatchers.isDeclaredBy;
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -48,24 +42,6 @@ public abstract class AbstractFileInputStream extends AutoCloseInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
     return getInputStreamFromStreamFactory(streamFactory);
-  }
-
-  public static InputStream getInputStreamFromStreamFactory(LazyStreamSupplier streamFactory) {
-    try {
-      InputStream target = streamFactory.get();
-      ReceiverTypeDefinition<InputStream> inputStreamReceiverTypeDefinition = new ByteBuddy()
-          .subclass(InputStream.class)
-          .method(isDeclaredBy(InputStream.class))
-          .intercept(to(target));
-      try (Unloaded<InputStream> make = inputStreamReceiverTypeDefinition.make()) {
-        return make
-            .load(target.getClass().getClassLoader())
-            .getLoaded()
-            .newInstance();
-      }
-    } catch (InstantiationException | IllegalAccessException | IOException e) {
-      throw new MuleRuntimeException(createStaticMessage("Could not create instance of " + InputStream.class), e);
-    }
   }
 
   private final LazyStreamSupplier streamSupplier;
