@@ -20,7 +20,6 @@
 
     <properties>
         <mule.version>4.1.0</mule.version>
-        <cglib.version>3.3.0</cglib.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <javax.activation.version>1.2.0</javax.activation.version>
@@ -29,15 +28,16 @@
         <!-- Remove when a new parent version with MTF is available -->
         <munit.input.directory>src/test/munit</munit.input.directory>
         <munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
-        <munit.extensions.maven.plugin.version>1.1.2</munit.extensions.maven.plugin.version>
-        <munit.version>2.3.11</munit.version>
-        <mavenResources.version>3.2.0</mavenResources.version>
-        <docker.maven.plugin.version>0.40.1</docker.maven.plugin.version>
+        <munit.extensions.maven.plugin.version>1.2.0-SNAPSHOT</munit.extensions.maven.plugin.version>
+        <munit.version>3.1.0-SNAPSHOT</munit.version>
+        <mtf.tools.version>1.2.0-SNAPSHOT</mtf.tools.version>
+        <mavenResources.version>3.3.0</mavenResources.version>
+        <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
 
         <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
-        <sftp-connector.version>1.6.2-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
+        <sftp-connector.version>2.1.0-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
         <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
     </properties>
 
@@ -48,11 +48,6 @@
             <artifactId>mule-core</artifactId>
             <version>${mule.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>${cglib.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.activation</groupId>
@@ -173,19 +168,25 @@
                     </dependency>
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
+                        <artifactId>mule-file-connector</artifactId>
+                        <version>${file-connector.version}</version>
+                        <classifier>mule-plugin</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-sftp-connector</artifactId>
                         <version>${sftp-connector.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
-                        <groupId>org.mule.connectors</groupId>
-                        <artifactId>mule-file-connector</artifactId>
-                    <version>${file-connector.version}</version>
+                        <groupId>com.mulesoft.munit</groupId>
+                        <artifactId>mtf-tools</artifactId>
+                        <version>${mtf.tools.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
+             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>${maven.helper.plugin.version}</version>
@@ -225,12 +226,12 @@
                     <dependency>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-api</artifactId>
-                        <version>1.7.36</version>
+                        <version>2.0.6</version>
                     </dependency>
                     <dependency>
                         <groupId>org.slf4j</groupId>
                         <artifactId>jcl-over-slf4j</artifactId>
-                        <version>1.7.36</version>
+                        <version>2.0.6</version>
                     </dependency>
                 </dependencies>
                 <executions>

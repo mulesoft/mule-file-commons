@@ -6,8 +6,6 @@
  */
 package org.mule.extension.file.common.api.stream;
 
-import static org.apache.commons.io.IOUtils.EOF;
-
 import org.mule.extension.file.common.api.FileConnectorConfig;
 import org.mule.extension.file.common.api.FileSystem;
 import org.mule.extension.file.common.api.lock.Lock;
@@ -22,8 +20,9 @@ import org.apache.commons.io.input.AutoCloseInputStream;
 import org.apache.commons.io.input.ClosedInputStream;
 import org.apache.commons.io.input.ProxyInputStream;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
+import static org.apache.commons.io.IOUtils.EOF;
+import static org.mule.extension.file.common.api.util.StreamProxyUtil.getInputStreamFromStreamFactory;
+
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -43,9 +42,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 public abstract class AbstractNonFinalizableFileInputStream extends ProxyInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
-    return (InputStream) Enhancer.create(InputStream.class,
-                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
-                                             .invoke(streamFactory.get(), arguments));
+    return getInputStreamFromStreamFactory(streamFactory);
   }
 
   private final LazyStreamSupplier streamSupplier;

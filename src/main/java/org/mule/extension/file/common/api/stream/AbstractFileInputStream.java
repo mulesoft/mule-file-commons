@@ -18,8 +18,7 @@ import java.util.function.Predicate;
 
 import org.apache.commons.io.input.AutoCloseInputStream;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
+import static org.mule.extension.file.common.api.util.StreamProxyUtil.getInputStreamFromStreamFactory;
 
 /**
  * Base class for {@link InputStream} instances returned by connectors which operate over a {@link FileSystem}.
@@ -41,9 +40,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 public abstract class AbstractFileInputStream extends AutoCloseInputStream {
 
   private static InputStream createLazyStream(LazyStreamSupplier streamFactory) {
-    return (InputStream) Enhancer.create(InputStream.class,
-                                         (MethodInterceptor) (proxy, method, arguments, methodProxy) -> methodProxy
-                                             .invoke(streamFactory.get(), arguments));
+    return getInputStreamFromStreamFactory(streamFactory);
   }
 
   private final LazyStreamSupplier streamSupplier;

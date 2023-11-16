@@ -21,22 +21,28 @@
             <set-variable variableName="fileContent" value="I just want to impress Mr. Stark"/>
             <scatter-gather>
                 <route >
-                    <file:create-directory config-ref="file-config" directoryPath="temp" />
                     <file:write config-ref="file-config" path="#[vars.fileName]">
                         <file:content >FILE</file:content>
                     </file:write>
+                    <logger level="INFO" message="PAYLOAD FILE WRITE" />
+                    <logger level="INFO" message="#[payload]" />
                     <file:list config-ref="file-config" directoryPath="#[vars.dir]"/>
+                    <logger level="INFO" message="PAYLOAD FILE LIST" />
+                    <logger level="INFO" message="#[payload]" />
                     <munit-tools:store key="FILE">
                         <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
                     </munit-tools:store>
                     <file:delete config-ref="file-config" path="#[vars.dir]"/>
                 </route>
                 <route >
-                    <sftp:create-directory config-ref="sftp-config" directoryPath="temp"/>
                     <sftp:write config-ref="sftp-config" path="#[vars.fileName]">
                         <sftp:content >SFTP</sftp:content>
                     </sftp:write>
+                    <logger level="INFO" message="PAYLOAD SFTP WRITE" />
+                    <logger level="INFO" message="#[payload]" />
                     <sftp:list config-ref="sftp-config" directoryPath="#[vars.dir]"/>
+                    <logger level="INFO" message="PAYLOAD SFTP LIST" />
+                    <logger level="INFO" message="#[payload]" />
                     <munit-tools:store key="SFTP">
                         <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
                     </munit-tools:store>
@@ -46,9 +52,13 @@
         </munit:execution>
         <munit:validation>
             <munit-tools:retrieve key="FILE"/>
+            <logger level="INFO" message="READING FILE FILE!!!" />
+            <logger level="INFO" message="#[payload]" />
             <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('FILE')]"/>
             <munit-tools:retrieve key="SFTP"/>
-            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('SFTP')]"/>
+            <logger level="INFO" message="READING SFTP FILE!!!" />
+            <logger level="INFO" message="#[payload]" />
+            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('/tests/temp/hello.txt')]"/>
         </munit:validation>
     </munit:test>
 </mule>
