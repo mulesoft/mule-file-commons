@@ -58,7 +58,7 @@
             <munit-tools:retrieve key="SFTP"/>
             <logger level="INFO" message="READING SFTP FILE!!!" />
             <logger level="INFO" message="#[payload]" />
-            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('/tests/temp/hello.txt')]"/>
+            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('SFTP')]"/>
         </munit:validation>
     </munit:test>
 </mule>
