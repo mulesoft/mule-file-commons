@@ -28,17 +28,17 @@
         <!-- Remove when a new parent version with MTF is available -->
         <munit.input.directory>src/test/munit</munit.input.directory>
         <munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
-        <munit.extensions.maven.plugin.version>1.2.0-SNAPSHOT</munit.extensions.maven.plugin.version>
-        <munit.version>3.1.0-SNAPSHOT</munit.version>
-        <mtf.tools.version>1.2.0-SNAPSHOT</mtf.tools.version>
+        <munit.extensions.maven.plugin.version>1.2.0-rc1</munit.extensions.maven.plugin.version>
+        <munit.version>3.1.0-rc2</munit.version>
+        <mtf.tools.version>1.2.0-rc1</mtf.tools.version>
         <mavenResources.version>3.3.0</mavenResources.version>
         <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
 
-        <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
-        <sftp-connector.version>2.1.0-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
-        <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
+        <ftp-connector.version>1.6.0</ftp-connector.version>
+        <sftp-connector.version>1.4.1</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
+        <file-connector.version>1.3.5</file-connector.version>
     </properties>
 
     <dependencies>
