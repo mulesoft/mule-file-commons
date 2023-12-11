@@ -38,7 +38,7 @@
 
         <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
         <sftp-connector.version>2.1.0-SNAPSHOT</sftp-connector.version> <!-- SFTP v2 doesn't not use the file-commons project-->
-        <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
+        <file-connector.version>2.0.0-DO-NOT-USE-SNAPSHOT</file-connector.version>
     </properties>
 
     <dependencies>
