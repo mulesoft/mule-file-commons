@@ -30,7 +30,7 @@
         <munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
         <munit.extensions.maven.plugin.version>1.2.0-rc1</munit.extensions.maven.plugin.version>
         <munit.version>3.1.0-rc2</munit.version>
-        <mtf.tools.version>1.2.0-rc1</mtf.tools.version>
+        <mtf.tools.version>1.2.0</mtf.tools.version>
         <mavenResources.version>3.3.0</mavenResources.version>
         <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
