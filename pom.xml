@@ -38,7 +38,7 @@
 
         <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
         <!-- SFTP v2 doesn't use the file-commons project so this dependency MUST NOT be updated to 2.x.x-->
-        <sftp-connector.version>1.6.3</sftp-connector.version>
+        <sftp-connector.version>2.1.2</sftp-connector.version>
         <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
     </properties>
 
