@@ -11,10 +11,10 @@ import static org.junit.Assert.assertThat;
 import static org.junit.rules.ExpectedException.none;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.extension.file.common.api.matcher.MatchPolicy.REQUIRE;
-import static org.mule.extension.file.common.api.matcher.MatchPolicy.EXCLUDE;
-import org.mule.extension.file.common.api.FileAttributes;
-import org.mule.extension.file.common.api.matcher.FileMatcher;
+import static org.mule.ftp.engine.api.matcher.MatchPolicy.REQUIRE;
+import static org.mule.ftp.engine.api.matcher.MatchPolicy.EXCLUDE;
+import org.mule.ftp.engine.api.FileAttributes;
+import org.mule.ftp.engine.api.matcher.FileMatcher;
 import org.mule.tck.junit4.AbstractMuleTestCase;
 import org.mule.tck.size.SmallTest;
 

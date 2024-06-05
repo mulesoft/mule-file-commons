@@ -10,9 +10,9 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assume.assumeTrue;
-import static org.mule.extension.file.common.api.util.UriUtils.createUri;
+import static org.mule.ftp.engine.api.util.UriUtils.createUri;
 
-import org.mule.extension.file.common.api.AbstractFileAttributes;
+import org.mule.ftp.engine.api.AbstractFileAttributes;
 
 import java.net.URI;
 import java.nio.file.Path;

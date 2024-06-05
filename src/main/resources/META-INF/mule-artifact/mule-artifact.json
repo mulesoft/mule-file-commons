@@ -1,24 +1,12 @@
 {
-  "name": "File Common Plugin",
+  "name": "Ftp Engine Plugin",
   "minMuleVersion": "4.0.0",
   "requiredProduct": "MULE",
   "classLoaderModelLoaderDescriptor": {
     "id": "mule",
     "attributes": {
       "exportedPackages": [
-        "org.mule.extension.file.common",
-        "org.mule.extension.file.common.api",
-        "org.mule.extension.file.common.api.command",
-        "org.mule.extension.file.common.api.connection",
-        "org.mule.extension.file.common.api.exceptions",
-        "org.mule.extension.file.common.api.lock",
-        "org.mule.extension.file.common.api.matcher",
-        "org.mule.extension.file.common.api.source",
-        "org.mule.extension.file.common.api.metadata",
-        "org.mule.extension.file.common.api.stream",
-        "org.mule.extension.file.common.api.subset",
-        "org.mule.extension.file.common.api.util",
-        "org.apache.commons.io.input"
+        "org.mule.ftp.engine.api.ftp.source"
       ],
       "exportedResources": [
       ]

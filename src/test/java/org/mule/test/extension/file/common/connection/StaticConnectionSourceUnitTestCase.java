@@ -10,8 +10,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-import org.mule.extension.file.common.api.FileSystem;
-import org.mule.extension.file.common.api.connection.StaticConnectionSource;
+import org.mule.ftp.engine.api.FileSystem;
+import org.mule.ftp.engine.api.connection.StaticConnectionSource;
 import org.mule.runtime.api.connection.ConnectionException;
 
 import org.junit.Before;

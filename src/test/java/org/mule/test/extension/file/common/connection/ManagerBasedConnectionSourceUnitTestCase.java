@@ -15,9 +15,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.mule.extension.file.common.api.FileConnectorConfig;
-import org.mule.extension.file.common.api.FileSystem;
-import org.mule.extension.file.common.api.connection.ManagerBasedConnectionSource;
+import org.mule.ftp.engine.api.FileConnectorConfig;
+import org.mule.ftp.engine.api.FileSystem;
+import org.mule.ftp.engine.api.connection.ManagerBasedConnectionSource;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionHandler;
 import org.mule.runtime.core.api.connector.ConnectionManager;

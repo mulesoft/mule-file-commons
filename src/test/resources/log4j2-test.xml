@@ -21,9 +21,6 @@
         <AsyncLogger name="org.mule" level="WARN"/>
         <AsyncLogger name="com.mulesoft" level="WARN"/>
 
-        <!-- Change this to DEBUG to troubleshoot errors -->
-        <AsyncLogger name="com.jcraft.jsch" level="WARN"/>
-
         <AsyncRoot level="INFO">
             <AppenderRef ref="Console"/>
         </AsyncRoot>

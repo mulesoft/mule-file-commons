@@ -8,7 +8,7 @@ package org.mule.test.extension.file.common.api.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.mule.extension.file.common.api.util.TimeSinceFunction;
+import org.mule.ftp.engine.api.util.TimeSinceFunction;
 
 import java.time.LocalDateTime;
 
