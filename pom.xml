@@ -34,7 +34,7 @@
         <mavenResources.version>3.3.0</mavenResources.version>
         <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
-        <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
+        <maven.helper.plugin.version>3.6.0</maven.helper.plugin.version>
 
         <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
         <!-- SFTP v2 doesn't use the file-commons project so this dependency MUST NOT be updated to 2.x.x-->
