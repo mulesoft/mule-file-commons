@@ -35,10 +35,6 @@
         <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
-
-        <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
-        <!-- SFTP v2 doesn't use the file-commons project so this dependency MUST NOT be updated to 2.x.x-->
-        <sftp-connector.version>1.6.3</sftp-connector.version>
         <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
     </properties>
 
@@ -163,20 +159,8 @@
                     </dependency>
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
-                        <artifactId>mule-ftp-connector</artifactId>
-                        <version>${ftp-connector.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-file-connector</artifactId>
                         <version>${file-connector.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.mule.connectors</groupId>
-                        <artifactId>mule-sftp-connector</artifactId>
-                        <version>${sftp-connector.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
@@ -198,11 +182,6 @@
                         <goals>
                             <goal>reserve-network-port</goal>
                         </goals>
-                        <configuration>
-                            <portNames>
-                                <portName>sftp.server.port</portName>
-                            </portNames>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -210,19 +189,6 @@
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker.maven.plugin.version}</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <alias>sftp</alias>
-                            <run>
-                                <ports>
-                                    <port>${sftp.server.port}:22</port>
-                                </ports>
-                                <cmd>anonymous:password:::tests</cmd>
-                            </run>
-                        </image>
-                    </images>
-                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.slf4j</groupId>
@@ -273,18 +239,6 @@
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <version>${docker.maven.plugin.version}</version>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <alias>sftp</alias>
-                                    <name>sftp</name>
-                                    <build>
-                                        <contextDir>${project.build.testOutputDirectory}/sftp</contextDir>
-                                        <dockerFile>${project.build.testOutputDirectory}/sftp/Dockerfile</dockerFile>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

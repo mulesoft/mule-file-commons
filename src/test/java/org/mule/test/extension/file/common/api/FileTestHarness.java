@@ -23,8 +23,6 @@ public interface FileTestHarness extends TestRule {
   String HELLO_FILE_NAME = "hello.json";
   String BINARY_FILE_NAME = "binary.bin";
   String HELLO_PATH = "files/" + HELLO_FILE_NAME;
-  String DEFAULT_FTP_HOST = "localhost";
-  String FTP_SERVER_BASE_DIR = "target/ftpserver";
   String WORKING_DIR_SYSTEM_PROPERTY = "workingDir";
   String WORKING_DIR = "base";
 
