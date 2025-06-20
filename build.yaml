@@ -1,12 +1,45 @@
 projectType: runtime
 mavenTool: "3.9.5"
 additionalTestConfigs:
-  # For Java 8, munits are failing for runtime < 4.3.0 after updating munit.extensions.maven.plugin.version to above 1.3.0
   default:
-    mavenAdditionalArgs: -DfailIfNoTests=false -DruntimeVersion=4.3.0 -DadditionalRuntimeVersions=4.4.0 -DruntimeProduct=MULE_EE
-  jdk11:
+    testJdkTool: TEMURIN-JDK8
+    mavenAdditionalArgs: -DruntimeVersion=4.3.0 -DruntimeProduct=MULE_EE
+  jdk8-4.4.x:
+    testJdkTool: TEMURIN-JDK8
+    mavenAdditionalArgs: -DruntimeVersion=4.4.0 -DruntimeProduct=MULE_EE
+  jdk8-4.5.x:
+    testJdkTool: TEMURIN-JDK8
+    mavenAdditionalArgs: -DruntimeVersion=4.5.4 -DruntimeProduct=MULE_EE
+  jdk8-4.6.x:
+    testJdkTool: TEMURIN-JDK8
+    mavenAdditionalArgs: -DruntimeVersion=4.6.19 -DruntimeProduct=MULE_EE
+  jdk8-4.7.x:
+    testJdkTool: TEMURIN-JDK8
+    mavenAdditionalArgs: -DruntimeVersion=4.7.4 -DruntimeProduct=MULE_EE
+  jdk8-4.8.x:
+    testJdkTool: TEMURIN-JDK8
+    mavenAdditionalArgs: -DruntimeVersion=4.8.6 -DruntimeProduct=MULE_EE
+
+
+  jdk11-4.3.x:
     testJdkTool: TEMURIN-JDK11
-    mavenAdditionalArgs: -DfailIfNoTests=false -DruntimeVersion="4.5.4" -DadditionalRuntimeVersions=4.6.19 -DadditionalRuntimeVersions=4.8.6 -DruntimeProduct=MULE_EE
+    mavenAdditionalArgs: -DruntimeVersion=4.3.0 -DruntimeProduct=MULE_EE
+  jdk11-4.4.x:
+    testJdkTool: TEMURIN-JDK11
+    mavenAdditionalArgs: -DruntimeVersion=4.4.0 -DruntimeProduct=MULE_EE
+  jdk11-4.5.x:
+    testJdkTool: TEMURIN-JDK11
+    mavenAdditionalArgs: -DruntimeVersion=4.5.4 -DruntimeProduct=MULE_EE
+  jdk11-4.6.x:
+    testJdkTool: TEMURIN-JDK11
+    mavenAdditionalArgs: -DruntimeVersion=4.6.19 -DruntimeProduct=MULE_EE
+  jdk11-4.7.x:
+    testJdkTool: TEMURIN-JDK11
+    mavenAdditionalArgs: -DruntimeVersion=4.7.4 -DruntimeProduct=MULE_EE
+  jdk11-4.8.x:
+    testJdkTool: TEMURIN-JDK11
+    mavenAdditionalArgs: -DruntimeVersion=4.8.6 -DruntimeProduct=MULE_EE
+
   jdk17:
     testJdkTool: TEMURIN-JDK17
-    mavenAdditionalArgs: -DfailIfNoTests=false -DruntimeVersion=4.9.6 -DruntimeProduct=MULE_EE
+    mavenAdditionalArgs: -Pdocker -Pjava-17-plus -DfailIfNoTests=false -DminVersion=4.6.0

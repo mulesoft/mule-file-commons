@@ -22,14 +22,21 @@
                 <sftp:content >SFTP</sftp:content>
             </sftp:write>
             <sftp:list config-ref="sftp-config" directoryPath="#[vars.dir]"/>
-            <munit-tools:store key="SFTP">
+            <munit-tools:store key="RESULT">
                 <munit-tools:value>#[output text/plain --- payload[0].payload]</munit-tools:value>
             </munit-tools:store>
             <sftp:delete config-ref="sftp-config" path="#[vars.dir]"/>
         </munit:execution>
         <munit:validation>
-            <munit-tools:retrieve key="SFTP"/>
-            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('SFTP')]"/>
+            <munit-tools:retrieve key="RESULT"/>
+            <choice>
+                <when expression="#['${sftp.connector.version}' startsWith '2']">
+                    <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('/tests/temp/hello.txt')]"/>
+                </when>
+                <otherwise>
+                    <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::equalTo('SFTP')]"/>
+                </otherwise>
+            </choice>
         </munit:validation>
     </munit:test>
 </mule>
