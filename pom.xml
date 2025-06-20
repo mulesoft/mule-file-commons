@@ -25,21 +25,23 @@
         <javax.activation.version>1.2.0</javax.activation.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
 
+        <slf4j.version>2.0.6</slf4j.version>
+
         <!-- Remove when a new parent version with MTF is available -->
+        <munit.extensions.maven.plugin.version>1.5.0</munit.extensions.maven.plugin.version>
+        <munit.version>3.4.0</munit.version>
+        <mtf.tools.version>1.2.0</mtf.tools.version>
         <munit.input.directory>src/test/munit</munit.input.directory>
         <munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
-        <munit.extensions.maven.plugin.version>1.2.0-rc1</munit.extensions.maven.plugin.version>
-        <munit.version>3.1.0-rc2</munit.version>
-        <mtf.tools.version>1.2.0-rc1</mtf.tools.version>
         <mavenResources.version>3.3.0</mavenResources.version>
         <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
 
-        <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
+        <ftp.connector.version>2.0.0</ftp.connector.version>
+        <file-connector.version>1.5.3</file-connector.version>
         <!-- SFTP v2 doesn't use the file-commons project so this dependency MUST NOT be updated to 2.x.x-->
-        <sftp-connector.version>1.6.3</sftp-connector.version>
-        <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
+        <sftp.connector.version>1.6.3</sftp.connector.version>
     </properties>
 
     <dependencies>
@@ -65,6 +67,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons.lang3.version}</version>
         </dependency>
+
         <!--Test Dependencies-->
         <dependency>
             <groupId>org.mule.runtime</groupId>
@@ -128,147 +131,95 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.mulesoft.munit</groupId>
-                <artifactId>munit-extensions-maven-plugin</artifactId>
-                <version>${munit.extensions.maven.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <runtimeConfiguration>
-                        <discoverRuntimes>
-                            <product>ALL</product>
-                            <includeSnapshots>true</includeSnapshots>
-                        </discoverRuntimes>
-                    </runtimeConfiguration>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.mulesoft.munit</groupId>
-                        <artifactId>munit-runner</artifactId>
-                        <version>${munit.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.mulesoft.munit</groupId>
-                        <artifactId>munit-tools</artifactId>
-                        <version>${munit.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.mule.connectors</groupId>
-                        <artifactId>mule-ftp-connector</artifactId>
-                        <version>${ftp-connector.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.mule.connectors</groupId>
-                        <artifactId>mule-file-connector</artifactId>
-                        <version>${file-connector.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.mule.connectors</groupId>
-                        <artifactId>mule-sftp-connector</artifactId>
-                        <version>${sftp-connector.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.mulesoft.munit</groupId>
-                        <artifactId>mtf-tools</artifactId>
-                        <version>${mtf.tools.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                </dependencies>
-            </plugin>
-             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${maven.helper.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>reserve-network-port</id>
-                        <phase>generate-test-resources</phase>
-                        <goals>
-                            <goal>reserve-network-port</goal>
-                        </goals>
-                        <configuration>
-                            <portNames>
-                                <portName>sftp.server.port</portName>
-                            </portNames>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker.maven.plugin.version}</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <alias>sftp</alias>
-                            <run>
-                                <ports>
-                                    <port>${sftp.server.port}:22</port>
-                                </ports>
-                                <cmd>anonymous:password:::tests</cmd>
-                            </run>
-                        </image>
-                    </images>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-api</artifactId>
-                        <version>2.0.6</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>jcl-over-slf4j</artifactId>
-                        <version>2.0.6</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>start</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                            <goal>build</goal>
-                            <goal>start</goal>
-                        </goals>
-                        <configuration>
-                            <showLogs>true</showLogs>
-                            <logStdout>true</logStdout>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stop</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <id>docker</id>
+            <id>java-below-17</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <jdk>[1.8,17)</jdk>
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>com.mulesoft.munit</groupId>
+                        <artifactId>munit-extensions-maven-plugin</artifactId>
+                        <version>${munit.extensions.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <phase>integration-test</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <runtimeConfiguration>
+                                <discoverRuntimes>
+                                    <product>ALL</product>
+                                    <includeSnapshots>true</includeSnapshots>
+                                </discoverRuntimes>
+                            </runtimeConfiguration>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.mulesoft.munit</groupId>
+                                <artifactId>munit-runner</artifactId>
+                                <version>${munit.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.mulesoft.munit</groupId>
+                                <artifactId>munit-tools</artifactId>
+                                <version>${munit.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.mule.connectors</groupId>
+                                <artifactId>mule-ftp-connector</artifactId>
+                                <version>${ftp.connector.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.mule.connectors</groupId>
+                                <artifactId>mule-file-connector</artifactId>
+                                <version>${file-connector.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.mulesoft.munit</groupId>
+                                <artifactId>mtf-tools</artifactId>
+                                <version>${mtf.tools.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.mule.connectors</groupId>
+                                <artifactId>mule-sftp-connector</artifactId>
+                                <version>${sftp.connector.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>${maven.helper.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>reserve-network-port</id>
+                                <phase>generate-test-resources</phase>
+                                <goals>
+                                    <goal>reserve-network-port</goal>
+                                </goals>
+                                <configuration>
+                                    <portNames>
+                                        <portName>sftp.server.port</portName>
+                                    </portNames>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
@@ -276,15 +227,144 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <alias>sftp</alias>
+                                    <alias>sftp-${sftp.server.port}</alias>
                                     <name>sftp</name>
                                     <build>
                                         <contextDir>${project.build.testOutputDirectory}/sftp</contextDir>
                                         <dockerFile>${project.build.testOutputDirectory}/sftp/Dockerfile</dockerFile>
                                     </build>
+                                    <run>
+                                        <ports>
+                                            <port>${sftp.server.port}:22</port>
+                                        </ports>
+                                        <cmd>anonymous:password:::tests</cmd>
+                                    </run>
                                 </image>
                             </images>
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-api</artifactId>
+                                <version>${slf4j.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>jcl-over-slf4j</artifactId>
+                                <version>${slf4j.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>start</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                    <goal>build</goal>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <showLogs>true</showLogs>
+                                    <logStdout>true</logStdout>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>stop</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>java-17-plus</id>
+            <activation>
+                <jdk>[17,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${mavenResources.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-munit-resources</id>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${munit.output.directory}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${munit.input.directory}</directory>
+                                            <filtering>true</filtering>
+                                            <excludes>
+                                                <exclude>**/sftp-connection.xml</exclude>
+                                                <exclude>**/sftp-integration-test-case.xml</exclude>
+                                            </excludes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.mulesoft.munit</groupId>
+                        <artifactId>munit-extensions-maven-plugin</artifactId>
+                        <version>${munit.extensions.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <phase>integration-test</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <runtimeConfiguration>
+                                <discoverRuntimes>
+                                    <product>ALL</product>
+                                    <includeSnapshots>true</includeSnapshots>
+                                </discoverRuntimes>
+                            </runtimeConfiguration>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.mulesoft.munit</groupId>
+                                <artifactId>munit-runner</artifactId>
+                                <version>${munit.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.mulesoft.munit</groupId>
+                                <artifactId>munit-tools</artifactId>
+                                <version>${munit.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.mule.connectors</groupId>
+                                <artifactId>mule-ftp-connector</artifactId>
+                                <version>${ftp.connector.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.mule.connectors</groupId>
+                                <artifactId>mule-file-connector</artifactId>
+                                <version>${file-connector.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.mulesoft.munit</groupId>
+                                <artifactId>mtf-tools</artifactId>
+                                <version>${mtf.tools.version}</version>
+                                <classifier>mule-plugin</classifier>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
