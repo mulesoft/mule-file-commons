@@ -25,21 +25,24 @@
         <javax.activation.version>1.2.0</javax.activation.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
 
+        <slf4j.version>2.0.6</slf4j.version>
+        <jacoco.version>0.8.10</jacoco.version>
+
         <!-- Remove when a new parent version with MTF is available -->
+        <munit.extensions.maven.plugin.version>1.5.0</munit.extensions.maven.plugin.version>
+        <munit.version>3.4.0</munit.version>
+        <mtf.tools.version>1.2.0</mtf.tools.version>
         <munit.input.directory>src/test/munit</munit.input.directory>
         <munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
-        <munit.extensions.maven.plugin.version>1.2.0-rc1</munit.extensions.maven.plugin.version>
-        <munit.version>3.1.0-rc2</munit.version>
-        <mtf.tools.version>1.2.0-rc1</mtf.tools.version>
         <mavenResources.version>3.3.0</mavenResources.version>
-        <docker.maven.plugin.version>0.41.0</docker.maven.plugin.version>
+        <docker.maven.plugin.version>0.45.0</docker.maven.plugin.version>
         <docker.skip>${skipTests}</docker.skip>
         <maven.helper.plugin.version>3.3.0</maven.helper.plugin.version>
 
-        <ftp-connector.version>2.0.0-SNAPSHOT</ftp-connector.version>
+        <ftp.connector.version>2.0.0</ftp.connector.version>
+        <file.connector.version>1.5.3</file.connector.version>
         <!-- SFTP v2 doesn't use the file-commons project so this dependency MUST NOT be updated to 2.x.x-->
-        <sftp-connector.version>1.6.3</sftp-connector.version>
-        <file-connector.version>2.0.0-SNAPSHOT</file-connector.version>
+        <sftp.connector.version>1.6.3</sftp.connector.version>
     </properties>
 
     <dependencies>
@@ -65,6 +68,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons.lang3.version}</version>
         </dependency>
+
         <!--Test Dependencies-->
         <dependency>
             <groupId>org.mule.runtime</groupId>
@@ -128,6 +132,53 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <configuration>
+                    <destFile>${session.executionRootDirectory}/target/jacoco-java.exec</destFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>merge</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${session.executionRootDirectory}/target/jacoco.exec</destFile>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${session.executionRootDirectory}/target</directory>
+                                    <includes>
+                                        <include>*.exec</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${session.executionRootDirectory}/target/jacoco.exec</dataFile>
+                            <outputDirectory>${session.executionRootDirectory}/target/jacoco</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>com.mulesoft.munit</groupId>
                 <artifactId>munit-extensions-maven-plugin</artifactId>
@@ -141,12 +192,19 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <runtimeConfiguration>
-                        <discoverRuntimes>
-                            <product>ALL</product>
-                            <includeSnapshots>true</includeSnapshots>
-                        </discoverRuntimes>
-                    </runtimeConfiguration>
+                    <argLines>
+                        <argLine>
+                            -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${session.executionRootDirectory}/target/jacoco-munit.exec
+                        </argLine>
+                    </argLines>
+                    <productConfiguration>
+                        <discoverProducts>
+                            <discoverProduct>
+                                <id>MULE_EE</id>
+                                <minVersion>${minVersion}</minVersion>
+                            </discoverProduct>
+                        </discoverProducts>
+                    </productConfiguration>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -164,19 +222,13 @@
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-ftp-connector</artifactId>
-                        <version>${ftp-connector.version}</version>
+                        <version>${ftp.connector.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
                         <groupId>org.mule.connectors</groupId>
                         <artifactId>mule-file-connector</artifactId>
-                        <version>${file-connector.version}</version>
-                        <classifier>mule-plugin</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.mule.connectors</groupId>
-                        <artifactId>mule-sftp-connector</artifactId>
-                        <version>${sftp-connector.version}</version>
+                        <version>${file.connector.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
                     <dependency>
@@ -185,9 +237,15 @@
                         <version>${mtf.tools.version}</version>
                         <classifier>mule-plugin</classifier>
                     </dependency>
+                    <dependency>
+                        <groupId>org.mule.connectors</groupId>
+                        <artifactId>mule-sftp-connector</artifactId>
+                        <version>${sftp.connector.version}</version>
+                        <classifier>mule-plugin</classifier>
+                    </dependency>
                 </dependencies>
             </plugin>
-             <plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>${maven.helper.plugin.version}</version>
@@ -211,10 +269,12 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker.maven.plugin.version}</version>
                 <configuration>
+                    <executeStopOnVMShutdown>true</executeStopOnVMShutdown>
                     <images>
                         <image>
-                            <alias>sftp</alias>
+                            <alias>sftp-${sftp.server.port}</alias>
                             <run>
+                                <platform>linux/amd64</platform>
                                 <ports>
                                     <port>${sftp.server.port}:22</port>
                                 </ports>
@@ -227,20 +287,19 @@
                     <dependency>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-api</artifactId>
-                        <version>2.0.6</version>
+                        <version>${slf4j.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.slf4j</groupId>
                         <artifactId>jcl-over-slf4j</artifactId>
-                        <version>2.0.6</version>
+                        <version>${slf4j.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
                     <execution>
-                        <id>start</id>
+                        <id>start-docker</id>
                         <phase>pre-integration-test</phase>
                         <goals>
-                            <goal>stop</goal>
                             <goal>build</goal>
                             <goal>start</goal>
                         </goals>
@@ -250,7 +309,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>stop</id>
+                        <id>stop-docker</id>
                         <phase>post-integration-test</phase>
                         <goals>
                             <goal>stop</goal>
@@ -276,7 +335,6 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <alias>sftp</alias>
                                     <name>sftp</name>
                                     <build>
                                         <contextDir>${project.build.testOutputDirectory}/sftp</contextDir>
@@ -288,6 +346,16 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>java-17-plus</id>
+            <activation>
+                <jdk>[17,)</jdk>
+            </activation>
+            <properties>
+                <!-- SFTP v1 is not compatible with Java 17 and hence we need to use v2.x.x, just to get the tests running, otherwise no point to do this since sftp v2 doesn't use file-commons module -->
+                <sftp.connector.version>2.4.5</sftp.connector.version>
+            </properties>
         </profile>
         <profile>
             <id>release</id>
